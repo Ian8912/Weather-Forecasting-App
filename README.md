@@ -16,18 +16,34 @@ This is a **weather app** project created for our software engineering course. G
 
 ## Features
 
-_Note: Each user story signifies every sprint (implementation stage) in partitions_
+_Note: User stories are grouped to a specific sprint in the implementation stage_
 
-**User Story: Create basic landing page**
+### Sprint 1
 
-- Landing page and front-end layout feature: User Interface (UI) for weather app created using React.
-- Display Weather Data on landing page feature: UI for weather data retrieved from weather data API.
+**User Story 1: Create basic landing page**
 
-**User Story: Search feature**
+- Landing Page Loads: The landing page should display with a header, an input field, and a footer when visited.
+- Input Field Allows Text Entry: The input field should accept text input from the user.
+- Basic Form Submission: When the user submits the form, it should trigger an event (no need for actual API calls yet).
+- Page is Responsive: The landing page layout should adjust properly on mobile devices and different screen sizes.
 
-- Search Bar feature: UI/UX to allow user to search for specific region's weather created in React.
+**User Story 2: Implement Flask back-end to serve React app and API requests**
 
-**User Story: Reactive UI**
+- The Flask back-end must be configured and running on a designated port to serve the React app. The React app should be accessible through the Flask server when running in development mode.
+- The Flask back-end must provide an API endpoint (like /api/weather) that accepts requests from the React app and handles fetching weather data from an external weather API.
+- The Flask back-end must be able to successfully make external API requests to a weather service, process the response, and send the relevant weather data back to the React app in JSON format.
+- The Flask back-end must handle errors gracefully, including failed external API requests (e.g., invalid API key, network issues) and return appropriate error responses (e.g., status codes and error messages) to the React app.
 
-- Loading and Error states feature: UI to inform user/admin about problem with weather app created in React.
-- Real-time weather data changes feature: Data updates in real-time to provide user with updated information on weather info changes.
+**User Story 3: Fetch real-time weather data**
+
+- User must be able to select a city via input or a list. Must show an error message if city doesn’t exist or is invalid.
+- Upon successful city selection, the app must show relevant real-time weather data such as temperature, humidity, wind speed, and weather condition (Examples would be sunny, rainy, cloudy, etc.).
+- While weather data is loading, there must be a loading indicator that the user must see. If there is an API issue (timeout or no response), there must be an error message to be displayed to user.
+- Weather app must display relevant weather data every 10 minutes to keep up with the current time. Must also allow user to refresh data when “refresh” button is clicked.
+
+**User Story 4: Smooth UI and Styling**:
+
+- Weather Display Styling: The weather information should be displayed using cards, icons, or charts to make it visually appealing.
+- Loading Animations:A loading animation should be shown while weather data is being fetched.
+- Responsive Layout: The layout should adjust seamlessly for both mobile and desktop users, ensuring smooth transitions and usability on all devices.
+- Dark/Light Theme Toggle: A toggle button should allow the user to switch between dark and light themes, with the app adjusting the visual theme instantly.
