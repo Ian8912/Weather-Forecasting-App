@@ -16,6 +16,17 @@ This is a **weather app** project created for our software engineering course. G
 
 ## Features
 
+- Basic Landing Page
+- Weather Data Fetching
+- Geolocation
+- 5-Day Weather Forcase
+- Clothing Recommendations
+- Error Handling
+- Loading Indicators
+- Dark/Light Mode
+- Responsive Design
+- Caching
+
 _Note: User stories are grouped to a specific sprint in the implementation stage_
 
 ### Sprint 1
@@ -41,9 +52,16 @@ _Note: User stories are grouped to a specific sprint in the implementation stage
 - While weather data is loading, there must be a loading indicator that the user must see. If there is an API issue (timeout or no response), there must be an error message to be displayed to user.
 - Weather app must display relevant weather data every 10 minutes to keep up with the current time. Must also allow user to refresh data when “refresh” button is clicked.
 
-**User Story 4: Smooth UI and Styling**:
+**User Story 4: Smooth UI and Styling**
 
 - Weather Display Styling: The weather information should be displayed using cards, icons, or charts to make it visually appealing.
 - Loading Animations:A loading animation should be shown while weather data is being fetched.
 - Responsive Layout: The layout should adjust seamlessly for both mobile and desktop users, ensuring smooth transitions and usability on all devices.
 - Dark/Light Theme Toggle: A toggle button should allow the user to switch between dark and light themes, with the app adjusting the visual theme instantly.
+
+**User Story 5: Implement Geolocation Feature**
+
+- The app should automatically detect the user's location using the browser's Geolocation API when the weather page loads.
+- The app should ask the user for permission to access their location and only proceed if permission is granted.
+- Once the location is detected, the app should fetch and display the weather for the user's current location without needing them to enter a city.
+- If location detection fails or permission is denied, the app should show an error message and allow the user to manually enter a city for weather updates.
