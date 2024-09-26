@@ -7,7 +7,8 @@ app = Flask(__name__)
 def weather():
     placeholder_data = {
         "location": "City, Country",
-        "temperature": "20°C",
+        "temperature_C": "20°C",
+        "temperature_F": "68°F",
         "condition": "Sunny",
         "forecast": "Clear skies for the next few days"
     }
