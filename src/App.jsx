@@ -2,7 +2,20 @@ import { useState } from 'react';
 import './App.css'
 
 function App() {
-const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    feedback: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: balue
+    });
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -66,6 +79,7 @@ const [menuOpen, setMenuOpen] = useState(false);
         </div>
       </section>
 
+      {/* Feedback Form Section */}
       <section className="py-16 bg-gray-100">
         <div className="container mx-auto">
           <h3 className="text-3xl font-bold text-center mb-8">Feedback Form</h3>
@@ -78,6 +92,8 @@ const [menuOpen, setMenuOpen] = useState(false);
                 id="name"
                 type="text"
                 name="name"
+                value={formData.name}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -89,6 +105,8 @@ const [menuOpen, setMenuOpen] = useState(false);
                 id="email"
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -99,6 +117,8 @@ const [menuOpen, setMenuOpen] = useState(false);
               <textarea
                 id="feedback"
                 name="feedback"
+                value={formData.feedback}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
