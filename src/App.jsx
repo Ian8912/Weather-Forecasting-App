@@ -7,9 +7,9 @@ const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-white dark:bg-black dark:text-white">
+      <div className="p-12 bg-white dark:bg-black dark:text-white">
         {/* Navbar */}
-        <nav className="p-6 bg-blue-600 text-white dark:bg-black">
+        <nav className="p-6 bg-blue-600 text-white dark:bg-[#1e3a8a]">
           <div className="container mx-auto flex justify-between items-center">
             <h1 className="text-2xl font-bold">WeatherLink</h1>
 
