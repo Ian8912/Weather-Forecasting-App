@@ -1,6 +1,10 @@
 import pytest
 from flask import Flask
-from app import app  # Replace with the actual Flask app import
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from app import app
 
 @pytest.fixture
 def client():
