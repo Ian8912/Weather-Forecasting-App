@@ -21,11 +21,16 @@ const [darkMode, setDarkMode] = useState(false);
             </button>
 
             {/* Links for Larger Screens */}
-            <ul className="hidden md:flex space-x-6">
+            <ul className="hidden md:flex space-x-3">
               <li><a href="#" className="hover:text-gray-300">Home</a></li>
               <li><a href="#" className="hover:text-gray-300">Features</a></li>
               <li><a href="#" className="hover:text-gray-300">Contact</a></li>
               <li><a href="#" className="hover:text-gray-300">Log in</a></li>
+              <li> {/* Button to toggle dark mode */}
+              <button onClick={() => setDarkMode(!darkMode)} 
+              className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
+              {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button></li>
             </ul>
           </div>
 
@@ -36,12 +41,15 @@ const [darkMode, setDarkMode] = useState(false);
               <li><a href="#" className="hover:text-gray-300">Features</a></li>
               <li><a href="#" className="hover:text-gray-300">Contact</a></li>
               <li><a href="#" className="hover:text-gray-300">Log in</a></li>
+              <li> {/* Button to toggle dark mode */}
+              <button onClick={() => setDarkMode(!darkMode)} 
+              className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
+              {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button></li>
             </ul>
           )}
-          <button onClick={() => setDarkMode(!darkMode)} 
-          className="ml-4 px-4 py-2 bg-gray-300 text-black dark:bg-gray-700 dark:text-white rounded-lg">
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
+          
+          
         </nav>
 
         {/* Check Weather Section */}
