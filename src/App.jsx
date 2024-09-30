@@ -70,9 +70,25 @@ function App() {
       <header className="bg-blue-500 text-white py-24 text-center">
         <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
         <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
-        <button className="mt-8 px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-lg">Check Weather Now</button>
+        <button className="mt-8 px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-lg">
+          Check Weather Now
+        </button>
       </header>
 
+      {/* Display fetched weather data */}
+      {weatherData ? (
+        <section className="py-8">
+          <div className="container mx-auto text-center">
+            <h3 className="text-2xl font-bold">Weather for {weatherData.location}</h3>
+            <p>Temperature: {weatherData.temperature_C} / {weatherData.temperature_F}</p>
+            <p>Condition: {weatherData.condition}</p>
+            <p>Forecast: {weatherData.forecast}</p>
+          </div>
+        </section>
+      ) : (
+        <p className="text-center">Loading weather data...</p>
+      )}
+      
       {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto">
