@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css'
 
 function App() {
@@ -8,6 +8,15 @@ function App() {
     email: '',
     feedback: ''
   });
+
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/weather')
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data))
+      .catch((error) => console.error('Error fetching weather data:', error));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
