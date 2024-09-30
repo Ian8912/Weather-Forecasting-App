@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask
-from your_flask_app import app  # Replace with the actual Flask app import
+from app import app  # Replace with the actual Flask app import
 
 @pytest.fixture
 def client():
@@ -8,8 +8,19 @@ def client():
     with app.test_client() as client:
         yield client
 
-def test_index_route(client):
-    """Test if the index route returns the correct response."""
-    response = client.get('/')
+def test_weather_route(client):
+    """Test the /weather route for valid response and data."""
+    response = client.get('/weather')
     assert response.status_code == 200
-    assert b"Welcome to the Weather App!" in response.data  # Modify with actual route
+    data = response.get_json()
+    
+    assert "location" in data
+    assert "temperature_C" in data
+    assert "temperature_F" in data
+    assert "condition" in data
+    assert "forecast" in data
+
+def test_404(client):
+    """Test for 404 response on a non-existent route."""
+    response = client.get('/nonexistent')
+    assert response.status_code == 404
