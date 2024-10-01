@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
 
 # weather route with placeholder data, modifiy later to fetch API data
 @app.route('/weather', methods=['GET'])
