@@ -72,4 +72,4 @@ dist-ssr
 *.sw?
 
 #API Key
-apikey.env
+.env
