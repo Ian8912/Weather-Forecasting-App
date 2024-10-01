@@ -18,3 +18,7 @@ class TestLandingPage(TestCase):
         response = self.client.get('/')
         self.assert200(response)  # Assert that page loads with status code 200
         self.assert_template_used('landing_page.html')
+
+if __name__ == '__main__':
+    import unittest
+    unittest.main()
