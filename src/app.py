@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import os
@@ -16,14 +16,25 @@ BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
 # weather route with placeholder data, modifiy later to fetch API data
 @app.route('/weather', methods=['GET'])
 def weather():
-    placeholder_data = {
-        "location": "City, Country",
-        "temperature_C": "20°C",
-        "temperature_F": "68°F",
-        "condition": "Sunny",
-        "forecast": "Clear skies for the next few days"
-    }
-    return jsonify(placeholder_data)
+
+    city = request.args.get('city', 'Austin')
+    weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
+
+    try:
+        response = requests.get(weather_url)
+        response.raise_for_status()
+
+        weather_data = response.json()
+        data = {
+            'city': weather_data['name'],
+            'temperature': weather_data['main']['temp'],
+            'description': weather_data['weather'][0]['description'],
+            'humidity': weather_data['main']['humidity'],
+            'wind_speed': weather_data['wind']['speed']
+        }
+        return jsonify(data), 200
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
