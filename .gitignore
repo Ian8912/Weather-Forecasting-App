@@ -71,5 +71,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# Hides API key
+#API Key
 .env
