@@ -9,15 +9,13 @@ def landing_page():
 
 class TestLandingPage(TestCase):
     def create_app(self):
-        # Configures Flask app for testing purposes
         app.config['TESTING'] = True
         return app
     
     def test_landing_page_renders(self):
-        # Simulate a request to the landing page
         response = self.client.get('/')
         self.assert200(response)  # Assert that page loads with status code 200
-        self.assert_template_used('index.html')
+        self.assert_template_used('index.html') # Assert that correct template is rendered
 
 if __name__ == '__main__':
     import unittest
