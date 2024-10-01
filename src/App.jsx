@@ -100,12 +100,12 @@ const [darkMode, setDarkMode] = useState(false);
         </section>
 
       {/* Feedback Form Section */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
         <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8">Feedback Form</h3>
+          <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
                 Name
               </label>
               <input
@@ -114,11 +114,11 @@ const [darkMode, setDarkMode] = useState(false);
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
                 Email
               </label>
               <input
@@ -127,11 +127,11 @@ const [darkMode, setDarkMode] = useState(false);
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="feedback">
+              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
                 Feedback
               </label>
               <textarea
@@ -139,12 +139,12 @@ const [darkMode, setDarkMode] = useState(false);
                 name="feedback"
                 value={formData.feedback}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
               />
             </div>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
             >
               Submit
             </button>
