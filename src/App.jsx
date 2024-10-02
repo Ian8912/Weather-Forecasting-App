@@ -50,10 +50,10 @@ const [darkMode, setDarkMode] = useState(false);
 
             {/* Links for Larger Screens */}
             <ul className="hidden md:flex space-x-6">
-            <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-            <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-            <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-            <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+            <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+            <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+            <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+            <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
               <li> {/* Button to toggle dark mode */}
               <button onClick={() => setDarkMode(!darkMode)} 
               className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
@@ -65,10 +65,10 @@ const [darkMode, setDarkMode] = useState(false);
           {/* Links for Smaller Screens, Toggled by Hamburger Button */}
           {menuOpen && (
           <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-          <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-          <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-          <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-          <li><a href="#" className="hover:bg-blue-700 px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+          <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+          <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+          <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+          <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
               <li> {/* Button to toggle dark mode */}
               <button onClick={() => setDarkMode(!darkMode)} 
               className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
@@ -81,10 +81,10 @@ const [darkMode, setDarkMode] = useState(false);
         </nav>
 
       {/* Check Weather Section */}
-      <header className="bg-blue-500 text-white py-24 text-center">
+      <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
         <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
         <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
-        <button className="mt-8 px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-lg">
+        <button className="mt-8 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg">
           Check Weather Now
         </button>
       </header>
@@ -100,7 +100,7 @@ const [darkMode, setDarkMode] = useState(false);
             <p>Forecast: {weatherData.forecast}</p>
         </section>
       ) : (
-        <p className="text-center">Loading weather data...</p>
+        <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
       )}
       
         {/* Features Section */}
