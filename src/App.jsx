@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'
+import './App.css';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,18 +10,25 @@ function App() {
   });
 
   const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
+    setLoading(true); // Start loading
     fetch('http://localhost:5000/weather')
       .then((response) => response.json())
-      .then((data) => setWeatherData(data))
-      .catch((error) => console.error('Error fetching weather data:', error));
+      .then((data) => {
+        setWeatherData(data);
+        setLoading(false); // Stop loading after data is fetched
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false); // Stop loading even if there's an error
+      });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData); // console log default until API call is implemented
-    // API call goes here
+    console.log('Form submitted with data:', formData);
   };
 
   const handleChange = (e) => {
@@ -31,7 +38,8 @@ function App() {
       [name]: value
     });
   };
-const [darkMode, setDarkMode] = useState(false);
+
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -89,15 +97,20 @@ const [darkMode, setDarkMode] = useState(false);
         </button>
       </header>
 
+      {/* Add this as a placeholder for the loading spinner in the next stage */}
+      {loading && (
+        <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
+      )}
+
       {/* Display fetched weather data */}
       {weatherData ? (
         <section className="py-8">
           <div className="container mx-auto text-center">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.location}</h3>
-            <p>Temperature: {weatherData.temperature_C} / {weatherData.temperature_F}</p>
-            <p>Condition: {weatherData.condition}</p>
-          </div>
-            <p>Forecast: {weatherData.forecast}</p>
+              <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
+              <p>Temperature: {weatherData.temperature}°C</p>
+              <p>Description: {weatherData.description}</p>
+              <p>Forecast: {weatherData.forecast}</p>
+          </div>            
         </section>
       ) : (
         <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
