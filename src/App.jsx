@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+// Functional component for the loading spinner
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center py-16">
+    <div className="spinner"></div>
+    <p className="dark:text-[#cbd5e1] text-lg ml-4">Loading weather data...</p>
+  </div>
+);
+
+// Functional component for displaying weather data
+const WeatherData = ({ weatherData }) => (
+  <section className="py-8">
+    <div className="container mx-auto text-center">
+      <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
+      <p>Temperature: {weatherData.temperature}°C</p>
+      <p>Description: {weatherData.description}</p>
+      <p>Forecast: {weatherData.forecast}</p>
+    </div>
+  </section>
+);
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -10,8 +30,9 @@ function App() {
   });
 
   const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); // Loading state to track data fetching
 
+  // useEffect hook to fetch weather data on component mount
   useEffect(() => {
     setLoading(true); // Start loading
     fetch('http://localhost:5000/weather')
@@ -96,25 +117,12 @@ function App() {
           </button>
         </header>
   
-        {/* Loading spinner */}
+        {/* Conditional rendering for loading spinner and weather data */}
         {loading ? (
-          <div className="flex justify-center items-center py-16">
-            <div className="spinner"></div>
-            <p className="dark:text-[#cbd5e1] text-lg ml-4">Loading weather data...</p>
-          </div>
+          <LoadingSpinner />
         ) : (
-  
-        /* Display fetched weather data */
-        weatherData && (
-          <section className="py-8">
-            <div className="container mx-auto text-center">
-              <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
-              <p>Temperature: {weatherData.temperature}°C</p>
-              <p>Description: {weatherData.description}</p>
-              <p>Forecast: {weatherData.forecast}</p>
-            </div>            
-          </section>
-        ))}
+          weatherData && <WeatherData weatherData={weatherData} />
+        )}
   
         {/* Features Section */}
         <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
@@ -136,7 +144,7 @@ function App() {
             </div>
           </div>
         </section>
-  
+
         {/* Feedback Form Section */}
         <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
           <div className="container mx-auto">
@@ -189,7 +197,7 @@ function App() {
             </form>
           </div>
         </section>
-  
+
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
           <p>&copy; 2024 WeatherLink. All rights reserved.</p>
