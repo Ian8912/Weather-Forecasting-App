@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+
 import json
 import os
 import requests
@@ -31,7 +32,7 @@ def serve_static_files(path):
     return send_from_directory(app.static_folder, path)
 
 # Weather route to fetch data from the OpenWeather API
-@app.route('/weather', methods=['GET'])
+@app.route('/weather/', methods=['GET'])
 def weather():
     city = request.args.get('city', 'Austin')  # You can allow a dynamic city
     weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
@@ -39,7 +40,6 @@ def weather():
     try:
         response = requests.get(weather_url)
         response.raise_for_status()
-
         weather_data = response.json()
         data = {
             'city': weather_data['name'],
@@ -51,6 +51,15 @@ def weather():
         return jsonify(data), 200
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/weather/<coords>', methods=['GET'])
+def weatherFromCoords(coords):
+    #city = request.args.get('city', 'Austin')  # You can allow a dynamic city
+    #weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
+    
+    print(coords)
+    return  200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

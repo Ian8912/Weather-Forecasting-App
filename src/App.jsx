@@ -11,11 +11,19 @@ function App() {
 
   const [weatherData, setWeatherData] = useState(null);
 
+  const latAndLong = {
+    lat:"",
+    long: "",
+  }
+
   useEffect(() => {
     fetch('http://localhost:5000/weather')
       .then((response) => response.json())
       .then((data) => setWeatherData(data))
       .catch((error) => console.error('Error fetching weather data:', error));
+
+    fetch("http://localhost:5000/weather/500").then((response) => console.log(response))
+
   }, []);
 
   const handleSubmit = (e) => {
