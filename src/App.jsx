@@ -119,7 +119,10 @@ function App() {
   
         {/* Conditional rendering for loading spinner and weather data */}
         {loading ? (
-          <LoadingSpinner />
+          <div className="spinner-container">
+            <div className="spinner"></div>
+            <p className="spinner-text">Loading weather data...</p>
+          </div>
         ) : (
           weatherData && <WeatherData weatherData={weatherData} />
         )}
