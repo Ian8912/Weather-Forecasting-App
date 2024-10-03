@@ -93,11 +93,12 @@ const [darkMode, setDarkMode] = useState(false);
       {weatherData ? (
         <section className="py-8">
           <div className="container mx-auto text-center">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.location}</h3>
-            <p>Temperature: {weatherData.temperature_C} / {weatherData.temperature_F}</p>
-            <p>Condition: {weatherData.condition}</p>
+            <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
+            <p>Temperature: {weatherData.temperature} °C</p>
+            <p>Condition: {weatherData.description}</p>
+            <p>Humidity: {weatherData.humidity}%</p>
+            <p>Wind Speed: {weatherData.wind_speed} m/s</p>
           </div>
-            <p>Forecast: {weatherData.forecast}</p>
         </section>
       ) : (
         <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
