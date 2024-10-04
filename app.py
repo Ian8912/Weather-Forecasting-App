@@ -57,17 +57,23 @@ def weather():
 
 @app.route('/weather/<coords>', methods=['GET', 'POST'])
 def weatherFromCoords(coords):
-    #city = request.args.get('city', 'Austin')  # You can allow a dynamic city
-    #weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
+   
     data = request.json
-    print("h 1")
-    # res = requests.get(f'{BASE_URL}?lat={data.get("lat")}lon={data.get("long")}&appid={API_KEY}')
-    res = requests.get("http://api.openweathermap.org/data/2.5/weather?lat=13.73430&lon=-111.12000&appid=31f550d850f3c28fda4a902726a16bb1")
-    print("2")
-    res.raise_for_status()
-    print(res)
+    res = requests.get(f'{BASE_URL}?lat={data.get("lat")}&lon={data.get("long")}&appid={API_KEY}')
+    res_str = res.content.decode('utf-8')
 
-    return Response(data)
+    res = json.loads(res_str)
+  
+    data = {
+        'city': res['name'],
+        'temperature': res['main']['temp'],
+        'description': res['weather'][0]['description'],
+        'humidity': res['main']['humidity'],
+        'wind_speed': res['wind']['speed'],
+        'coords': res['coord']
+    }
+
+    return Response(res)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
