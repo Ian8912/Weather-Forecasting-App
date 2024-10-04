@@ -56,33 +56,3 @@
   font-size: 1rem;
   margin: 0.5rem 0;
 }
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column; /* Stack the spinner and text vertically */
-  justify-content: center;
-  align-items: center; /* Horizontally center the content */
-  min-height: 200px; /* Adjust height if needed */
-}
-
-.spinner {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(195, 195, 195, 0.6);
-  border-radius: 50%;
-  border-top-color: #646cff;
-  animation: spinner 1s ease-in-out infinite;
-}
-
-.spinner-text {
-  margin-top: 10px; /* Adjust for spacing between spinner and text */
-  font-size: 1.2rem;
-  color: #888;
-}
