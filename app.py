@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, Response, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 import json
@@ -22,7 +22,7 @@ app = Flask(__name__, static_folder='client/dist', template_folder='client/dist'
 CORS(app)
 
 # Serve the React app (index.html) from the dist folder
-@app.route('/')
+@app.route('/root')
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
@@ -41,6 +41,8 @@ def weather():
         response = requests.get(weather_url)
         response.raise_for_status()
         weather_data = response.json()
+
+        print(weather_data)
         data = {
             'city': weather_data['name'],
             'temperature': weather_data['main']['temp'],
@@ -53,13 +55,19 @@ def weather():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/weather/<coords>', methods=['GET'])
+@app.route('/weather/<coords>', methods=['GET', 'POST'])
 def weatherFromCoords(coords):
     #city = request.args.get('city', 'Austin')  # You can allow a dynamic city
     #weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
-    
-    print(coords)
-    return  200
+    data = request.json
+    print("h 1")
+    # res = requests.get(f'{BASE_URL}?lat={data.get("lat")}lon={data.get("long")}&appid={API_KEY}')
+    res = requests.get("http://api.openweathermap.org/data/2.5/weather?lat=13.73430&lon=-111.12000&appid=31f550d850f3c28fda4a902726a16bb1")
+    print("2")
+    res.raise_for_status()
+    print(res)
+
+    return Response(data)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

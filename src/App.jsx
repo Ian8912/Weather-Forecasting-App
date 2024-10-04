@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'
+import CoordinateInputCard from './components/CoordinateInputCard';
+import FeatureDisplaySection from './components/FeatureDisplaySection';
+import FeatureForm from './components/FeatureForm';
+
+
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,10 +16,6 @@ function App() {
 
   const [weatherData, setWeatherData] = useState(null);
 
-  const latAndLong = {
-    lat:"",
-    long: "",
-  }
 
   useEffect(() => {
     fetch('http://localhost:5000/weather')
@@ -22,9 +23,11 @@ function App() {
       .then((data) => setWeatherData(data))
       .catch((error) => console.error('Error fetching weather data:', error));
 
-    fetch("http://localhost:5000/weather/500").then((response) => console.log(response))
+    
 
   }, []);
+
+  function sendLatLongCoords() {}
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,12 +92,16 @@ const [darkMode, setDarkMode] = useState(false);
         </nav>
 
       {/* Check Weather Section */}
-      <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
+      <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] flex-col text-white py-24 text-center">
         <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
+        
         <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
-        <button className="mt-8 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg">
-          Check Weather Now
-        </button>
+        <div className='mt-4'>
+          <a href={'/weather/2000'} className="mt-6 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg"
+          >
+            Check Weather Now
+          </a>
+        </div>
       </header>
 
       {/* Display fetched weather data */}
@@ -113,80 +120,9 @@ const [darkMode, setDarkMode] = useState(false);
       ) : (
         <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
       )}
-      
-        {/* Features Section */}
-        <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
-          <div className="container mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
-                <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
-              </div>
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Interactive Maps</h4>
-                <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
-              </div>
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
-                <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      {/* Feedback Form Section */}
-      <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
-        <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-                Feedback
-              </label>
-              <textarea
-                id="feedback"
-                name="feedback"
-                value={formData.feedback}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </section>
+     <CoordinateInputCard />
+     <FeatureDisplaySection />
+     
 
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
