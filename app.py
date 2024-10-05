@@ -34,16 +34,21 @@ def serve_static_files(path):
 # Weather route to fetch data from the OpenWeather API
 @app.route('/weather/', methods=['GET'])
 def weather():
-    city = request.args.get('city', 'Austin')  # You can allow a dynamic city
+    city = request.args.get('city', 'Austin')
     weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
 
     try:
         response = requests.get(weather_url)
         response.raise_for_status()
         weather_data = response.json()
+
+        temperature_celsius = round(weather_data['main']['temp'], 2)
+        temperature_fahrenheit = round((temperature_celsius * 9/5) + 32, 2)  # Convert C to F
+
         data = {
             'city': weather_data['name'],
-            'temperature': weather_data['main']['temp'],
+            'temperature_fahrenheit': temperature_fahrenheit,
+            'temperature_celsius': temperature_celsius,
             'description': weather_data['weather'][0]['description'],
             'humidity': weather_data['main']['humidity'],
             'wind_speed': weather_data['wind']['speed']

@@ -146,7 +146,7 @@ function App() {
             <div className="container mx-auto text-center">
               <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
                <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
-                <p className="text-lg">Temperature: {weatherData.temperature} °C</p>
+                <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F/{weatherData.temperature_celsius}°C</p>
                 <p className="text-lg">Condition: {weatherData.description}</p>
                 <p className="text-lg">Humidity: {weatherData.humidity}%</p>
                 <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
