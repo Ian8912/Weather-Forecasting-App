@@ -3,6 +3,7 @@ import './App.css'
 import CoordinateInputCard from './components/CoordinateInputCard';
 import FeatureDisplaySection from './components/FeatureDisplaySection';
 import FeatureForm from './components/FeatureForm';
+import WeatherPage from './routes/WeatherCoordsPage';
 
 
 
@@ -18,7 +19,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch('http://localhost:5000/weather')
+    fetch('http://localhost:5000/')
       .then((response) => response.json())
       .then((data) => setWeatherData(data))
       .catch((error) => console.error('Error fetching weather data:', error));
@@ -97,7 +98,7 @@ const [darkMode, setDarkMode] = useState(false);
         
         <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
         <div className='mt-4'>
-          <a href={'/weather/2000'} className="mt-6 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg"
+          <a href={'/weather/coords'} className="mt-6 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg"
           >
             Check Weather Now
           </a>
@@ -123,6 +124,8 @@ const [darkMode, setDarkMode] = useState(false);
      <CoordinateInputCard />
      <FeatureDisplaySection />
      
+
+   
 
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">

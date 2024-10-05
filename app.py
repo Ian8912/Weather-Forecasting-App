@@ -32,7 +32,7 @@ def serve_static_files(path):
     return send_from_directory(app.static_folder, path)
 
 # Weather route to fetch data from the OpenWeather API
-@app.route('/weather/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def weather():
     city = request.args.get('city', 'Austin')  # You can allow a dynamic city
     weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
@@ -42,7 +42,7 @@ def weather():
         response.raise_for_status()
         weather_data = response.json()
 
-        print(weather_data)
+        print("[WEATHER ENDPOINT HIT]")
         data = {
             'city': weather_data['name'],
             'temperature': weather_data['main']['temp'],
@@ -55,25 +55,19 @@ def weather():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/weather/<coords>', methods=['GET', 'POST'])
-def weatherFromCoords(coords):
+@app.route('/coords/<float:lat>/<float:long>/', methods=['GET'])
+def weatherFromCoords(lat, long):
    
-    data = request.json
-    res = requests.get(f'{BASE_URL}?lat={data.get("lat")}&lon={data.get("long")}&appid={API_KEY}')
+    res = requests.get(f'{BASE_URL}?lat={lat}&lon={long}&appid={API_KEY}')
     res_str = res.content.decode('utf-8')
 
     res = json.loads(res_str)
-  
+    
     data = {
-        'city': res['name'],
-        'temperature': res['main']['temp'],
-        'description': res['weather'][0]['description'],
-        'humidity': res['main']['humidity'],
-        'wind_speed': res['wind']['speed'],
-        'coords': res['coord']
+        'city': res.get('name'),
     }
 
-    return Response(res)
+    return jsonify(data, 200)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
