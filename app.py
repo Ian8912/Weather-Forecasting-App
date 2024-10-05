@@ -42,7 +42,6 @@ def weather():
         response.raise_for_status()
         weather_data = response.json()
 
-        print("[WEATHER ENDPOINT HIT]")
         data = {
             'city': weather_data['name'],
             'temperature': weather_data['main']['temp'],
@@ -62,9 +61,11 @@ def weatherFromCoords(lat, long):
     res_str = res.content.decode('utf-8')
 
     res = json.loads(res_str)
+    print(json.dumps(res, indent=4))
     
     data = {
         'city': res.get('name'),
+        'description' : res.get('weather')[0].get('description')
     }
 
     return jsonify(data, 200)

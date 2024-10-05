@@ -27,6 +27,8 @@ const WeatherPage = () => {
         .then((data) => {
           console.log(data);
           
+          setWeatherData(data[0])
+          
         })
         .catch((error) => console.error('Error:', error));
     }
@@ -34,23 +36,22 @@ const WeatherPage = () => {
     return (
       <div className="py-8">
         <div className="container mx-auto text-center">
+          <Navbar/>
           <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] flex-col text-white py-24 text-center">
             <h2 className="text-4xl font-bold">Current Weather</h2>
             {weatherData ? (
               <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold">{weatherData.name}</h3>
-                <img src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`} alt={weatherData.weather[0].description} className="my-4" />
-                <p className="text-lg">Temperature: {weatherData.main.temp} °C</p>
-                <p className="text-lg">Condition: {weatherData.weather[0].description}</p>
-                <p className="text-lg">Humidity: {weatherData.main.humidity}%</p>
-                <p className="text-lg">Wind Speed: {weatherData.wind.speed} m/s</p>
+                <h3 className="text-2xl text-blue-900 dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.city}</h3>
+                <h3 className="text-xl text-blue-900 dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.description}</h3>
+                
               </div>
             ) : (
               <p className="text-center dark:text-[#cbd5e1]">Loading weather data...</p>
             )}
           </header>
-          
         </div>
+        
+        
       </div>
     );
   }

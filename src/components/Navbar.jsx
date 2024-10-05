@@ -1,11 +1,16 @@
 import React from 'react'
+import { useState } from 'react';
 
 export const Navbar = () => {
+
+  const [darkMode, setDarkMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    
+    <div className={darkMode ? 'dark' : ''} >
         <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
     <div className="container mx-auto flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Dick</h1>
+      <h1 className="text-2xl font-bold">WeatherLink</h1>
 
       {/* Hamburger Menu for Mobile */}
       <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
@@ -45,7 +50,7 @@ export const Navbar = () => {
     
     
   </nav>
- 
+ </div>
   )
 }
 
