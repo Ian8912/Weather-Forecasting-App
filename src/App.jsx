@@ -31,6 +31,7 @@ function App() {
 
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state to track data fetching
+  const [city, setCity] = useState(''); // Update state in app to handle city input
 
   // useEffect hook to fetch weather data on component mount
   useEffect(() => {
@@ -49,7 +50,17 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
+    setLoading(true); // Start loading
+    fetch(`http://localhost:5000/weather?city=${city}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setWeatherData(data);
+        setLoading(false); // Stop loading after data is fetched
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false); // Stop loading even if there's an error
+      });
   };
 
   const handleChange = (e) => {
@@ -111,10 +122,19 @@ function App() {
         {/* Check Weather Section */}
         <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-          <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
-          <button className="mt-8 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] dark:hover:bg-[#4c1d95] hover:bg-blue-800 rounded-lg">
-            Check Weather Now
-          </button>
+          <p className="mt-4 text-lg">Enter your city to get current weather updates.</p>
+          <form onSubmit={handleSubmit} className="mt-8">
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="Enter city name"
+              className="text-black"
+            />
+            <button type="submit" className="ml-4 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] hover:bg-blue-800 rounded-lg">
+              Check Weather Now
+            </button>
+          </form>
         </header>
   
         {/* Conditional rendering for loading spinner and weather data */}
@@ -126,7 +146,7 @@ function App() {
             <div className="container mx-auto text-center">
               <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
                <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
-                <p className="text-lg">Temperature: {weatherData.temperature} °C</p>
+                <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F/{weatherData.temperature_celsius}°C</p>
                 <p className="text-lg">Condition: {weatherData.description}</p>
                 <p className="text-lg">Humidity: {weatherData.humidity}%</p>
                 <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
