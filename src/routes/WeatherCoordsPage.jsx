@@ -41,8 +41,8 @@ const WeatherPage = () => {
             <h2 className="text-4xl font-bold">Current Weather</h2>
             {weatherData ? (
               <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-                <h3 className="text-2xl text-blue-900 dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.city}</h3>
-                <h3 className="text-xl text-blue-900 dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.description}</h3>
+                <h3 className="text-2xl text-[#1e3a8a] dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.city}</h3>
+                <h3 className="text-xl text-[#1e3a8a] dark:bg-[#312e81] dark:text-[#cbd5e1] font-bold">{weatherData.description}</h3>
                 
               </div>
             ) : (
