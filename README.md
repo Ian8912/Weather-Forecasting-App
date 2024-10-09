@@ -34,9 +34,9 @@ This is a **weather app** project created for our software engineering course. G
 - Clothing Recommendations
 - User-Oriented Recommendations
 
-### Sprint 1 (September 23, 2024 - October 5, 2024)
+## Sprint 1 (September 23, 2024 - October 5, 2024)
 
-## Contributions
+### Contributions
 
 **Ian:**
 
