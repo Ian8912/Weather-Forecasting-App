@@ -63,6 +63,8 @@ This is a **weather app** project created for our software engineering course. G
 - **Jira Task CP-55: Optimize the layout for both mobile and desktop users as well as fix city search name ambiguous issue**
   - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-55?atlOrigin=eyJpIjoiYTQ5ODZmNGYzMzAzNGQ3Njg5NDdmNWI4YzVhNDY2OGIiLCJwIjoiaiJ9
 
+**##############################################################################################**
+
 **Nicholas:**
 
 - **Jira Task CP-71: Automatically fetch weather data based on the user's location when they visit the site.**
@@ -93,6 +95,12 @@ This is a **weather app** project created for our software engineering course. G
 
   - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-51?atlOrigin=eyJpIjoiZGJlNjlhMDc2NGQ1NDgzMGE4NTgyZTFhOGQzZGZkNjgiLCJwIjoiaiJ9
 
+- **Jira Task CP-57: Add error handling for invalid city names and API request failures.**
+
+- Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-57?atlOrigin=eyJpIjoiYTQ2ODBlZDcyZTZmNDY2MjhlOTVmZDMxM2NiN2IwZDAiLCJwIjoiaiJ9
+
+**##############################################################################################**
+
 **Anthony:**
 
 - **Jira Task CP-40: Create static landing page with input field, header, and footer.**
@@ -110,6 +118,8 @@ This is a **weather app** project created for our software engineering course. G
 - **Jira Task CP-46: Modify the Flask /weather route to fetch data from the API.**
 
   - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-46
+
+**##############################################################################################**
 
 ### Reports
 
