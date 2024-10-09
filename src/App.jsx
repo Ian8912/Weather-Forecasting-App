@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.css'
+import CoordinateInputCard from './components/CoordinateInputCard';
+import FeatureDisplaySection from './components/FeatureDisplaySection';
+import FeatureForm from './components/FeatureForm';
+import WeatherPage from './routes/WeatherCoordsPage';
+import Navbar from './components/Navbar';
 
 // Functional component for the loading spinner
 const LoadingSpinner = () => (
@@ -36,7 +41,7 @@ function App() {
   // useEffect hook to fetch weather data on component mount
   useEffect(() => {
     setLoading(true); // Start loading
-    fetch('http://localhost:5000/weather')
+    fetch('http://localhost:5000/?city=Austin') // Fetch weather for Austin initially
       .then((response) => response.json())
       .then((data) => {
         setWeatherData(data);
@@ -48,10 +53,16 @@ function App() {
       });
   }, []);
 
+  function sendLatLongCoords() {}
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true); // Start loading
-    fetch(`http://localhost:5000/weather?city=${city}`)
+
+    // If no city is entered, default to Austin
+    const queryCity = city || 'Austin';
+
+    fetch(`http://localhost:5000/?city=${queryCity}`) // Use queryCity, which defaults to Austin
       .then((response) => response.json())
       .then((data) => {
         setWeatherData(data);
@@ -61,7 +72,7 @@ function App() {
         console.error('Error fetching weather data:', error);
         setLoading(false); // Stop loading even if there's an error
       });
-  };
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -157,6 +168,7 @@ function App() {
           <p className="text-center dark:text-[#cbd5e1]">No weather data available.</p>
         )
       )}
+     <CoordinateInputCard />
   
         {/* Features Section */}
         <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, Response, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 import json
@@ -22,7 +22,7 @@ app = Flask(__name__, static_folder='client/dist', template_folder='client/dist'
 CORS(app)
 
 # Serve the React app (index.html) from the dist folder
-@app.route('/')
+@app.route('/root')
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
@@ -32,7 +32,7 @@ def serve_static_files(path):
     return send_from_directory(app.static_folder, path)
 
 # Weather route to fetch data from the OpenWeather API
-@app.route('/weather/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def weather():
     city = request.args.get('city', 'Austin')
     weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
@@ -41,7 +41,6 @@ def weather():
         response = requests.get(weather_url)
         response.raise_for_status()
         weather_data = response.json()
-
         temperature_celsius = round(weather_data['main']['temp'], 2)
         temperature_fahrenheit = round((temperature_celsius * 9/5) + 32, 2)  # Convert C to F
 
@@ -58,13 +57,21 @@ def weather():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/weather/<coords>', methods=['GET'])
-def weatherFromCoords(coords):
-    #city = request.args.get('city', 'Austin')  # You can allow a dynamic city
-    #weather_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
+@app.route('/coords/<float:lat>/<float:long>/', methods=['GET'])
+def weatherFromCoords(lat, long):
+   
+    res = requests.get(f'{BASE_URL}?lat={lat}&lon={long}&appid={API_KEY}')
+    res_str = res.content.decode('utf-8')
+
+    res = json.loads(res_str)
+    print(json.dumps(res, indent=4))
     
-    print(coords)
-    return  200
+    data = {
+        'city': res.get('name'),
+        'description' : res.get('weather')[0].get('description')
+    }
+
+    return jsonify(data, 200)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
