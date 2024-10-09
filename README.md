@@ -63,6 +63,36 @@ This is a **weather app** project created for our software engineering course. G
 - **Jira Task CP-55: Optimize the layout for both mobile and desktop users as well as fix city search name ambiguous issue**
   - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-55?atlOrigin=eyJpIjoiYTQ5ODZmNGYzMzAzNGQ3Njg5NDdmNWI4YzVhNDY2OGIiLCJwIjoiaiJ9
 
+**Nicholas:**
+
+- **Jira Task CP-71: Automatically fetch weather data based on the user's location when they visit the site.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-71?atlOrigin=eyJpIjoiMzU4ZDYzMDRiMDkxNDc3MGE0MzA4NzU1MGJhMDM0OGIiLCJwIjoiaiJ9
+
+- **Jira Task CP-41: Implement basic form submission functionality (but no API calls yet).**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-41?atlOrigin=eyJpIjoiYjNiNGVlNWNhOTYwNGU5MjhmMDcwYzQ2NzZjZjZjZjYiLCJwIjoiaiJ9
+
+- **Jira Task CP-65: Create unit tests to ensure Flask routes respond correctly.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-65?atlOrigin=eyJpIjoiYmY1NTNjNWU4ZTA0NDgzNWE4MzdiMzRjZTdlNGRkMTQiLCJwIjoiaiJ9 
+
+- **Jira Task CP-54: Display weather data (e.g., temperature, humidity) in structured React components.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-54?atlOrigin=eyJpIjoiN2Q5YTFkNTEzNDc3NDgzMmI3MGRjNmM2ZGMyMDY5OGUiLCJwIjoiaiJ9
+
+- **Jira Task CP-52: Add animations for loading states while fetching weather data.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-52?atlOrigin=eyJpIjoiYzFmMThlMWQwMjkwNDUxZjk1ZjFlYzA5YTE4YWEyMTIiLCJwIjoiaiJ9
+
+- **Jira Task CP-135: Update the Flask back-end to fetch real weather data.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-135?atlOrigin=eyJpIjoiNTVhNmEyYTJiYTIwNDdiYjlkZWI5Nzk2ZjgzNWQ3NzIiLCJwIjoiaiJ9
+
+- **Jira Task CP-51: Implement a front-end API call using axios or fetch in React to get weather data.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-51?atlOrigin=eyJpIjoiZGJlNjlhMDc2NGQ1NDgzMGE4NTgyZTFhOGQzZGZkNjgiLCJwIjoiaiJ9
+
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
