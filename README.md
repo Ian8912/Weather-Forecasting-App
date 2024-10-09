@@ -36,31 +36,32 @@ This is a **weather app** project created for our software engineering course. G
 
 ### Sprint 1 (September 23, 2024 - October 5, 2024)
 
-**Ian's Tasks:**
+## Contributions
 
-- `Jira Task CP-42: Set up initial styling for responsiveness`
+**Ian:**
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-42?atlOrigin=eyJpIjoiMTMzYmUxMTJmMDEyNDVhMTgzYjk1ZTY4OGMzM2U0ZDUiLCJwIjoiaiJ9
+- **Jira Task CP-42: Set up initial styling for responsiveness**
 
-- `Jira Task CP-62: Integrate CORS to handle cross-origin requests from the React front-end`
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-42?atlOrigin=eyJpIjoiMTMzYmUxMTJmMDEyNDVhMTgzYjk1ZTY4OGMzM2U0ZDUiLCJwIjoiaiJ9
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-62?atlOrigin=eyJpIjoiNGMzNDk5MDU2MDg0NGI5NDhjODZjMmYwMTdiOWNlZDYiLCJwIjoiaiJ9
+- **Jira Task CP-62: Integrate CORS to handle cross-origin requests from the React front-end**
 
-- `Jira Task CP-48: Implement Route for serving React app in Flask`
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-62?atlOrigin=eyJpIjoiNGMzNDk5MDU2MDg0NGI5NDhjODZjMmYwMTdiOWNlZDYiLCJwIjoiaiJ9
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-48?atlOrigin=eyJpIjoiNGJkZWUxYTkzYWJjNDk3YTlmYTYzNGY2N2VhOWExMzMiLCJwIjoiaiJ9
+- **Jira Task CP-48: Implement Route for serving React app in Flask**
 
-- `Jira Task CP-118: Fine-tune visual details (e.g., spacing, fonts, colors)`
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-48?atlOrigin=eyJpIjoiNGJkZWUxYTkzYWJjNDk3YTlmYTYzNGY2N2VhOWExMzMiLCJwIjoiaiJ9
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-118?atlOrigin=eyJpIjoiMWExZDMwMTQ2NDYwNDhjMWE1YzUxMGUxNzkzZjcyYzAiLCJwIjoiaiJ9
+- **Jira Task CP-118: Fine-tune visual details (e.g., spacing, fonts, colors)**
 
-- `Jira Task CP-73: Add an option for users to manually input a city if they prefer`
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-118?atlOrigin=eyJpIjoiMWExZDMwMTQ2NDYwNDhjMWE1YzUxMGUxNzkzZjcyYzAiLCJwIjoiaiJ9
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-73?atlOrigin=eyJpIjoiOGM0OTFjY2VmM2ZkNDAyN2E0NGQ1ZmJkMjQyODhkZDUiLCJwIjoiaiJ9
+- **Jira Task CP-73: Add an option for users to manually input a city if they prefer**
 
-- `Jira Task CP-55: Optimize the layout for both mobile and desktop users as well as fix city search name ambiguous issue`
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-73?atlOrigin=eyJpIjoiOGM0OTFjY2VmM2ZkNDAyN2E0NGQ1ZmJkMjQyODhkZDUiLCJwIjoiaiJ9
 
-  - **Jira Link:** https://cs3398-gorns-f24.atlassian.net/browse/CP-55?atlOrigin=eyJpIjoiYTQ5ODZmNGYzMzAzNGQ3Njg5NDdmNWI4YzVhNDY2OGIiLCJwIjoiaiJ9
+- **Jira Task CP-55: Optimize the layout for both mobile and desktop users as well as fix city search name ambiguous issue**
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-55?atlOrigin=eyJpIjoiYTQ5ODZmNGYzMzAzNGQ3Njg5NDdmNWI4YzVhNDY2OGIiLCJwIjoiaiJ9
 
 ### Reports
 
