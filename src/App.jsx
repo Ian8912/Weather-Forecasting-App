@@ -28,23 +28,36 @@ function App() {
   const [city, setCity] = useState(''); // Update state in app to handle city input
   const [suggestions, setSuggestions] = useState([]) // City suggestions
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const fetchWeatherByCoords = (lat, lon) => {
+    setLoading(true);
+    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setWeatherData(data);  // Set the fetched weather data
+        setLoading(false);  // Stop loading spinner
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false);  // Stop loading spinner on error
+      });
+  };
   
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log("User's location:", latitude, longitude);
+          fetchWeatherByCoords(latitude, longitude);  // Fetch data using coordinates
         },
         (error) => {
-          console.error('Error getting geolocation:', error);
           setErrorMessage('Unable to access location. Please enter a city manually.');
         }
       );
     } else {
       setErrorMessage('Geolocation is not supported by your browser.');
     }
-  }, [])
+  }, []);
 
   
 
