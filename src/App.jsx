@@ -27,25 +27,26 @@ function App() {
   const [loading, setLoading] = useState(false); // Loading state to track data fetching
   const [city, setCity] = useState(''); // Update state in app to handle city input
   const [suggestions, setSuggestions] = useState([]) // City suggestions
+  const [errorMessage, setErrorMessage] = useState(null);
   
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log("User's location:", latitude, longitude); // Debugging purposes
-          // In next stages, we'll use these coordinates to fetch weather data
+          console.log("User's location:", latitude, longitude);
         },
         (error) => {
           console.error('Error getting geolocation:', error);
-          // In next stages, we'll handle errors like permission denied
+          setErrorMessage('Unable to access location. Please enter a city manually.');
         }
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
-      // In the next stage, we'll display an error message to the user
+      setErrorMessage('Geolocation is not supported by your browser.');
     }
-  }, []);
+  }, [])
+
+  
 
   // Fetch weather data on form submit
   const handleWeatherSubmit = (e) => {
@@ -214,6 +215,9 @@ function App() {
         <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
           <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <>
+            {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+          </>
           <form onSubmit={handleWeatherSubmit} className="mt-8">
             <div className="relative inline-block w-full max-w-sm">
               <input
