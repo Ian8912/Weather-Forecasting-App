@@ -9,18 +9,6 @@ const LoadingSpinner = () => (
   </div>
 );
 
-// Functional component for displaying weather data
-const WeatherData = ({ weatherData }) => (
-  <section className="py-8">
-    <div className="container mx-auto text-center">
-      <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
-      <p>Temperature: {weatherData.temperature}°C</p>
-      <p>Description: {weatherData.description}</p>
-      <p>Forecast: {weatherData.forecast}</p>
-    </div>
-  </section>
-);
-
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,33 +16,82 @@ function App() {
     email: '',
     feedback: ''
   });
-
+  
   const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true); // Loading state to track data fetching
+  const [loading, setLoading] = useState(false); // Loading state to track data fetching
   const [city, setCity] = useState(''); // Update state in app to handle city input
+  const [suggestions, setSuggestions] = useState([]) // City suggestions
 
-  // useEffect hook to fetch weather data on component mount
-  useEffect(() => {
-    setLoading(true); // Start loading
-    fetch('http://localhost:5000/weather')
-      .then((response) => response.json())
+  // Fetch weather data on form submit
+  const handleWeatherSubmit = (e) => {
+    e.preventDefault();  // Prevent page reload on form submit
+  
+    if (!city) {
+      alert('Please enter a city');  // Ensure city is entered
+      return;
+    }
+  
+    setLoading(true);  // Start loading spinner
+    console.log("Fetching weather data for:", city);  // Debugging
+  
+    // Fetch weather data for the selected or entered city
+    fetch(`http://localhost:5000/weather?city=${city}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch weather data for ${city}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        setWeatherData(data);
-        setLoading(false); // Stop loading after data is fetched
+        console.log('Weather data for submitted city:', data);  // Debugging
+        setWeatherData(data);  // Update state with fetched weather data
+        setLoading(false);  // Stop loading spinner
+        setSuggestions([]);  // Clear suggestions after selecting
       })
       .catch((error) => {
-        console.error('Error fetching weather data:', error);
-        setLoading(false); // Stop loading even if there's an error
+        console.error(`Error fetching weather data for ${city}:`, error);
+        setLoading(false);  // Stop loading spinner on error
       });
-  }, []);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true); // Start loading
-    fetch(`http://localhost:5000/weather?city=${city}`)
+  // Fetch city suggestions as the user types
+  const handleCityChange = (e) => {
+    const cityInput = e.target.value;
+    setCity(cityInput);
+
+    if (cityInput.length > 2) { // Fetch suggestions after 3 characters
+      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.cities) {
+            setSuggestions(data.cities); // Set city suggestions
+          } else {
+            setSuggestions([]);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching city suggestions:', error);
+        });
+    } else {
+      setSuggestions([]); // Clear suggestions if input is too short
+    }
+  };
+
+  // Handle city selection from suggestions
+  const handleCitySelect = (selectedCity) => {
+    const { lat, lon, name, state, country } = selectedCity; // Get lat, lon, name, state, and country
+    setCity(name); // Set the selected city name for display purposes
+    setSuggestions([]); // Clear suggestions after selection
+    
+    // Store state and country locally so you can display them later
+    const locationDetails = { name, state, country };
+
+    // Fetch weather data using lat and lon
+    setLoading(true);
+    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
-        setWeatherData(data);
+        setWeatherData({ ...data, ...locationDetails }); // Merge weather data with location details
         setLoading(false); // Stop loading after data is fetched
       })
       .catch((error) => {
@@ -63,12 +100,41 @@ function App() {
       });
   };
 
-  const handleChange = (e) => {
+      // Handle form input changes for feedback form
+  const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value
     });
+  };
+
+  // Handle feedback form submission
+  const handleFeedbackSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitting feedback form:', formData);
+    // Handle form submission logic for feedback form here (e.g., send data to the server)
+  };
+
+  // Define the inline function to render weather data
+  const RenderWeatherData = ({ weatherData }) => {
+    if (!weatherData) {
+      return <p>No weather data available. Please enter a city to check the weather.</p>;
+    }
+  
+    return (
+      <section className="py-8">
+        <div className="container mx-auto text-center">
+          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
+            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">Condition: {weatherData.description}</p>
+            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
+            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
+          </div>
+        </div>
+      </section>
+    );
   };
 
   const [darkMode, setDarkMode] = useState(false);
@@ -119,21 +185,39 @@ function App() {
           )}
         </nav>
   
-        {/* Check Weather Section */}
+        {/* Weather Form Section */}
         <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-          <p className="mt-4 text-lg">Enter your city to get current weather updates.</p>
-          <form onSubmit={handleSubmit} className="mt-8">
-            <input
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="Enter city name"
-              className="text-black"
-            />
-            <button type="submit" className="ml-4 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] hover:bg-blue-800 rounded-lg">
+          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <form onSubmit={handleWeatherSubmit} className="mt-8">
+            <div className="relative inline-block w-full max-w-sm">
+              <input
+                type="text"
+                value={city}  // Bind to `city` state
+                onChange={handleCityChange}  // Update `city` as user types
+                placeholder="Enter city name"
+                className="text-black w-full px-3 py-2 border rounded text-sm"
+              />
+
+              {/* Suggestions dropdown */}
+              {suggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 z-10 mt-1 bg-white shadow-lg border rounded text-left">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleCitySelect(suggestion)}  // Handle city selection from suggestions
+                      className="cursor-pointer p-2 bg-blue-50 dark:bg-[#312e81] text-gray-800 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600"
+                    >
+                      {suggestion.name}, {suggestion.state || ''} ({suggestion.country})
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/*<button type="submit" className="ml-4 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] hover:bg-blue-800 rounded-lg">
               Check Weather Now
-            </button>
+            </button>*/}
           </form>
         </header>
   
@@ -142,17 +226,7 @@ function App() {
           <LoadingSpinner />
         ) : (
           weatherData ? (
-          <section className="py-8">
-            <div className="container mx-auto text-center">
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-               <h3 className="text-2xl font-bold">Weather for {weatherData.city}</h3>
-                <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F/{weatherData.temperature_celsius}°C</p>
-                <p className="text-lg">Condition: {weatherData.description}</p>
-                <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-                <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
-              </div>
-            </div>
-          </section>
+          <RenderWeatherData weatherData={weatherData} />
         ) : (
           <p className="text-center dark:text-[#cbd5e1]">No weather data available.</p>
         )
@@ -183,7 +257,7 @@ function App() {
         <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
           <div className="container mx-auto">
             <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleFeedbackSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
                   Name
@@ -193,7 +267,7 @@ function App() {
                   type="text"
                   name="name"
                   value={formData.name}
-                  onChange={handleChange}
+                  onChange={handleFeedbackChange}
                   className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
                 />
               </div>
@@ -206,7 +280,7 @@ function App() {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleFeedbackChange}
                   className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
                 />
               </div>
@@ -218,7 +292,7 @@ function App() {
                   id="feedback"
                   name="feedback"
                   value={formData.feedback}
-                  onChange={handleChange}
+                  onChange={handleFeedbackChange}
                   className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
                 />
               </div>
