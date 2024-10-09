@@ -63,6 +63,24 @@ This is a **weather app** project created for our software engineering course. G
 - **Jira Task CP-55: Optimize the layout for both mobile and desktop users as well as fix city search name ambiguous issue**
   - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-55?atlOrigin=eyJpIjoiYTQ5ODZmNGYzMzAzNGQ3Njg5NDdmNWI4YzVhNDY2OGIiLCJwIjoiaiJ9
 
+**Anthony:**
+
+- **Jira Task CP-40: Create static landing page with input field, header, and footer.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-40
+
+- **Jira Task CP-61: Set up flask and /weather route with a placeholder response for weather data.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-61
+
+- **Jira Task CP-58: Implement a dark/light theme toggle for user preference.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-58 
+
+- **Jira Task CP-46: Modify the Flask /weather route to fetch data from the API.**
+
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-46
+
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
