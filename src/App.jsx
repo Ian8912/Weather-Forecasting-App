@@ -28,7 +28,24 @@ function App() {
   const [city, setCity] = useState(''); // Update state in app to handle city input
   const [suggestions, setSuggestions] = useState([]) // City suggestions
   
-  function sendLatLongCoords() {}
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("User's location:", latitude, longitude); // Debugging purposes
+          // In next stages, we'll use these coordinates to fetch weather data
+        },
+        (error) => {
+          console.error('Error getting geolocation:', error);
+          // In next stages, we'll handle errors like permission denied
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+      // In the next stage, we'll display an error message to the user
+    }
+  }, []);
 
   // Fetch weather data on form submit
   const handleWeatherSubmit = (e) => {
