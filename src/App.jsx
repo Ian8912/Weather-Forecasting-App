@@ -27,8 +27,41 @@ function App() {
   const [loading, setLoading] = useState(false); // Loading state to track data fetching
   const [city, setCity] = useState(''); // Update state in app to handle city input
   const [suggestions, setSuggestions] = useState([]) // City suggestions
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const fetchWeatherByCoords = (lat, lon) => {
+    setLoading(true);
+    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Fetched weather data:', data);  // Debugging to check data
+        setWeatherData(data);  // Set the fetched weather data
+        setLoading(false);  // Stop loading spinner
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false);  // Stop loading spinner on error
+      });
+  };
   
-  function sendLatLongCoords() {}
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("User's location:", latitude, longitude);  // Debugging to check location
+          fetchWeatherByCoords(latitude, longitude);  // Fetch data using coordinates
+        },
+        (error) => {
+          setErrorMessage('Unable to access location. Please enter a city manually.');
+        }
+      );
+    } else {
+      setErrorMessage('Geolocation is not supported by your browser.');
+    }
+  }, []);
+
+  
 
   // Fetch weather data on form submit
   const handleWeatherSubmit = (e) => {
@@ -197,6 +230,9 @@ function App() {
         <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
           <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <>
+            {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+          </>
           <form onSubmit={handleWeatherSubmit} className="mt-8">
             <div className="relative inline-block w-full max-w-sm">
               <input
@@ -230,15 +266,16 @@ function App() {
         </header>
   
         {/* Conditional rendering for loading spinner and weather data */}
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          weatherData ? (
-          <RenderWeatherData weatherData={weatherData} />
-        ) : (
-          <p className="text-center dark:text-[#cbd5e1]">No weather data available.</p>
-        )
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : weatherData ? (
+        <RenderWeatherData weatherData={weatherData} />
+      ) : (
+        <p className="text-center">No weather data available.</p>
       )}
+    </>
+
       <CoordinateInputCard />
   
         {/* Features Section */}
