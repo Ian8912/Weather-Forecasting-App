@@ -34,6 +34,7 @@ function App() {
     fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log('Fetched weather data:', data);  // Debugging to check data
         setWeatherData(data);  // Set the fetched weather data
         setLoading(false);  // Stop loading spinner
       })
@@ -48,6 +49,7 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          console.log("User's location:", latitude, longitude);  // Debugging to check location
           fetchWeatherByCoords(latitude, longitude);  // Fetch data using coordinates
         },
         (error) => {
@@ -264,15 +266,16 @@ function App() {
         </header>
   
         {/* Conditional rendering for loading spinner and weather data */}
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          weatherData ? (
-          <RenderWeatherData weatherData={weatherData} />
-        ) : (
-          <p className="text-center dark:text-[#cbd5e1]">No weather data available.</p>
-        )
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : weatherData ? (
+        <RenderWeatherData weatherData={weatherData} />
+      ) : (
+        <p className="text-center">No weather data available.</p>
       )}
+    </>
+
       <CoordinateInputCard />
   
         {/* Features Section */}
