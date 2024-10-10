@@ -73,3 +73,7 @@ dist-ssr
 
 #API Key
 .env
+
+#venv
+venv
+.venv
