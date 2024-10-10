@@ -75,7 +75,7 @@ This is a **weather app** project created for our software engineering course. G
 
 - **Jira Task CP-65: Create unit tests to ensure Flask routes respond correctly.**
 
-  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-65?atlOrigin=eyJpIjoiYmY1NTNjNWU4ZTA0NDgzNWE4MzdiMzRjZTdlNGRkMTQiLCJwIjoiaiJ9 
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-65?atlOrigin=eyJpIjoiYmY1NTNjNWU4ZTA0NDgzNWE4MzdiMzRjZTdlNGRkMTQiLCJwIjoiaiJ9
 
 - **Jira Task CP-54: Display weather data (e.g., temperature, humidity) in structured React components.**
 
@@ -105,7 +105,7 @@ This is a **weather app** project created for our software engineering course. G
 
 - **Jira Task CP-58: Implement a dark/light theme toggle for user preference.**
 
-  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-58 
+  - Jira Link: https://cs3398-gorns-f24.atlassian.net/browse/CP-58
 
 - **Jira Task CP-46: Modify the Flask /weather route to fetch data from the API.**
 
@@ -130,6 +130,8 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 **User Story 10:** Improve Error Handling and User Experience As a user, I would like the app to provide clear and helpful error messages when something goes wrong so that I understand what happened and how to fix it
 
 ## Project Setup Instructions
+
+_Note: The program runs on the **Development Branch**. Please use this branch for **demoing**._
 
 ### Step 1: Download Project Dependencies
 
@@ -207,7 +209,7 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
    ```
 
 5. **Start the frontend development server**:
-   This command will start the frontend server, typically running on `localhost:3000`.
+   This command will start the frontend server, typically running on `localhost:5173`.
    ```bash
    npm run dev
    ```
@@ -234,9 +236,15 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 ### Step 5: Access the Application
 
 - **Access the Frontend**:
-  Open your browser and visit the frontend at `http://localhost:3000`.
+  Open your browser and visit the frontend at `http://localhost:5173`.
 
 - **Check Backend APIs**:
   The backend APIs will be available at `http://localhost:5000`. The frontend should communicate with the backend via these APIs if everything is set up correctly.
 
 By following these steps, you will have both the frontend and backend running and be able to develop and test the application effectively.
+
+### Notes:
+
+If there are issues that might pertain to extensions, run `npm install react-router-dom` and then rebuild again.
+If you try to open **app.py** through `http://localhost:5000`, you will get a 404 error code. Run the server and backend on two different terminals and use the frontend development
+server `http://localhost:5173`.
