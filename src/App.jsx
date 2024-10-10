@@ -79,7 +79,10 @@ function App() {
     fetch(`http://localhost:5000/weather?city=${city}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Failed to fetch weather data for ${city}`);
+          if (response.status === 404) {
+            throw new Error('City not found. Please try again.');
+          }
+          throw new Error('Failed to fetch weather data. Please try again later.');
         }
         return response.json();
       })
@@ -88,10 +91,12 @@ function App() {
         setWeatherData(data);  // Update state with fetched weather data
         setLoading(false);  // Stop loading spinner
         setSuggestions([]);  // Clear suggestions after selecting
+        setErrorMessage(null);  // Clear error message if successful
       })
       .catch((error) => {
         console.error(`Error fetching weather data for ${city}:`, error);
         setLoading(false);  // Stop loading spinner on error
+        setErrorMessage(error.message);  // Set error message
       });
   };
 
