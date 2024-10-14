@@ -71,3 +71,9 @@ dist-ssr
 *.sln
 *.sw?
 
+#API Key
+.env
+
+#venv
+/venv
+.venv

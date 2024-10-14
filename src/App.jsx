@@ -1,5 +1,19 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css'
+import CoordinateInputCard from './components/CoordinateInputCard';
+import FeatureDisplaySection from './components/FeatureDisplaySection';
+import FeatureForm from './components/FeatureForm';
+import WeatherPage from './routes/WeatherCoordsPage';
+import Navbar from './components/Navbar';
+
+
+// Functional component for the loading spinner
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center py-16">
+    <div className="spinner"></div>
+    <p className="dark:text-[#cbd5e1] text-lg ml-4">Loading weather data...</p>
+  </div>
+);
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -8,14 +22,132 @@ function App() {
     email: '',
     feedback: ''
   });
+  
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading state to track data fetching
+  const [city, setCity] = useState(''); // Update state in app to handle city input
+  const [suggestions, setSuggestions] = useState([]) // City suggestions
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted with data:', formData); // console log default until API call is implemented
-    // API call goes here
+  const fetchWeatherByCoords = (lat, lon) => {
+    setLoading(true);
+    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Fetched weather data:', data);  // Debugging to check data
+        setWeatherData(data);  // Set the fetched weather data
+        setLoading(false);  // Stop loading spinner
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false);  // Stop loading spinner on error
+      });
+  };
+  
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("User's location:", latitude, longitude);  // Debugging to check location
+          fetchWeatherByCoords(latitude, longitude);  // Fetch data using coordinates
+        },
+        (error) => {
+          setErrorMessage('Unable to access location. Please enter a city manually.');
+        }
+      );
+    } else {
+      setErrorMessage('Geolocation is not supported by your browser.');
+    }
+  }, []);
+
+  
+
+  // Fetch weather data on form submit
+  const handleWeatherSubmit = (e) => {
+    e.preventDefault();  // Prevent page reload on form submit
+  
+    if (!city) {
+      alert('Please enter a city');  // Ensure city is entered
+      return;
+    }
+  
+    setLoading(true);  // Start loading spinner
+    console.log("Fetching weather data for:", city);  // Debugging
+  
+    // Fetch weather data for the selected or entered city
+    fetch(`http://localhost:5000/weather?city=${city}`)
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('City not found. Please try again.');
+          }
+          throw new Error('Failed to fetch weather data. Please try again later.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Weather data for submitted city:', data);  // Debugging
+        setWeatherData(data);  // Update state with fetched weather data
+        setLoading(false);  // Stop loading spinner
+        setSuggestions([]);  // Clear suggestions after selecting
+        setErrorMessage(null);  // Clear error message if successful
+      })
+      .catch((error) => {
+        console.error(`Error fetching weather data for ${city}:`, error);
+        setLoading(false);  // Stop loading spinner on error
+        setErrorMessage(error.message);  // Set error message
+      });
   };
 
-  const handleChange = (e) => {
+  // Fetch city suggestions as the user types
+  const handleCityChange = (e) => {
+    const cityInput = e.target.value;
+    setCity(cityInput);
+
+    if (cityInput.length > 2) { // Fetch suggestions after 3 characters
+      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.cities) {
+            setSuggestions(data.cities); // Set city suggestions
+          } else {
+            setSuggestions([]);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching city suggestions:', error);
+        });
+    } else {
+      setSuggestions([]); // Clear suggestions if input is too short
+    }
+  };
+
+  // Handle city selection from suggestions
+  const handleCitySelect = (selectedCity) => {
+    const { lat, lon, name, state, country } = selectedCity; // Get lat, lon, name, state, and country
+    setCity(name); // Set the selected city name for display purposes
+    setSuggestions([]); // Clear suggestions after selection
+    
+    // Store state and country locally so you can display them later
+    const locationDetails = { name, state, country };
+
+    // Fetch weather data using lat and lon
+    setLoading(true);
+    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setWeatherData({ ...data, ...locationDetails }); // Merge weather data with location details
+        setLoading(false); // Stop loading after data is fetched
+      })
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+        setLoading(false); // Stop loading even if there's an error
+      });
+  };
+
+      // Handle form input changes for feedback form
+  const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -23,127 +155,215 @@ function App() {
     });
   };
 
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Navbar */}
-      <nav className="p-6 bg-blue-600 text-white">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">WeatherLink</h1>
+  // Handle feedback form submission
+  const handleFeedbackSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitting feedback form:', formData);
+    // Handle form submission logic for feedback form here (e.g., send data to the server)
+  };
 
-          {/* Hamburger Menu for Mobile */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xlmns="https://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLineJoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-
-          {/* Links for Larger Screens */}
-          <ul className="hidden md:flex space-x-6">
-            <li><a href="#" className="hover:text-gray-300">Home</a></li>
-            <li><a href="#" className="hover:text-gray-300">Features</a></li>
-            <li><a href="#" className="hover:text-gray-300">Contact</a></li>
-            <li><a href="#" className="hover:text-gray-300">Log in</a></li>
-          </ul>
-        </div>
-
-        {/* Links for Smaller Screens, Toggled by Hamburger Button */}
-        {menuOpen && (
-          <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-            <li><a href="#" className="hover:text-gray-300">Home</a></li>
-            <li><a href="#" className="hover:text-gray-300">Features</a></li>
-            <li><a href="#" className="hover:text-gray-300">Contact</a></li>
-            <li><a href="#" className="hover:text-gray-300">Log in</a></li>
-          </ul>
-        )}
-      </nav>
-
-      {/* Check Weather Section */}
-      <header className="bg-blue-500 text-white py-24 text-center">
-        <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-        <p className="mt-4 text-lg">Stay updated with accurate weather information, forecasts, and more.</p>
-        <button className="mt-8 px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-lg">Check Weather Now</button>
-      </header>
-
-      {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-blue-50 rounded-lg shadow-lg text-center">
-              <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
-              <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
-            </div>
-            <div className="p-6 bg-blue-50 rounded-lg shadow-lg text-center">
-              <h4 className="text-xl font-semibold">Interactive Maps</h4>
-              <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
-            </div>
-            <div className="p-6 bg-blue-50 rounded-lg shadow-lg text-center">
-              <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
-              <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
-            </div>
+  // Define the inline function to render weather data
+  const RenderWeatherData = ({ weatherData }) => {
+    if (!weatherData) {
+      return <p>No weather data available. Please enter a city to check the weather.</p>;
+    }
+  
+    return (
+      <section className="py-8">
+        <div className="container mx-auto text-center">
+          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
+            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">Condition: {weatherData.description}</p>
+            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
+            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
           </div>
         </div>
       </section>
+    );
+  };
 
-      {/* Feedback Form Section */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8">Feedback Form</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="feedback">
-                Feedback
-              </label>
-              <textarea
-                id="feedback"
-                name="feedback"
-                value={formData.feedback}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Submit
+  const [darkMode, setDarkMode] = useState(false);
+
+  return (
+    <div className={darkMode ? 'dark' : ''}>
+      <div className="p-12 bg-white dark:bg-[#0f172a]">
+        {/* Navbar */}
+        <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
+          <div className="container mx-auto flex justify-between items-center">
+            <h1 className="text-2xl font-bold">WeatherLink</h1>
+  
+            {/* Hamburger Menu for Mobile */}
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xlmns="https://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLineJoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
             </button>
-          </form>
-        </div>
-      </section>
+  
+            {/* Links for Larger Screens */}
+            <ul className="hidden md:flex space-x-6">
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li>
+                <button onClick={() => setDarkMode(!darkMode)} 
+                  className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </li>
+            </ul>
+          </div>
+  
+          {menuOpen && (
+            <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li>
+                <button onClick={() => setDarkMode(!darkMode)} 
+                  className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </li>
+            </ul>
+          )}
+        </nav>
+  
+        {/* Weather Form Section */}
+        <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
+          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
+          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <>
+            {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+          </>
+          <form onSubmit={handleWeatherSubmit} className="mt-8">
+            <div className="relative inline-block w-full max-w-sm">
+              <input
+                type="text"
+                value={city}  // Bind to `city` state
+                onChange={handleCityChange}  // Update `city` as user types
+                placeholder="Enter city name"
+                className="text-black w-full px-3 py-2 border rounded text-sm"
+              />
 
-      {/* Footer */}
-      <footer className="py-8 bg-blue-600 text-white text-center">
-        <p>&copy; 2024 WeatherLink. All rights reserved.</p>
-      </footer>
+              {/* Suggestions dropdown */}
+              {suggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 z-10 mt-1 bg-white shadow-lg border rounded text-left">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleCitySelect(suggestion)}  // Handle city selection from suggestions
+                      className="cursor-pointer p-2 bg-blue-50 dark:bg-[#312e81] text-gray-800 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600"
+                    >
+                      {suggestion.name}, {suggestion.state || ''} ({suggestion.country})
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/*<button type="submit" className="ml-4 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] hover:bg-blue-800 rounded-lg">
+              Check Weather Now
+            </button>*/}
+          </form>
+        </header>
+  
+        {/* Conditional rendering for loading spinner and weather data */}
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : weatherData ? (
+        <RenderWeatherData weatherData={weatherData} />
+      ) : (
+        <p className="text-center">No weather data available.</p>
+      )}
+    </>
+
+      <CoordinateInputCard />
+  
+        {/* Features Section */}
+        <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
+          <div className="container mx-auto">
+            <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
+                <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
+                <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
+              </div>
+              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
+                <h4 className="text-xl font-semibold">Interactive Maps</h4>
+                <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
+              </div>
+              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
+                <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
+                <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Feedback Form Section */}
+        <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
+          <div className="container mx-auto">
+            <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
+            <form onSubmit={handleFeedbackSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFeedbackChange}
+                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFeedbackChange}
+                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
+                  Feedback
+                </label>
+                <textarea
+                  id="feedback"
+                  name="feedback"
+                  value={formData.feedback}
+                  onChange={handleFeedbackChange}
+                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
+          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+        </footer>
+      </div>
     </div>
   );
 }
 
-export default App
+export default App;
