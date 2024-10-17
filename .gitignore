@@ -75,5 +75,5 @@ dist-ssr
 .env
 
 #venv
-/venv
-.venv
+venv/
+.venv/
