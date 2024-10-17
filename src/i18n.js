@@ -13,14 +13,14 @@ i18n
         supportedLngs: ['en', 'fr', 'es'], /* Specify the languages your app supports */
         fallbackLng: 'en',
         detection: {
-        order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-        caches: ['cookie'],
+            order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
+            caches: ['cookie'],
         },
         backend: {
-        loadPath: '/locales/{{lng}}/{{ns}}.json', /* Backend endpoint to load translations */
+            loadPath: '/locales/{{lng}}/{{ns}}.json', /* Backend endpoint to load translations */
         },
         interpolation: {
-        escapeValue: false,
+            escapeValue: false,
         },
     });
 
