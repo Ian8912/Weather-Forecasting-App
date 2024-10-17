@@ -1,6 +1,10 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
+import { ForcastCard } from './ForcastCard'
 
 export const ForecastDisplay = () => {
+
+    
 
     const forecastData = [
         {
@@ -48,15 +52,7 @@ export const ForecastDisplay = () => {
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
     {forecastData.map((day, index) => (
-      <div key={index} className="weather-card">
-        <h3 className="text-xl font-bold">{day.date}</h3>
-        <p className="text-lg">{day.condition}</p>
-        <img src={day.icon} alt={day.condition} className="mx-auto" />
-        <p className="text-lg">High: {day.highTemp}°F / {day.highTempC}°C</p>
-        <p className="text-lg">Low: {day.lowTemp}°F / {day.lowTempC}°C</p>
-        <p className="text-lg">Humidity: {day.humidity}%</p>
-        <p className="text-lg">Wind Speed: {day.windSpeed} m/s</p>
-      </div>
+      <ForcastCard key={index} day={day} />
     ))}
   </div>
   )
