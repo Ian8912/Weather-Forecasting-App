@@ -1,39 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
-import os
-import requests
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-
-API_KEY = os.getenv('OPENWEATHER_API_KEY')
-BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
-GEO_URL = 'http://api.openweathermap.org/geo/1.0/direct'
+from weatherService import fetch_weather_data, fetch_geo_data # import functions
 
 app = Flask(__name__, static_folder='client/dist', template_folder='client/dist')
 CORS(app)
-
-# Helper function to fetch weather data by coordinates
-def fetch_weather_data(lat, lon):
-    weather_url = f"{BASE_URL}?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
-    try:
-        response = requests.get(weather_url, timeout=10)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        return {"error": "Failed to fetch weather data: " + str(e)}
-
-# Helper function to fetch geocoding data by city
-def fetch_geo_data(city):
-    geo_url = f"{GEO_URL}?q={city}&limit=5&appid={API_KEY}"
-    try:
-        response = requests.get(geo_url, timeout=10)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        return {"error": "Failed to fetch city data: " + str(e)}
 
 @app.route('/weather/', methods=['GET'])
 def weather():
