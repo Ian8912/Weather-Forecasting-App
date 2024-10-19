@@ -23,6 +23,17 @@ const FeatureDisplaySection = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
 
+    // Toggles for layers
+    const [showClouds, setShowClouds] = useState(false);
+    const [showPrecipitation, setShowPrecipitation] = useState(false);
+    const [showTemperature, setShowTemperature] = useState(false);
+  
+    const toggleLayer = (layer) => {
+      if (layer === 'clouds') setShowClouds(!showClouds);
+      if (layer === 'precipitation') setShowPrecipitation(!showPrecipitation);
+      if (layer === 'temperature') setShowTemperature(!showTemperature);
+    };
+
   const openModal = () => {
     setIsModalOpen(true);  // Open the modal
   };
@@ -86,8 +97,8 @@ const FeatureDisplaySection = () => {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Dark background overlay
           },
           content: {
-            width: '80%',  // Adjust the width
-            height: '70%', // Adjust the height
+            width: '90%',  // Adjust the width
+            height: '80%', // Adjust the height
             margin: 'auto', // Automatically center vertically and horizontally
             padding: '0',
             display: 'flex',
@@ -115,6 +126,49 @@ const FeatureDisplaySection = () => {
           To close map, click outside the modal.
         </div>
 
+        {/* Legend to toggle layers */}
+        <div style={{
+          position: 'absolute',
+          top: '40px',
+          left: '30px',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          padding: '20px',
+          zIndex: 1000,
+          borderRadius: '5px',
+        }}>
+          <h4>Legend</h4>
+          <label>
+            <input
+              type="checkbox"
+              checked={showClouds}
+              onChange={() => toggleLayer('clouds')}
+              className='checkbox-large'
+            />
+            Clouds
+          </label>
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              checked={showPrecipitation}
+              onChange={() => toggleLayer('precipitation')}
+              className='checkbox-large'
+            />
+            Precipitation
+          </label>
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              checked={showTemperature}
+              onChange={() => toggleLayer('temperature')}
+              className='checkbox-large'
+            />
+            Temperature
+          </label>
+        </div>
+
         {/* Temporary div for debugging */}
         {/*<div style={{ height: '100%', backgroundColor: 'red' }}>
           <p>Map should be here</p>
@@ -132,29 +186,45 @@ const FeatureDisplaySection = () => {
             dragPan={true}        // Enable dragging the map
             touchRotate={true}    // Enable touch gestures for rotation
           >
-            {/* Add OpenWeatherMap Cloud Layer */}
-            <Source
-              id="weather-clouds"
-              type="raster"
-              tiles={[
-                `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
-              ]}
-              tileSize={512}
-            >
-              <Layer id="clouds-layer" type="raster" />
-            </Source>
+            {/* Conditionally render weather layers based on the checkbox states */}
+            {showClouds && (
+              <Source
+                id="weather-clouds"
+                type="raster"
+                tiles={[
+                  `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                ]}
+                tileSize={256}
+              >
+                <Layer id="clouds-layer" type="raster" />
+              </Source>
+            )}
 
-            {/* Add OpenWeatherMap Precipitation Layer */}
-            <Source
-              id="weather-precipitation"
-              type="raster"
-              tiles={[
-                `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
-              ]}
-              tileSize={512}
-            >
-              <Layer id="precipitation-layer" type="raster" />
-            </Source>
+            {showPrecipitation && (
+              <Source
+                id="weather-precipitation"
+                type="raster"
+                tiles={[
+                  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                ]}
+                tileSize={256}
+              >
+                <Layer id="precipitation-layer" type="raster" />
+              </Source>
+            )}
+
+            {showTemperature && (
+              <Source
+                id="weather-temperature"
+                type="raster"
+                tiles={[
+                  `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                ]}
+                tileSize={256}
+              >
+                <Layer id="temperature-layer" type="raster" />
+              </Source>
+            )}
           </ReactMapGL>
         </div>
       </Modal>
