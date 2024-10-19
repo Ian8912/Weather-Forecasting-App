@@ -31,7 +31,7 @@ def fetch_geo_data(city):
         return {"error": "Failed to fetch city data: " + str(e)}
 # Fetehes forecast data
 def fetch_forecast_data(lat, lon):
-    forecast_url = f"{FORECAST_URL}?lat={lat}&lon={lon}&appid={API_KEY}"
+    forecast_url = f"{FORECAST_URL}?lat={lat}&lon={lon}&appid={WEATHER_API_KEY}"
     try:
         res = requests.get(forecast_url, timeout=10)
         res.raise_for_status()

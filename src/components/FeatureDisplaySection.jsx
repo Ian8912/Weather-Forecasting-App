@@ -6,6 +6,7 @@ import mapboxgl from 'mapbox-gl';
 const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 
 console.log(MAP_API_KEY);
+
 // Make sure to set the app element for accessibility
 Modal.setAppElement('#root');
 
@@ -100,8 +101,11 @@ const FeatureDisplaySection = () => {
           <ReactMapGL
             {...viewport}
             mapboxAccessToken={MAP_API_KEY}
-            onViewportChange={(newViewport) => setViewport(newViewport)}
+            onMove={evt => setViewport(evt.viewState)}
             mapStyle="mapbox://styles/mapbox/streets-v11"
+            scrollZoom={true}     // Enable zooming with scroll
+            dragPan={true}        // Enable dragging the map
+            touchRotate={true}    // Enable touch gestures for rotation
           />
         </div>
       </Modal>
