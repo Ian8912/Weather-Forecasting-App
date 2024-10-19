@@ -86,3 +86,36 @@
   font-size: 1.2rem;
   color: #888;
 }
+
+/* Regular styles */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* Forced Colors Mode */
+@media (forced-colors: active) {
+  body {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+
+  /* Example for a button */
+  button {
+    background-color: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonText;
+  }
+
+  /* Example for links */
+  a {
+    color: LinkText;
+  }
+
+  /* Example for any other elements */
+  .card {
+    background-color: ButtonFace;
+    color: WindowText;
+    border-color: GrayText;
+  }
+}
