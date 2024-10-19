@@ -86,6 +86,8 @@ const FeatureDisplaySection = () => {
             width: '80%',
             height: '80%',
             margin: 'auto',
+            padding: '0',
+            overflow: 'hidden'
           }
         }}
       >
