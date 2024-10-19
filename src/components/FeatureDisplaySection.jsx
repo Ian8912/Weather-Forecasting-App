@@ -91,7 +91,6 @@ const FeatureDisplaySection = () => {
           }
         }}
       >
-        <button onClick={closeModal} style={{ position: 'absolute', top: 10, right: 10 }}>Close</button>
         
         {/* Temporary div for debugging */}
         {/*<div style={{ height: '100%', backgroundColor: 'red' }}>
