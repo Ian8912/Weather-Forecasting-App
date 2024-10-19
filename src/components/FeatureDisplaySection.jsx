@@ -26,57 +26,71 @@ const FeatureDisplaySection = () => {
   // Toggles for layers
   const [showClouds, setShowClouds] = useState(false);
   const [showPrecipitation, setShowPrecipitation] = useState(false);
-  const [showUvIndex, setShowUvIndex] = useState(false);
-  const [showAirQuality, setShowAirQuality] = useState(false);
+  //const [showUvIndex, setShowUvIndex] = useState(false);
+  //const [showAirQuality, setShowAirQuality] = useState(false);
   const [showTemperature, setShowTemperature] = useState(false);
 
   // Data states for different layers
-  const [uvData, setUvData] = useState([]);
-  const [airQualityData, setAirQualityData] = useState([]);
+  //const [uvData, setUvData] = useState([]);
+  //const [airQualityData, setAirQualityData] = useState([]);
 
+  //let uvLastFetchTime = 0;
+  //let airQualityLastFetchTime = 0;
+  
   // Fetch UV Index Data
-  useEffect(() => {
+  {/*useEffect(() => {
     async function fetchUvIndex() {
-      try {
-        const lat = viewport.latitude;
-        const lon = viewport.longitude;
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${WEATHER_API_KEY}`
-        );
-        if (!response.ok) throw new Error('Failed to fetch UV Index data');
-        const data = await response.json();
-        console.log('UV Index Data:', data.current.uvi);  // Log UV Index value
-        setUvData([data.current.uvi]); // Store only the UV index value
-      } catch (error) {
-        console.error(error);
-        setUvData([]); // Handle error by setting an empty array
+      const currentTime = Date.now();
+      // Fetch only if more than 10 minutes have passed since the last request
+      if (currentTime - uvLastFetchTime > 600000) {
+        try {
+          const lat = viewport.latitude;
+          const lon = viewport.longitude;
+          const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${WEATHER_API_KEY}`
+          );
+          if (!response.ok) throw new Error('Failed to fetch UV Index data');
+          const data = await response.json();
+          setUvData([data.current.uvi]);
+          uvLastFetchTime = currentTime; // Update last fetch time
+        } catch (error) {
+          console.error(error);
+          setUvData([]); // Handle error
+        }
       }
     }
-
+  
     if (showUvIndex) fetchUvIndex();
-  }, [viewport.latitude, viewport.longitude, showUvIndex]);
-
+  }, [showUvIndex, viewport.latitude, viewport.longitude]);*/}
+  
   // Fetch Air Quality Data
-  useEffect(() => {
+  {/*useEffect(() => {
     async function fetchAirQuality() {
-      try {
-        const lat = viewport.latitude;
-        const lon = viewport.longitude;
-        const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
-        );
-        if (!response.ok) throw new Error('Failed to fetch air quality data');
-        const data = await response.json();
-        console.log('Air Quality Data:', data.list);  // Log air quality data
-        setAirQualityData(data.list);  // The data comes under `list`
-      } catch (error) {
-        console.error(error);
-        setAirQualityData([]); // Handle error
+      const currentTime = Date.now();
+      // Fetch only if more than 10 minutes have passed since the last request
+      if (currentTime - airQualityLastFetchTime > 600000) {
+        try {
+          const lat = viewport.latitude;
+          const lon = viewport.longitude;
+          const response = await fetch(
+            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
+          );
+          if (!response.ok) throw new Error('Failed to fetch air quality data');
+          const data = await response.json();
+          setAirQualityData(data.list);
+          airQualityLastFetchTime = currentTime; // Update last fetch time
+        } catch (error) {
+          console.error(error);
+          setAirQualityData([]); // Handle error
+        }
       }
     }
-
+  
     if (showAirQuality) fetchAirQuality();
-  }, [viewport.latitude, viewport.longitude, showAirQuality]);
+  }, [showAirQuality, viewport.latitude, viewport.longitude]);*/}
+
+  //console.log('UV Data:', uvData);
+  //console.log('Air Quality Data:', airQualityData);
 
   const openModal = () => {
     setIsModalOpen(true);  // Open the modal
@@ -90,8 +104,8 @@ const FeatureDisplaySection = () => {
     if (layer === 'clouds') setShowClouds(!showClouds);
     if (layer === 'precipitation') setShowPrecipitation(!showPrecipitation);
     if (layer === 'temperature') setShowTemperature(!showTemperature);
-    if (layer === 'uvIndex') setShowUvIndex(!showUvIndex);
-    if (layer === 'airQuality') setShowAirQuality(!showAirQuality);
+    //if (layer === 'uvIndex') setShowUvIndex(!showUvIndex);
+    //if (layer === 'airQuality') setShowAirQuality(!showAirQuality);
   };
 
   const handleFeatureClick = (feature) => {
@@ -219,7 +233,7 @@ const FeatureDisplaySection = () => {
             />
             Temperature
           </label>
-          <br />
+          {/*<br />
           <label>
             <input
               type="checkbox"
@@ -238,7 +252,7 @@ const FeatureDisplaySection = () => {
               className="checkbox-large"
             />
             Air Quality
-          </label>
+          </label>*/}
         </div>
 
         {/* Temporary div for debugging */}
@@ -299,7 +313,7 @@ const FeatureDisplaySection = () => {
             )}
 
             {/* UV Index Markers */}
-            {showUvIndex && uvData.length > 0 && uvData.map((uv, index) => (
+            {/*{showUvIndex && uvData.length > 0 && uvData.map((uv, index) => (
               uv && (
                 <Marker key={index} latitude={uv.lat} longitude={uv.lon}>
                   <div style={{
@@ -307,24 +321,30 @@ const FeatureDisplaySection = () => {
                                     uv.value > 8 ? 'red' :
                                     uv.value > 6 ? 'orange' :
                                     uv.value > 3 ? 'yellow' : 'green',
-                    width: '20px',
-                    height: '20px',
+                    width: '40px',  // Increased width for better visibility
+                    height: '40px', // Increased height for better visibility
                     borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    color: 'white',
+                    fontWeight: 'bold',
                   }}>
                     UV: {uv.value}
                   </div>
                 </Marker>
               )
-            ))}
+            ))}*/}
 
             {/* Air Quality Markers */}
-            {showAirQuality && airQualityData.length > 0 && airQualityData.map((aqi, index) => (
+            {/*{showAirQuality && airQualityData.length > 0 && airQualityData.map((aqi, index) => (
               aqi && aqi.coord && (
                 <Marker key={index} latitude={aqi.coord.lat || 0} longitude={aqi.coord.lon || 0}>
                   <div style={{
-                    backgroundColor: aqi.main.aqi <= 2 ? 'green' : aqi.main.aqi === 3 ? 'yellow' : 'red',
-                    width: '20px',
-                    height: '20px',
+                    backgroundColor: aqi.main.aqi <= 2 ? 'green' :
+                                    aqi.main.aqi === 3 ? 'yellow' : 'red',
+                    width: '40px',  // Increased width for better visibility
+                    height: '40px', // Increased height for better visibility
                     borderRadius: '50%',
                     display: 'flex',
                     justifyContent: 'center',
@@ -336,7 +356,7 @@ const FeatureDisplaySection = () => {
                   </div>
                 </Marker>
               )
-            ))}
+            ))}*/}
           </ReactMapGL>
         </div>
       </Modal>
