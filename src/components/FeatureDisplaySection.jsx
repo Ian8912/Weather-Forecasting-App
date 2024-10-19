@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {Source, Layer} from 'react-map-gl';
 import Modal from 'react-modal';  // Import react-modal
-import mapboxgl from 'mapbox-gl';
 
+const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 
-console.log(MAP_API_KEY);
+console.log("OpenWeatherMap API Key:", WEATHER_API_KEY);
+console.log("Mapbox API Key:", MAP_API_KEY);
 
 // Make sure to set the app element for accessibility
 Modal.setAppElement('#root');
@@ -13,9 +14,9 @@ Modal.setAppElement('#root');
 const FeatureDisplaySection = () => {
   const [activeFeature, setActiveFeature] = useState(null);
   const [viewport, setViewport] = useState({
-    latitude: 37.7749,
-    longitude: -122.4194,
-    zoom: 7,
+    latitude: 30.2672,
+    longitude: -97.7431,
+    zoom: 9,
     width: '100%',   // Ensure these have proper string values
     height: '400px',
   });
@@ -101,12 +102,36 @@ const FeatureDisplaySection = () => {
           <ReactMapGL
             {...viewport}
             mapboxAccessToken={MAP_API_KEY}
-            onMove={evt => setViewport(evt.viewState)}
+            onMove={(evt) => setViewport(evt.viewState)}
             mapStyle="mapbox://styles/mapbox/streets-v11"
             scrollZoom={true}     // Enable zooming with scroll
             dragPan={true}        // Enable dragging the map
             touchRotate={true}    // Enable touch gestures for rotation
-          />
+          >
+            {/* Add OpenWeatherMap Cloud Layer */}
+            <Source
+              id="weather-clouds"
+              type="raster"
+              tiles={[
+                `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+              ]}
+              tileSize={512}
+            >
+              <Layer id="clouds-layer" type="raster" />
+            </Source>
+
+            {/* Add OpenWeatherMap Precipitation Layer */}
+            <Source
+              id="weather-precipitation"
+              type="raster"
+              tiles={[
+                `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+              ]}
+              tileSize={512}
+            >
+              <Layer id="precipitation-layer" type="raster" />
+            </Source>
+          </ReactMapGL>
         </div>
       </Modal>
     </>

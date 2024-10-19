@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+WEATHER_API_KEY = os.getenv('VITE_OPENWEATHER_API_KEY')
 BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
 GEO_URL = 'http://api.openweathermap.org/geo/1.0/direct'
 FORECAST_URL = 'https://api.openweathermap.org/data/3.0/onecall'
