@@ -82,16 +82,39 @@ const FeatureDisplaySection = () => {
         onRequestClose={closeModal}
         contentLabel="Map Modal"
         style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Dark background overlay
+          },
           content: {
-            width: '80%',
-            height: '80%',
-            margin: 'auto',
+            width: '80%',  // Adjust the width
+            height: '70%', // Adjust the height
+            margin: 'auto', // Automatically center vertically and horizontally
             padding: '0',
-            overflow: 'hidden'
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '10px',
+            overflow: 'hidden',  // Hide any overflow
           }
         }}
       >
-        
+        {/* Message to instruct users */}
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Semi-transparent background
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '5px',
+          fontSize: '14px',
+          textAlign: 'center',
+        }}>
+          To close map, click outside the modal.
+        </div>
+
         {/* Temporary div for debugging */}
         {/*<div style={{ height: '100%', backgroundColor: 'red' }}>
           <p>Map should be here</p>
