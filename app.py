@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
-from weatherService import fetch_weather_data, fetch_geo_data # import functions
+from weatherService import * # import functions
 
 app = Flask(__name__, static_folder='client/dist', template_folder='client/dist')
 CORS(app)
@@ -80,6 +80,15 @@ def weatherFromCoords(lat, long):
         'description': weather_data['weather'][0].get('description')
     }
     return jsonify(data), 200
+
+@app.route('/forecast', methods=['POST'])
+def forecast():
+    city = request.args.get("city")
+    data = fetch_forecast_data(city)
+    if not data:
+        print("ERROR")
+        return jsonify({"error": "Cannot find forecast for this city!"}), 400
+    return jsonify({"city": "austin"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
