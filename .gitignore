@@ -48,6 +48,7 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
 # Logs
 logs
 *.log
@@ -77,3 +78,8 @@ dist-ssr
 #venv
 venv/
 .venv/
+
+# PyCache
+
+*.pyc
+*__pycache__
