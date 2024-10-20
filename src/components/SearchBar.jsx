@@ -2,7 +2,11 @@ import React from 'react'
 
 export const SearchBar = ({city, suggestions, errorMessage, setcity, handleCityChange, handleCitySelect, handleWeatherSubmit}) => {
 
-
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleWeatherSubmit(e); // Trigger the form submit when Enter is pressed
+    }
+  };
     
   return (
     <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
@@ -17,6 +21,7 @@ export const SearchBar = ({city, suggestions, errorMessage, setcity, handleCityC
                 type="text"
                 value={city}  // Bind to `city` state
                 onChange={handleCityChange}  // Update `city` as user types
+                onKeyDown={handleKeyPress}
                 placeholder="Enter city name"
                 className="text-black w-full px-3 py-2 border rounded text-sm"
               />

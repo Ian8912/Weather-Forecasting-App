@@ -50,6 +50,7 @@ def fetch_forecast_data(lat, lon):
     try:
         res = requests.get(forecast_url, timeout=10)
         res.raise_for_status()
+        print(res)
         return res.json()
     except requests.exceptions.RequestException as e:
         print("ERROR")
