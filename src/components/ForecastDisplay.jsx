@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = (location) => {
+export const ForecastDisplay = ({city}) => {
 
     const [forecastData, setForecastData] = useState([])
 
@@ -23,7 +23,7 @@ export const ForecastDisplay = (location) => {
               const data = await response.json();
               console.log(data);
               
-              setForecastData(data.list); // Assuming the forecast data contains a 'list' array
+              //setForecastData(data.list); // Assuming the forecast data contains a 'list' array
             } catch (error) {
               setError(error.message);
             }

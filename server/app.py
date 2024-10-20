@@ -97,17 +97,14 @@ def weatherFromCoords(lat, long):
     }
     return jsonify(data), 200
 
-@app.route('/forecast', methods=['POST'])
+@app.route('/forecast', methods=['GET'])
 def forecast():
-    city = request.args.get("city")
+    city = request.args.get("city", '').strip()
     if not city:
         return jsonify({"error": "City Cannot Be Found!"}), 400
-
     lat, lon = fetch_coordinates(city)
-
     data = fetch_forecast_data(lat, lon)
     if not data:
-        print("ERROR")
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     return jsonify(data), 200
 

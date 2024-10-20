@@ -263,7 +263,7 @@ function App() {
       ) : weatherData ? (
         <> 
           <RenderWeatherData weatherData={weatherData} />
-          
+          {city && <ForecastDisplay city={city}/>}
           
         </>
         
@@ -271,6 +271,7 @@ function App() {
         <p className="text-center">{t('No weather data available.')}</p>
       )}
     </>
+   
 
       <CoordinateInputCard />
   
