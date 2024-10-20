@@ -177,6 +177,10 @@ function App() {
             <p className="text-lg">Condition: {weatherData.description}</p>
             <p className="text-lg">Humidity: {weatherData.humidity}%</p>
             <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
+            <p className="text-lg">
+              UV Index: {weatherData.uv_index || 'N/A'} {/* Add a fallback for UV Index */}
+            </p>
+            <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
           </div>
         </div>
       </section>
