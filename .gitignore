@@ -79,7 +79,8 @@ dist-ssr
 venv/
 .venv/
 
-# PyCache
+# Compiled Python bytecode
 
 *.pyc
-*__pycache__
+*__pycache__/
+*pytest_cache
