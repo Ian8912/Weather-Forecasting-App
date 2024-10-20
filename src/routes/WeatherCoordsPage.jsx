@@ -27,7 +27,7 @@ const WeatherPage = () => {
         .then((data) => {
           console.log(data);
           
-          setWeatherData(data[0])
+          setWeatherData(data)
           
         })
         .catch((error) => console.error('Error:', error));

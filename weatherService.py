@@ -29,6 +29,21 @@ def fetch_geo_data(city):
         return response.json()
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch city data: " + str(e)}
+    
+def fetch_coordinates(city):
+    try:
+        url = f"{GEO_URL}?q={city}&limit=1&appid={API_KEY}"
+        res = requests.get(url)
+        res.raise_for_status()
+        data = res.json()
+        if data and len(data) > 0:
+            return data[0]['lat'], data[0]['lon']
+        else:
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching coordinates: {e}")
+        return {"error": f"Failed to find forecast for this location: {e}"}
+
 # Fetehes forecast data
 def fetch_forecast_data(lat, lon):
     forecast_url = f"{FORECAST_URL}?lat={lat}&lon={lon}&appid={API_KEY}"
