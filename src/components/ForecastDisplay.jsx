@@ -2,52 +2,36 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = () => {
+export const ForecastDisplay = (location) => {
 
-    
+    const [forecastData, setForecastData] = useState([])
 
-    const forecastData = [
-        {
-            date: "Monday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Tuesday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Wednsday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Thursday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Friday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-    ]
+    useEffect(() => {
+        const fetchForecast = async () => {
+            try {
+              const response = await fetch(`http://localhost:5000/forecast?city=${city}`, {
+                method: 'GET', // Make sure it's a GET request
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+      
+              if (!response.ok) {
+                throw new Error('Failed to fetch forecast data');
+              }
+      
+              const data = await response.json();
+              console.log(data);
+              
+              setForecastData(data.list); // Assuming the forecast data contains a 'list' array
+            } catch (error) {
+              setError(error.message);
+            }
+          };
+      
+          fetchForecast();
+        }, [city]); // This hook will trigger whenever the city prop changes
+      
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
