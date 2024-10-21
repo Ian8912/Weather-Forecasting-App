@@ -12,12 +12,9 @@ i18n
     .init({
         supportedLngs: ['en', 'fr', 'es'], /* Specify the languages your app supports */
         fallbackLng: 'en',
-        detection: {
-            order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-            caches: ['cookie'],
-        },
+        debug: true,
         backend: {
-            loadPath: '/locales/{{lng}}/{{ns}}.json', /* Backend endpoint to load translations */
+            loadPath: '/locales/{{lng}}/translation.json', /* Path to translate files */
         },
         interpolation: {
             escapeValue: false,
