@@ -5,6 +5,7 @@ import FeatureDisplaySection from './components/FeatureDisplaySection';
 import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
+import errorService from './errorService';
 
 
 // Functional component for the loading spinner
@@ -32,15 +33,21 @@ function App() {
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
     fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
-      .then((response) => response.json())
+      .then((response) => {
+        const handledResponse = errorService.handleApiError(response, 'Failed to fetch weather data.');
+        if (handledResponse.errorMessage) {
+          setErrorMessage(handledResponse.errorMessage); // Set the standardized error message
+        }
+        return handledResponse.json();
+      })
       .then((data) => {
-        console.log('Fetched weather data:', data);  // Debugging to check data
-        setWeatherData(data);  // Set the fetched weather data
-        setLoading(false);  // Stop loading spinner
+        setWeatherData(data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching weather data:', error);
-        setLoading(false);  // Stop loading spinner on error
+        const errorMsg = errorService.handleError(error);
+        setErrorMessage(errorMsg.errorMessage);
+        setLoading(false);
       });
   };
   
@@ -240,7 +247,7 @@ function App() {
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
           <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
           <>
-            {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           </>
           <form onSubmit={handleWeatherSubmit} className="mt-8">
             <div className="relative inline-block w-full max-w-sm">

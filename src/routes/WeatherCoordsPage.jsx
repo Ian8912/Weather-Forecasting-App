@@ -1,10 +1,12 @@
 import {React, useState, useEffect} from 'react'
 import { Navbar } from '../components/Navbar';
 import { useLocation } from 'react-router-dom';
+import errorService from '../errorService';
 
 
 const WeatherPage = () => {
     const [weatherData, setWeatherData] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     
 
     const location = useLocation(); // Access the state from the navigation
@@ -15,26 +17,29 @@ const WeatherPage = () => {
   
    // Destructure lat and long from state
 
-  useEffect(() => {
+   useEffect(() => {
     if (lat && long) {
-      fetch(`http://localhost:5000/coords/${lat}/${long}/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          
-          setWeatherData(data[0])
-          
+      fetch(`http://localhost:5000/coords/${lat}/${long}/`)
+        .then((response) => {
+          const handledResponse = errorService.handleApiError(response, 'Failed to fetch weather data.');
+          if (handledResponse.errorMessage) {
+            setErrorMessage(handledResponse.errorMessage); // Set error message
+          }
+          return handledResponse.json();
         })
-        .catch((error) => console.error('Error:', error));
+        .then((data) => {
+          setWeatherData(data);
+        })
+        .catch((error) => {
+          const errorMsg = errorService.handleError(error);
+          setErrorMessage(errorMsg.errorMessage);
+        });
     }
   }, [lat, long]);
+
     return (
       <div className="py-8">
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <div className="container mx-auto text-center">
           <Navbar/>
           <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] flex-col text-white py-24 text-center">

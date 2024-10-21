@@ -258,3 +258,8 @@ By following these steps, you will have both the frontend and backend running an
 If there are issues that might pertain to extensions, run `npm install react-router-dom` and then rebuild again.
 If you try to open **app.py** through `http://localhost:5000`, you will get a 404 error code. Run the server and backend on two different terminals and use the frontend development
 server `http://localhost:5173`.
+
+### Testing:
+
+  Run the following in directory
+  'pytest'
