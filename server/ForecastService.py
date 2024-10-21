@@ -45,7 +45,7 @@ class ForecastService():
 
         return [[int(temp), self.calculateFahrenheit(temp)] for temp in min_daily_temperatures]
 
-    def getMaxTemperature(self) -> list:
+    def getMaxTemperature(self) -> list[list[int, int]]:
         max_daily_tempatures = self.daily.Variables(1).ValuesAsNumpy()
 
         return [[int(temp), self.calculateFahrenheit(temp)] for temp in max_daily_tempatures]
@@ -120,20 +120,31 @@ class ForecastService():
 
         return descriptions
 
-        
+    def FinalizeData(self):
+        data = []
+        dates = self.getDates()
+        min_temps = self.getMinTemperature()
+        max_temps = self.getMaxTemperature()
+        precipitate_descriptions = self.getPrecitpitationDescription()
+        wind_descriptions = self.getWindDescriptions()
+        wind_speeds = self.getWindSpeeds()
+        for date, minT, maxT, precipitateDesc, windDesc, windSpeed in zip(dates, min_temps, max_temps, precipitate_descriptions, wind_descriptions, wind_speeds):
+            data.append(
+                {
+                    "date" : date,
+                    "minC" : minT[0],
+                    "minF" : minT[1],
+                    "maxC" : maxT[0],
+                    "maxF" : maxT[1],
+                    "precipitateDescription" : precipitateDesc,
+                    "winddescription" : windDesc,
+                    "windspeed" : windSpeed
+                }
+            )
+        return data
 
     def GetForecast(self) -> dict:
-        return {
-            "data": {
-                "date" : self.getDates(),
-                "minTemp" : self.getMinTemperature(),
-                "maxTemp" : self.getMaxTemperature(),
-                "cloudCover" : self.getCloudCover(),
-                "windSpeed" : self.getWindSpeeds(),
-                "windDescription" : self.getWindDescriptions(),
-                "precipitationDescription" : self.getPrecitpitationDescription()
-            }
-        }
+        return self.FinalizeData()
         
 
 obj = ForecastService(30.2672, -97.7431)

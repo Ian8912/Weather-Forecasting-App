@@ -23,7 +23,7 @@ export const ForecastDisplay = ({city}) => {
               const data = await response.json();
               console.log(data);
               
-              //setForecastData(data.list); // Assuming the forecast data contains a 'list' array
+              setForecastData(data); // Assuming the forecast data contains a 'list' array
             } catch (error) {
               setError(error.message);
             }
@@ -35,7 +35,7 @@ export const ForecastDisplay = ({city}) => {
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
-    {forecastData.map((day, index) => (
+    {forecastData && forecastData.map((day, index) => (
       <ForcastCard key={index} day={day} />
     ))}
   </div>
