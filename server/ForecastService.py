@@ -53,11 +53,47 @@ class ForecastService():
     def getCloudCover(self) -> list:
         pass
 
-    def getWindSpeed(self) -> list:
-        pass
+    def kmh_to_ms(self, speed_kmh):
+        # Conversion factor: 1 km/h = 5/18 m/s
+        return speed_kmh * (5 / 18)
 
-    def getWindDescription(self) -> list:
-        pass
+    def getWindSpeeds(self) -> list:
+        daily_wind_speed = self.daily.Variables(17).ValuesAsNumpy()
+        
+        return [self.kmh_to_ms(wind_speed) for wind_speed in daily_wind_speed]
+
+    def windDescription_Helper(self, wind_speed):
+        if wind_speed < 0.3:
+            return "Calm"
+        elif wind_speed < 1.5:
+            return "Light air"
+        elif wind_speed < 3.3:
+            return "Light breeze"
+        elif wind_speed < 5.5:
+            return "Gentle breeze"
+        elif wind_speed < 7.9:
+            return "Moderate breeze"
+        elif wind_speed < 10.7:
+            return "Fresh breeze"
+        elif wind_speed < 13.8:
+            return "Strong breeze"
+        elif wind_speed < 17.1:
+            return "High wind"
+        elif wind_speed < 20.7:
+            return "Gale"
+        elif wind_speed < 24.4:
+            return "Strong gale"
+        elif wind_speed < 28.4:
+            return "Storm"
+        elif wind_speed < 32.6:
+            return "Violent storm"
+        else:
+            return "Hurricane"
+
+    def getWindDescriptions(self) -> list:
+        wind_speeds = self.getWindSpeeds()
+
+        return [self.windDescription_Helper(speed) for speed in wind_speeds]
     
     def getAverageTemperature_Helper(self) -> list:
         min_temps = self.getMinTemperature()  # Call the method to get the list
@@ -93,8 +129,8 @@ class ForecastService():
                 "minTemp" : self.getMinTemperature(),
                 "maxTemp" : self.getMaxTemperature(),
                 "cloudCover" : self.getCloudCover(),
-                "windSpeed" : self.getWindSpeed(),
-                "windDescription" : self.getWindDescription(),
+                "windSpeed" : self.getWindSpeeds(),
+                "windDescription" : self.getWindDescriptions(),
                 "precipitationDescription" : self.getPrecitpitationDescription()
             }
         }
@@ -103,9 +139,11 @@ class ForecastService():
 obj = ForecastService(30.2672, -97.7431)
 print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTemperature()}")
 print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTemperature()}")
-print(obj.getAverageTemperature_Helper())
+print(f"SERVICE PRINTING AVG TEMP: {obj.getAverageTemperature_Helper()}")
 print(f"SERVICE PRINTING DATES: {obj.getDates()}")
-print(f"SERVICE PRINTING Descriptions: {obj.getPrecitpitationDescription()}")
+print(f"SERVICE PRINTING DESCRIPTIONS: {obj.getPrecitpitationDescription()}")
+print(f"SERVICE PRINTING WINDSPEED: {obj.getWindSpeeds()}")
+print(f"SERVICE PRINTING WINDSPEED DESCRIPTIONS: {obj.getWindDescriptions()}")
 
 
 
