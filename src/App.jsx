@@ -5,6 +5,7 @@ import FeatureDisplaySection from './components/FeatureDisplaySection';
 import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
+import { useTranslation } from 'react-i18next';
 
 
 // Functional component for the loading spinner
@@ -16,6 +17,7 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  const { t } = useTranslation(); // Translation function
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -165,18 +167,18 @@ function App() {
   // Define the inline function to render weather data
   const RenderWeatherData = ({ weatherData }) => {
     if (!weatherData) {
-      return <p>No weather data available. Please enter a city to check the weather.</p>;
+      return <p>{t('No weather data available. Please enter a city to check the weather.')}</p>;
     }
   
     return (
       <section className="py-8">
         <div className="container mx-auto text-center">
           <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">Condition: {weatherData.description}</p>
-            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
+            <h3 className="text-2xl font-bold">{t('Weather for ')} {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <p className="text-lg">{t('Temperature')}: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">{t('Condition')}: {weatherData.description}</p>
+            <p className="text-lg">{t('Humidity')}: {weatherData.humidity}%</p>
+            <p className="text-lg">{t('Wind Speed')}: {weatherData.wind_speed} m/s</p>
           </div>
         </div>
       </section>
@@ -202,10 +204,10 @@ function App() {
   
             {/* Links for Larger Screens */}
             <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} 
                   className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
@@ -217,10 +219,10 @@ function App() {
   
           {menuOpen && (
             <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} 
                   className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
@@ -233,8 +235,8 @@ function App() {
   
         {/* Weather Form Section */}
         <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
-          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <h2 className="text-4xl font-bold">{t('Get the Latest Weather Updates')}</h2>
+          <p className="mt-4 text-lg">{t('Enter a city name to get current weather updates.')}</p>
           <>
             {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
           </>
@@ -277,7 +279,7 @@ function App() {
       ) : weatherData ? (
         <RenderWeatherData weatherData={weatherData} />
       ) : (
-        <p className="text-center">No weather data available.</p>
+        <p className="text-center">{t('No weather data available.')}</p>
       )}
     </>
 
@@ -289,11 +291,11 @@ function App() {
         {/* Feedback Form Section */}
         <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
           <div className="container mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
+            <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{t('Feedback Form')}</h3>
             <form onSubmit={handleFeedbackSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-                  Name
+                {t('Name')}
                 </label>
                 <input
                   id="name"
@@ -306,7 +308,7 @@ function App() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-                  Email
+                {t('Email')}
                 </label>
                 <input
                   id="email"
@@ -319,7 +321,7 @@ function App() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-                  Feedback
+                {t('Feedback')}
                 </label>
                 <textarea
                   id="feedback"
@@ -333,7 +335,7 @@ function App() {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
               >
-                Submit
+                {t('Submit')}
               </button>
             </form>
           </div>
@@ -341,7 +343,7 @@ function App() {
 
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <p>&copy; {t('2024 WeatherLink. All rights reserved.')}</p>
         </footer>
       </div>
     </div>
