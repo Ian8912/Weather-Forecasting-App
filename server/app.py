@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 from weatherService import *
-
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
 CORS(app)
