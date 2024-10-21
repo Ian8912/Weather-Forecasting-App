@@ -3,14 +3,17 @@ import openmeteo_requests
 import requests_cache
 import pandas as pd
 from retry_requests import retry
-
+import math
 class ForecastService():
-    url = "https://api.open-meteo.com/v1/forecast"
-    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-    openmeteo = openmeteo_requests.Client(session = retry_session)
-
+    
     def __init__(self, latitude: float, longitude: float) -> None:
+
+        url = "https://api.open-meteo.com/v1/forecast"
+
+        cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+        retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+        openmeteo = openmeteo_requests.Client(session = retry_session)
+
         params = {
             "latitude": latitude,
             "longitude": longitude,
@@ -29,7 +32,13 @@ class ForecastService():
         return int((celsiusValue * (9/5)) + 32)
     
     def getDates(self) -> list:
-        pass
+        daily_data = {"date": pd.date_range(
+	        start = pd.to_datetime(self.daily.Time(), unit = "s", utc = True),
+	        end = pd.to_datetime(self.daily.TimeEnd(), unit = "s", utc = True),
+	        freq = pd.Timedelta(seconds = self.daily.Interval()),
+	        inclusive = "left"
+        )}
+        return [date.strftime('%m-%d-%m') for date in daily_data['date']]
 
     def getMinTempature(self) -> list:
         pass
@@ -62,6 +71,9 @@ class ForecastService():
             }
         }
         
+
+obj = ForecastService(30.2672, -97.7431)
+print(f"SERVICE PRINTING DATES: {obj.getDates()}")
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
