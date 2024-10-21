@@ -1,7 +1,14 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
-from weatherService import *
+
+
+try:
+    # When running the app directly
+    from weatherService import *
+except ModuleNotFoundError:
+    # When running tests from the project root
+    from server.weatherService import *
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 

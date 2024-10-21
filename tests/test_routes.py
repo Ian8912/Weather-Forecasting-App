@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from app import app
+from server.app import app
 
 @pytest.fixture
 def client():
