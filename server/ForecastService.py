@@ -53,9 +53,9 @@ class ForecastService():
     def getCloudCover(self) -> list:
         pass
 
-    def kmh_to_ms(self, speed_kmh):
+    def kmh_to_ms(self, speed_kmh) -> list[int]:
         # Conversion factor: 1 km/h = 5/18 m/s
-        return speed_kmh * (5 / 18)
+        return round(speed_kmh * (5 / 18), 1)
 
     def getWindSpeeds(self) -> list:
         daily_wind_speed = self.daily.Variables(17).ValuesAsNumpy()
@@ -147,14 +147,14 @@ class ForecastService():
         return self.FinalizeData()
         
 
-obj = ForecastService(30.2672, -97.7431)
-print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTemperature()}")
-print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTemperature()}")
-print(f"SERVICE PRINTING AVG TEMP: {obj.getAverageTemperature_Helper()}")
-print(f"SERVICE PRINTING DATES: {obj.getDates()}")
-print(f"SERVICE PRINTING DESCRIPTIONS: {obj.getPrecitpitationDescription()}")
-print(f"SERVICE PRINTING WINDSPEED: {obj.getWindSpeeds()}")
-print(f"SERVICE PRINTING WINDSPEED DESCRIPTIONS: {obj.getWindDescriptions()}")
+# obj = ForecastService(30.2672, -97.7431)
+# print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTemperature()}")
+# print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTemperature()}")
+# print(f"SERVICE PRINTING AVG TEMP: {obj.getAverageTemperature_Helper()}")
+# print(f"SERVICE PRINTING DATES: {obj.getDates()}")
+# print(f"SERVICE PRINTING DESCRIPTIONS: {obj.getPrecitpitationDescription()}")
+# print(f"SERVICE PRINTING WINDSPEED: {obj.getWindSpeeds()}")
+# print(f"SERVICE PRINTING WINDSPEED DESCRIPTIONS: {obj.getWindDescriptions()}")
 
 
 
