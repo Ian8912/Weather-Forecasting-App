@@ -7,7 +7,6 @@ export const SearchBar = ({city,
   handleCityChange,
    handleCitySelect, 
    handleWeatherSubmit,
-   hasCityBeenEntered
   }) => {
 
   const { t } = useTranslation();

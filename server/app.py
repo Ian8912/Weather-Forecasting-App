@@ -101,7 +101,7 @@ def forecast():
     if not city:
         return jsonify({"error": "City Cannot Be Found!"}), 400
     lat, lon = fetch_coordinates(city)
-    data = fetch_5day_forecast(lat, lon)
+    data = fetch_forecast_data(lat, lon)
     if not data:
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     return jsonify(data), 200

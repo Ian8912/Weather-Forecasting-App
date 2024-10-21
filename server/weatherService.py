@@ -85,6 +85,3 @@ def fetch_air_quality_data(lat, lon):
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch air quality data: " + str(e)}
     
-def fetch_5day_forecast(lat, lon):
-    forecast_service = ForecastService(lat, lon)
-    return  forecast_service.GetForecast()
