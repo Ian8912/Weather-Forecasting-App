@@ -28,7 +28,7 @@ class ForecastService():
 
         self.daily = self.WeatherData.Daily()
 
-    def calculateFahrenheit(celsiusValue: float) -> int:
+    def calculateFahrenheit(self, celsiusValue: float) -> int:
         return int((celsiusValue * (9/5)) + 32)
     
     def getDates(self) -> list:
@@ -40,11 +40,15 @@ class ForecastService():
         )}
         return [date.strftime('%m-%d-%m') for date in daily_data['date']]
 
-    def getMinTempature(self) -> list:
-        pass
+    def getMinTempature(self) -> list[list[int, int]]:
+        min_daily_temperatures = self.daily.Variables(2).ValuesAsNumpy()
+
+        return [[int(temp), self.calculateFahrenheit(temp)] for temp in min_daily_temperatures]
 
     def getMaxTempature(self) -> list:
-        pass
+        max_daily_tempatures = self.daily.Variables(1).ValuesAsNumpy()
+
+        return [[int(temp), self.calculateFahrenheit(temp)] for temp in max_daily_tempatures]
 
     def getCloudCover(self) -> list:
         pass
@@ -74,6 +78,8 @@ class ForecastService():
 
 obj = ForecastService(30.2672, -97.7431)
 print(f"SERVICE PRINTING DATES: {obj.getDates()}")
+print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTempature()}")
+print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTempature()}")
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
