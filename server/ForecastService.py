@@ -40,12 +40,12 @@ class ForecastService():
         )}
         return [date.strftime('%m-%d-%m') for date in daily_data['date']]
 
-    def getMinTempature(self) -> list[list[int, int]]:
+    def getMinTemperature(self) -> list[list[int, int]]:
         min_daily_temperatures = self.daily.Variables(2).ValuesAsNumpy()
 
         return [[int(temp), self.calculateFahrenheit(temp)] for temp in min_daily_temperatures]
 
-    def getMaxTempature(self) -> list:
+    def getMaxTemperature(self) -> list:
         max_daily_tempatures = self.daily.Variables(1).ValuesAsNumpy()
 
         return [[int(temp), self.calculateFahrenheit(temp)] for temp in max_daily_tempatures]
@@ -58,16 +58,40 @@ class ForecastService():
 
     def getWindDescription(self) -> list:
         pass
+    
+    def getAverageTemperature_Helper(self) -> list:
+        min_temps = self.getMinTemperature()  # Call the method to get the list
+        max_temps = self.getMaxTemperature()
+        return [[int((_min[0] + _max[0])/2)] for _min, _max in zip(min_temps, max_temps)]
+
+    def precipiationDescription_Helper(self, precipitation, temperature) -> int:
+        if precipitation == 0:
+            return f"No {'snow' if temperature <= 0 else 'rain'}"
+        elif precipitation < 2.5:
+            return f"Light {'snow' if temperature <= 0 else 'rain'}"
+        elif precipitation < 7.6:
+            return f"Moderate {'snow' if temperature <= 0 else 'rain'}"
+        else:
+            return f"Heavy {'snow' if temperature <= 0 else 'rain'}"
 
     def getPrecitpitationDescription(self) -> list:
-        pass
+        descriptions = []
+        daily_precipitation_values = self.daily.Variables(11).ValuesAsNumpy()
+        avg_temps = self.getAverageTemperature_Helper()
+        for precipitate, temperature in zip(daily_precipitation_values, avg_temps):
+            print(f"{precipitate} {temperature}")
+            descriptions.append(self.precipiationDescription_Helper(precipitate, temperature[0]))
+
+        return descriptions
+
+        
 
     def GetForecast(self) -> dict:
         return {
             "data": {
                 "date" : self.getDates(),
-                "minTemp" : self.getMinTempature(),
-                "maxTemp" : self.getMaxTempature(),
+                "minTemp" : self.getMinTemperature(),
+                "maxTemp" : self.getMaxTemperature(),
                 "cloudCover" : self.getCloudCover(),
                 "windSpeed" : self.getWindSpeed(),
                 "windDescription" : self.getWindDescription(),
@@ -76,10 +100,14 @@ class ForecastService():
         }
         
 
-# obj = ForecastService(30.2672, -97.7431)
-# print(f"SERVICE PRINTING DATES: {obj.getDates()}")
-# print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTempature()}")
-# print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTempature()}")
+obj = ForecastService(30.2672, -97.7431)
+print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTemperature()}")
+print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTemperature()}")
+print(obj.getAverageTemperature_Helper())
+print(f"SERVICE PRINTING DATES: {obj.getDates()}")
+print(f"SERVICE PRINTING Descriptions: {obj.getPrecitpitationDescription()}")
+
+
 
 # # Setup the Open-Meteo API client with cache and retry on error
 # cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
