@@ -19,7 +19,7 @@ def fetch_weather_data(lat, lon):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        return {"error": "Failed to fetch weather data: " + str(e)}
+        return {"error": "Failed to fetch weather data: " + str(e)}  # Return standardized error message
     
 # Function to fetch geocoding data by city
 def fetch_geo_data(city):
