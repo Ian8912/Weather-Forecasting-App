@@ -179,6 +179,10 @@ function App() {
             <p className="text-lg">{t('Condition')}: {weatherData.description}</p>
             <p className="text-lg">{t('Humidity')}: {weatherData.humidity}%</p>
             <p className="text-lg">{t('Wind Speed')}: {weatherData.wind_speed} m/s</p>
+            <p className="text-lg">
+              UV Index: {weatherData.uv_index || 'N/A'} {/* Add a fallback for UV Index */}
+            </p>
+            <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
           </div>
         </div>
       </section>
@@ -198,7 +202,7 @@ function App() {
             {/* Hamburger Menu for Mobile */}
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xlmns="https://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLineJoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </button>
   
