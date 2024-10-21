@@ -1,31 +1,7 @@
-<<<<<<< HEAD
-import React from 'react'
-import { useTranslation } from 'react-i18next';
-
-const FeatureDisplaySection = () => {
-  const { t } = useTranslation(); // Translation function
-  return (
-    <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
-      <div className="container mx-auto">
-              <h3 className="text-3xl font-bold text-center mb-8">{t('Features')}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                  <h4 className="text-xl font-semibold">{t('Accurate Forecasts')}</h4>
-                  <p className="mt-4">{t('Get up-to-the-minute weather reports based on your location.')}</p>
-                </div>
-                <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                  <h4 className="text-xl font-semibold">{t('Interactive Maps')}</h4>
-                  <p className="mt-4">{t('Visualize weather patterns with dynamic weather maps.')}</p>
-                </div>
-                <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                  <h4 className="text-xl font-semibold">{t('Alerts & Warnings')}</h4>
-                  <p className="mt-4">{t('Receive timely alerts on severe weather conditions in your area.')}</p>
-                </div>
-              </div>
-=======
 import React, { useEffect, useState } from 'react';
 import ReactMapGL, {Source, Layer} from 'react-map-gl';
 import Modal from 'react-modal';  // Import react-modal
+import { useTranslation } from 'react-i18next';
 
 const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
@@ -37,6 +13,7 @@ const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 Modal.setAppElement('#root');
 
 const FeatureDisplaySection = () => {
+  const { t } = useTranslation(); // Translation function
   const [activeFeature, setActiveFeature] = useState(null);
   const [viewport, setViewport] = useState({
     latitude: 30.2672,
@@ -145,7 +122,7 @@ const FeatureDisplaySection = () => {
     <>
       <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
         <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
+          <h3 className="text-3xl font-bold text-center mb-8">{t('Features')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Accurate Forecasts Card */}
@@ -153,8 +130,8 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('forecasts')}
             >
-              <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
-              <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
+              <h4 className="text-xl font-semibold">{t('Accurate Forecasts')}</h4>
+              <p className="mt-4">{t('Get up-to-the-minute weather reports based on your location.')}</p>
             </div>
 
             {/* Interactive Maps Card */}
@@ -162,8 +139,8 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('maps')}  // Trigger the modal when this card is clicked
             >
-              <h4 className="text-xl font-semibold">Interactive Maps</h4>
-              <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
+              <h4 className="text-xl font-semibold">{t('Interactive Maps')}</h4>
+              <p className="mt-4">{t('Visualize weather patterns with dynamic weather maps.')}</p>
             </div>
 
             {/* Alerts & Warnings Card */}
@@ -171,11 +148,10 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('alerts')}
             >
-              <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
-              <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
+              <h4 className="text-xl font-semibold">{t('Alerts & Warnings')}</h4>
+              <p className="mt-4">{t('Receive timely alerts on severe weather conditions in your area.')}</p>
             </div>
           </div>
->>>>>>> b5a1a7a26d81014b4ef926333f33880976772407
         </div>
       </section>
 
@@ -215,7 +191,7 @@ const FeatureDisplaySection = () => {
           fontSize: '14px',
           textAlign: 'center',
         }}>
-          To close map, click outside the modal.
+          {t('To close map, click outside the modal.')}
         </div>
 
         {/* Legend to toggle layers */}
