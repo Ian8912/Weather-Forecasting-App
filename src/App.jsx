@@ -9,8 +9,6 @@ import errorService from './errorService';
 import { useTranslation } from 'react-i18next';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
-import { ForecastDisplay } from './components/ForecastDisplay';
-import { SearchBar } from './components/SearchBar';
 
 
 // Functional component for the loading spinner
