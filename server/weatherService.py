@@ -57,6 +57,21 @@ def fetch_forecast_data(lat, lon):
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to find forecast for this city: " + str(e)}
 
+
+def fetch_coordinates(city):
+    try:
+        url = f"{GEO_URL}?q={city}&limit=1&appid={WEATHER_API_KEY}"
+        res = requests.get(url)
+        res.raise_for_status()
+        data = res.json()
+        if data and len(data) > 0:
+            return data[0]['lat'], data[0]['lon']
+        else:
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching coordinates: {e}")
+        return {"error": f"Failed to find forecast for this location: {e}"}
+
 # Function to fetch air quality data by coordinates
 def fetch_air_quality_data(lat, lon):
     air_quality_url = f"{AIR_QUALITY_URL}?lat={lat}&lon={lon}&appid={WEATHER_API_KEY}"

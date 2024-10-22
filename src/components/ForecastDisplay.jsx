@@ -1,62 +1,42 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
+import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = () => {
+export const ForecastDisplay = ({city}) => {
 
-    const forecastData = [
-        {
-            date: "Monday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Tuesday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Wednsday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Thursday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-        {
-            date: "Friday",
-            condition: "Wet",
-            highTemp: 72,
-            lowTemp: 56,
-            humidity: 40,
-            windSpeed: 2
-        }, 
-    ]
+    const [forecastData, setForecastData] = useState([])
+
+    useEffect(() => {
+        const fetchForecast = async () => {
+            try {
+              const response = await fetch(`http://localhost:5000/forecast?city=${city}`, {
+                method: 'GET', // Make sure it's a GET request
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+      
+              if (!response.ok) {
+                throw new Error('Failed to fetch forecast data');
+              }
+      
+              const data = await response.json();
+              console.log(data);
+              
+              //setForecastData(data.list); // Assuming the forecast data contains a 'list' array
+            } catch (error) {
+              setError(error.message);
+            }
+          };
+      
+          fetchForecast();
+        }, [city]); // This hook will trigger whenever the city prop changes
+      
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
     {forecastData.map((day, index) => (
-      <div key={index} className="weather-card">
-        <h3 className="text-xl font-bold">{day.date}</h3>
-        <p className="text-lg">{day.condition}</p>
-        <img src={day.icon} alt={day.condition} className="mx-auto" />
-        <p className="text-lg">High: {day.highTemp}°F / {day.highTempC}°C</p>
-        <p className="text-lg">Low: {day.lowTemp}°F / {day.lowTempC}°C</p>
-        <p className="text-lg">Humidity: {day.humidity}%</p>
-        <p className="text-lg">Wind Speed: {day.windSpeed} m/s</p>
-      </div>
+      <ForcastCard key={index} day={day} />
     ))}
   </div>
   )
