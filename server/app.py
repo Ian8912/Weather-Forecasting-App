@@ -86,7 +86,6 @@ def city_suggestions():
 @app.route('/coords/<float:lat>/<float:long>/', methods=['GET'])
 def weatherFromCoords(lat, long):
     weather_data = fetch_weather_data(lat, long)
-    print(weather_data)
     if 'error' in weather_data:
         return jsonify(weather_data), 500
 

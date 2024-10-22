@@ -1,15 +1,23 @@
 import React from 'react'
 
-export const ForcastCard = (day) => {
+export const ForcastCard = ({ 
+  date,
+  maxC,
+  maxF,
+  minC,
+  minF,
+  precipitationDescription,
+  winddescription,
+  windspeed
+ }) => {
   return (
     <div className="weather-card">
-        <h3 className="text-xl font-bold">{day.date}</h3>
-        <p className="text-lg">{day.condition}</p>
-        <img src={day.icon} alt={day.condition} className="mx-auto" />
-        <p className="text-lg">High: {day.highTemp}°F / {day.highTempC}°C</p>
-        <p className="text-lg">Low: {day.lowTemp}°F / {day.lowTempC}°C</p>
-        <p className="text-lg">Humidity: {day.humidity}%</p>
-        <p className="text-lg">Wind Speed: {day.windSpeed} m/s</p>
+        <h3 className="text-xl font-bold">{date}</h3>
+        <p className="text-lg">High: {maxF}°F / {maxC}°C</p>
+        <p className="text-lg">Low: {minF}°F / {minC}°C</p>
+        <p className="text-lg">Wind Speed: {windspeed} m/s</p>
+        <p className="text-lg">Wind Description: {winddescription}</p>
+        <p className="text-lg">Precipitation: {precipitationDescription}</p>
       </div>
   )
 }

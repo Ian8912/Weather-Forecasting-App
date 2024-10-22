@@ -21,6 +21,7 @@ const LoadingSpinner = () => (
 
 function App() {
   const { t } = useTranslation(); // Translation function
+  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -145,15 +146,18 @@ function App() {
 
     // Fetch weather data using lat and lon
     setLoading(true);
+    setCityHasBeenEntered(true)
     fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
         setWeatherData({ ...data, ...locationDetails }); // Merge weather data with location details
         setLoading(false); // Stop loading after data is fetched
+        
       })
       .catch((error) => {
         console.error('Error fetching weather data:', error);
         setLoading(false); // Stop loading even if there's an error
+        setCityHasBeenEntered(false)
       });
   };
 
@@ -254,8 +258,9 @@ function App() {
           setCity={setCity} 
           handleCityChange={handleCityChange} 
           handleCitySelect={handleCitySelect} 
-          handleWeatherSubmit={handleWeatherSubmit}/>
-  
+          handleWeatherSubmit={handleWeatherSubmit}
+          hasCityBeenEntered={setCityHasBeenEntered}
+          />
         {/* Conditional rendering for loading spinner and weather data */}
     <>
       {loading ? (
@@ -263,7 +268,7 @@ function App() {
       ) : weatherData ? (
         <> 
           <RenderWeatherData weatherData={weatherData} />
-          {city && <ForecastDisplay city={city}/>}
+          {cityHasBeenEntered && <ForecastDisplay city={city}/>}
           
         </>
         

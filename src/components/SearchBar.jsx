@@ -1,7 +1,13 @@
 import React from 'react'
 import errorService from '../errorService';
 import { useTranslation } from 'react-i18next';
-export const SearchBar = ({city, suggestions, errorMessage, setcity, handleCityChange, handleCitySelect, handleWeatherSubmit}) => {
+export const SearchBar = ({city, 
+  suggestions, 
+  errorMessage, setcity, 
+  handleCityChange,
+   handleCitySelect, 
+   handleWeatherSubmit,
+  }) => {
 
   const { t } = useTranslation();
   const handleKeyPress = (e) => {

@@ -1,7 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
-
+from ForecastService import *
 # Load environment variables
 load_dotenv()
 
@@ -64,6 +64,7 @@ def fetch_coordinates(city):
         res = requests.get(url)
         res.raise_for_status()
         data = res.json()
+   
         if data and len(data) > 0:
             return data[0]['lat'], data[0]['lon']
         else:
@@ -83,3 +84,4 @@ def fetch_air_quality_data(lat, lon):
         return {'air_quality_index': aqi}
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch air quality data: " + str(e)}
+    
