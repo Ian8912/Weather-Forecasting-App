@@ -6,6 +6,7 @@ import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
 import errorService from './errorService';
+import FeedbackModal from './components/FeedbackModal';
 
 
 // Functional component for the loading spinner
@@ -367,7 +368,7 @@ function App() {
           </button>
         </footer>
       </div>
-      
+
       <FeedbackModal isVisible={isModalVisible} onClose={handleCloseModal} />
     </div>
   );
