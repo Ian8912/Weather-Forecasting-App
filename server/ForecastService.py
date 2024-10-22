@@ -17,7 +17,7 @@ class ForecastService():
         params = {
             "latitude": latitude,
             "longitude": longitude,
-            "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "daylight_duration", "sunshine_duration", "uv_index_max", "uv_index_clear_sky_max", "precipitation_sum", "rain_sum", "showers_sum", "snowfall_sum", "precipitation_hours", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant", "shortwave_radiation_sum", "et0_fao_evapotranspiration"],
+            "daily": ["cloudcover", "weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "daylight_duration", "sunshine_duration", "uv_index_max", "uv_index_clear_sky_max", "precipitation_sum", "rain_sum", "showers_sum", "snowfall_sum", "precipitation_hours", "precipitation_probability_max", "wind_speed_10m_max", "wind_gusts_10m_max", "wind_direction_10m_dominant", "shortwave_radiation_sum", "et0_fao_evapotranspiration"],
             "timezone": "auto",
             "models": "gfs_seamless"
         }
@@ -51,7 +51,9 @@ class ForecastService():
         return [[int(temp), self.calculateFahrenheit(temp)] for temp in max_daily_tempatures]
 
     def getCloudCover(self) -> list:
-        pass
+        daily_weather_code = self.daily.Variables(0).ValuesAsNumpy()
+        print(daily_weather_code)
+
 
     def kmh_to_ms(self, speed_kmh) -> list[int]:
         # Conversion factor: 1 km/h = 5/18 m/s
@@ -147,7 +149,8 @@ class ForecastService():
         return self.FinalizeData()
         
 
-# obj = ForecastService(30.2672, -97.7431)
+obj = ForecastService(30.2672, -97.7431)
+obj.getCloudCover()
 # print(f"SERVICE PRINTING MIN TEMP: {obj.getMinTemperature()}")
 # print(f"SERVICE PRINTING MAX TEMP: {obj.getMaxTemperature()}")
 # print(f"SERVICE PRINTING AVG TEMP: {obj.getAverageTemperature_Helper()}")
