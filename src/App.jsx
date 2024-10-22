@@ -29,6 +29,7 @@ function App() {
   const [city, setCity] = useState(''); // Update state in app to handle city input
   const [suggestions, setSuggestions] = useState([]) // City suggestions
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
@@ -167,6 +168,14 @@ function App() {
     e.preventDefault();
     console.log('Submitting feedback form:', formData);
     // Handle form submission logic for feedback form here (e.g., send data to the server)
+  };
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
   };
 
   // Define the inline function to render weather data
@@ -353,6 +362,12 @@ function App() {
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
           <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <button
+            onClick={handleOpenModal}
+            className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg"
+          >
+            Give Feedback
+          </button>
         </footer>
       </div>
     </div>
