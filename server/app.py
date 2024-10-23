@@ -105,6 +105,7 @@ def forecast():
     data = forecast_servicer.GetForecast()
     if not data:
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
+    print(data)
     return jsonify(data), 200
 
 if __name__ == '__main__':
