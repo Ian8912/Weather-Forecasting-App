@@ -23,10 +23,7 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
               if (!response.ok) {
                 throw new Error('Failed to fetch forecast data');
               }
-      
-              const data = await response.json();
-              console.log(data);
-              
+              const data = await response.json();          
               setForecastData(data); // Assuming the forecast data contains a 'list' array
             } catch (error) {
               setError(error.message);
@@ -42,7 +39,7 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
     {forecastData ? forecastData.map((day, index) => (
       <ForcastCard key={index} 
-        icon={"Hello"}
+        icon={IconServicer.OpenMeteoForecastingIcons(day.precipitateDescription, day.winddescription)}
         date={day.date}
         maxC={day.maxC}
         maxF={day.maxF}

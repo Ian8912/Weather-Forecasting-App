@@ -1,15 +1,18 @@
+import React from "react";
+import OpenWeatherIcon from "./components/OpenWeatherIcon";
+
 class WeatherIconService {
 
     constructor(){}
 
     OpenMeteoPrecipitateIconMapping = {
-        "No rain": "no_rain.png",
-        "Light rain": "light_rain.png",
-        "Moderate rain": "moderate_rain.png",
-        "Heavy rain": "heavy_rain.png",
-        "Light snow": "light_snow.png",
-        "Moderate snow": "moderate_snow.png",
-        "Heavy snow": "heavy_snow.png",
+        "No rain": "01d",
+        "Light rain": "10d",
+        "Moderate rain": "10d",   
+        "Heavy rain": "10d",
+        "Light snow": "13d",                       
+        "Moderate snow": "13d", 
+        "Heavy snow": "13d",                       
         // Add more mappings as needed
     };
 
@@ -23,17 +26,26 @@ class WeatherIconService {
     };
 
     OpenMeteoForecastingIcons(precipitateDescription, windDescription) {
-        const precipitateIcon = this.OpenMeteoPrecipitateIconMapping[precipitateDescription] || "default_precipitate.png";
+        const precipitateIconID = this.OpenMeteoPrecipitateIconMapping[precipitateDescription] || "default_precipitate.png";
         const windIcon = this.OpenMeteoWindIconMapping[windDescription] || "default_wind.png";
 
         return {
-            precipitateIcon: `/images/static/${precipitateIcon}`,
-            windIcon: `/images/static/${windIcon}`
+            precipitateIcon: `https://openweathermap.org/img/wn/${precipitateIconID}@2x.png`
         };
         
     }
 
-    OpenWeatherIcons(OpenWeatherDescription) {
+    OpenWeatherIcons(OpenWeatherID) {
+        try {
+            const iconUrl = `https://openweathermap.org/img/wn/${OpenWeatherID}@2x.png`
+            const res = fetch(iconUrl)
+            if (!res.ok)
+                throw new Error(`Image not found for ID: ${OpenWeatherID}`)
+
+            return iconUrl
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 

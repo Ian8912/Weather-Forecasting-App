@@ -54,7 +54,6 @@ class ForecastService():
         daily_weather_code = self.daily.Variables(0).ValuesAsNumpy()
         print(daily_weather_code)
 
-
     def kmh_to_ms(self, speed_kmh) -> list[int]:
         # Conversion factor: 1 km/h = 5/18 m/s
         return round(speed_kmh * (5 / 18), 1)
@@ -117,7 +116,6 @@ class ForecastService():
         daily_precipitation_values = self.daily.Variables(11).ValuesAsNumpy()
         avg_temps = self.getAverageTemperature_Helper()
         for precipitate, temperature in zip(daily_precipitation_values, avg_temps):
-            print(f"{precipitate} {temperature}")
             descriptions.append(self.precipiationDescription_Helper(precipitate, temperature[0]))
 
         return descriptions

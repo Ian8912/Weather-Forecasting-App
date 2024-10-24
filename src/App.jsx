@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import errorService from './errorService';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
+import WeatherIconService from './WeatherIconService';
+import OpenWeatherIcon from './components/OpenWeatherIcon';
 import FeedbackModal from './components/FeedbackModal';
 
 
@@ -48,6 +50,8 @@ function App() {
         return handledResponse.json();
       })
       .then((data) => {
+        console.log(data);
+        
         setWeatherData(data);
         setLoading(false);
       })
@@ -215,6 +219,7 @@ function App() {
             <p className="text-lg">
               UV Index: {weatherData.uv_index || 'N/A'}
             </p>
+            <OpenWeatherIcon id={weatherData.openweathericonid}/>
             <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
           </div>
         </div>

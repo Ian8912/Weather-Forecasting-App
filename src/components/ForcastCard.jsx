@@ -1,4 +1,5 @@
 import React from 'react'
+import WeatherIconService from '../WeatherIconService';
 
 export const ForcastCard = ({ 
   icon,
@@ -59,6 +60,8 @@ export const ForcastCard = ({
         <p className="text-lg">Wind Speed: {windspeed} m/s</p>
         <p className="text-lg">Wind Description: {winddescription}</p>
         <p className="text-lg">Precipitation: {precipitationDescription}</p>
+        {console.log(icon)}
+        <img src={icon.precipitateIcon} alt='Weather Icon'/>
       </div>
   )
 }
