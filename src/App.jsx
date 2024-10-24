@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css'
 import CoordinateInputCard from './components/CoordinateInputCard';
 import FeatureDisplaySection from './components/FeatureDisplaySection';
-import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
 import errorService from './errorService';
@@ -11,6 +10,7 @@ import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
 import WeatherIconService from './WeatherIconService';
 import OpenWeatherIcon from './components/OpenWeatherIcon';
+import FeedbackForm from './components/FeedbackForm';
 
 
 // Functional component for the loading spinner
@@ -25,11 +25,7 @@ function App() {
   const { t } = useTranslation(); // Translation function
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    feedback: ''
-  });
+  
   
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); // Loading state to track data fetching
@@ -214,48 +210,7 @@ function App() {
     <div className={`flex-col ${darkMode ? 'dark' : ''}`}>
       <div className="p-12 bg-white dark:bg-[#0f172a]">
         {/* Navbar */}
-        <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold">WeatherLink</h1>
-  
-            {/* Hamburger Menu for Mobile */}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xlmns="https://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-  
-            {/* Links for Larger Screens */}
-            <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} 
-                  className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          </div>
-  
-          {menuOpen && (
-            <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} 
-                  className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          )}
-        </nav>
-  
+        <Navbar />
         {/* Weather Form Section */}
         <SearchBar 
           city={city} 
@@ -290,58 +245,7 @@ function App() {
         <FeatureDisplaySection />
 
         {/* Feedback Form Section */}
-        <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
-          <div className="container mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{t('Feedback Form')}</h3>
-            <form onSubmit={handleFeedbackSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-                {t('Name')}
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-                {t('Email')}
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-                {t('Feedback')}
-                </label>
-                <textarea
-                  id="feedback"
-                  name="feedback"
-                  value={formData.feedback}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
-              >
-                {t('Submit')}
-              </button>
-            </form>
-          </div>
-        </section>
-
+        <FeedbackForm />
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
           <p>&copy; {t('2024 WeatherLink. All rights reserved.')}</p>
