@@ -237,9 +237,6 @@ function App() {
         <p className="text-center">{t('No weather data available.')}</p>
       )}
     </>
-   
-
-      <CoordinateInputCard />
   
         {/* Features Section */}
         <FeatureDisplaySection />
