@@ -9,6 +9,8 @@ import errorService from './errorService';
 import { useTranslation } from 'react-i18next';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
+import WeatherIconService from './WeatherIconService';
+import OpenWeatherIcon from './components/OpenWeatherIcon';
 
 
 // Functional component for the loading spinner
@@ -46,6 +48,8 @@ function App() {
         return handledResponse.json();
       })
       .then((data) => {
+        console.log(data);
+        
         setWeatherData(data);
         setLoading(false);
       })
@@ -178,10 +182,11 @@ function App() {
   };
 
   // Define the inline function to render weather data
-  const RenderWeatherData = ({ weatherData }) => {
+  const RenderWeatherData =  ({ weatherData }) => {
     if (!weatherData) {
       return <p>{t('No weather data available. Please enter a city to check the weather.')}</p>;
     }
+
   
     return (
       <section className="py-8">
@@ -195,6 +200,7 @@ function App() {
             <p className="text-lg">
               UV Index: {weatherData.uv_index || 'N/A'} {/* Add a fallback for UV Index */}
             </p>
+            <OpenWeatherIcon id={weatherData.openweathericonid}/>
             <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
           </div>
         </div>
