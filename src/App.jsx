@@ -12,6 +12,7 @@ import WeatherIconService from './WeatherIconService';
 import OpenWeatherIcon from './components/OpenWeatherIcon';
 import FeedbackForm from './components/FeedbackForm';
 import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
+import { RenderWeatherData } from './components/RenderWeatherData';
 
 
 // Functional component for the loading spinner
@@ -198,21 +199,20 @@ function App() {
           hasCityBeenEntered={setCityHasBeenEntered}
           />
         {/* Conditional rendering for loading spinner and weather data */}
-    <>
-      {loading ? (
-        <LoadingSpinner />
-      ) : weatherData ? (
-        <> 
-          <CurrentWeatherDataDisplay weatherData={weatherData} />
-          {cityHasBeenEntered && <ForecastDisplay city={city} cityhasBeenEntered={cityHasBeenEntered} errorMessage={errorMessage} setError={setErrorMessage} />}
+    
+      
+        <RenderWeatherData  
+            weatherData={weatherData}
+            city={city}
+            cityHasBeenEntered={cityHasBeenEntered}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+            loading={loading}
+        />
+
           
-        </>
-        
-      ) : (
-        <p className="text-center">{t('No weather data available.')}</p>
-      )}
-    </>
-  
+    
+   
         {/* Features Section */}
         <FeatureDisplaySection />
 
