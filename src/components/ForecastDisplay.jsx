@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = ({city, cityhasBeenEntered}) => {
+export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setError}) => {
 
     const [forecastData, setForecastData] = useState([])
 
@@ -31,12 +31,12 @@ export const ForecastDisplay = ({city, cityhasBeenEntered}) => {
           
           if (cityhasBeenEntered && city && city.trim())
             fetchForecast();
-        }, [city]); // This hook will trigger whenever the city prop changes
+        }, [city, errorMessage]); 
       
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
-    {forecastData && forecastData.map((day, index) => (
+    {forecastData ? forecastData.map((day, index) => (
       <ForcastCard key={index} 
         date={day.date}
         maxC={day.maxC}
@@ -48,7 +48,9 @@ export const ForecastDisplay = ({city, cityhasBeenEntered}) => {
         windspeed={day.windspeed}
       
       />
-    ))}
+    )) : 
+    <p>{errorMessage}</p>
+    }
   </div>
   )
 }

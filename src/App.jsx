@@ -268,7 +268,7 @@ function App() {
       ) : weatherData ? (
         <> 
           <RenderWeatherData weatherData={weatherData} />
-          {cityHasBeenEntered && <ForecastDisplay city={city} cityhasBeenEntered={cityHasBeenEntered} />}
+          {cityHasBeenEntered && <ForecastDisplay city={city} cityhasBeenEntered={cityHasBeenEntered} errorMessage={errorMessage} setError={setErrorMessage} />}
           
         </>
         
