@@ -57,7 +57,7 @@ export const ForcastCard = ({
         <h3 className="text-2xl font-bold mb-4">{formatDate(date)}</h3>
         <img src={icon.precipitateIcon} alt="Weather Icon" className="w-24 h-24 mb-4" />
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-3 w-full">
             <div className="text-lg flex justify-between w-full">
               <span>High:</span>
               <span>{maxF}°F / {maxC}°C</span>

@@ -36,8 +36,9 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
       
 
   return (
-    <div className="container flex-center flex mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
+    <div className="container flex flex-wrap justify-center items-center mx-auto gap-5">
     {forecastData ? forecastData.map((day, index) => (
+      
       <ForcastCard key={index} 
         icon={IconServicer.OpenMeteoForecastingIcons(day.precipitateDescription, day.winddescription)}
         date={day.date}
