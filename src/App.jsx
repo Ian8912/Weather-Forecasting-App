@@ -205,16 +205,17 @@ function App() {
     return (
       <section className="py-8">
         <div className="container mx-auto text-center">
-          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">Condition: {weatherData.description}</p>
-            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
+          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg items-center flex flex-col">
+            <h3 className="text-2xl font-bold">{t('Weather for ')} {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <OpenWeatherIcon id={weatherData.openweathericonid}/>
+            <p className="text-lg">{t('Temperature')}: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">{t('Condition')}: {weatherData.description}</p>
+            <p className="text-lg">{t('Humidity')}: {weatherData.humidity}%</p>
+            <p className="text-lg">{t('Wind Speed')}: {weatherData.wind_speed} m/s</p>
             <p className="text-lg">
               UV Index: {weatherData.uv_index || 'N/A'}
             </p>
-            <OpenWeatherIcon id={weatherData.openweathericonid}/>
+            
             <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
           </div>
         </div>

@@ -6,13 +6,13 @@ class WeatherIconService {
     constructor(){}
 
     OpenMeteoPrecipitateIconMapping = {
-        "No rain": "01d",
-        "Light rain": "10d",
-        "Moderate rain": "10d",   
-        "Heavy rain": "10d",
-        "Light snow": "13d",                       
-        "Moderate snow": "13d", 
-        "Heavy snow": "13d",                       
+        "No rain": "01n",
+        "Light rain": "10n",
+        "Moderate rain": "10n",   
+        "Heavy rain": "10n",
+        "Light snow": "13n",                       
+        "Moderate snow": "13n", 
+        "Heavy snow": "13n",                       
         // Add more mappings as needed
     };
 
