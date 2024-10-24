@@ -133,14 +133,14 @@ class ForecastService():
         for date, minT, maxT, precipitateDesc, windDesc, windSpeed in zip(dates, min_temps, max_temps, precipitate_descriptions, wind_descriptions, wind_speeds):
             data.append(
                 {
-                    "date" : date,
-                    "minC" : minT[0],
-                    "minF" : minT[1],
-                    "maxC" : maxT[0],
-                    "maxF" : maxT[1],
-                    "precipitateDescription" : precipitateDesc,
-                    "winddescription" : windDesc,
-                    "windspeed" : windSpeed
+                    "date" : str(date),
+                    "minC" : str(minT[0]),
+                    "minF" : str(minT[1]),
+                    "maxC" : str(maxT[0]),
+                    "maxF" : str(maxT[1]),
+                    "precipitateDescription" : str(precipitateDesc),
+                    "winddescription" : str(windDesc),
+                    "windspeed" : float(windSpeed)
                 }
             )
         return data
