@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = ({city}) => {
+export const ForecastDisplay = ({city, cityhasBeenEntered}) => {
 
     const [forecastData, setForecastData] = useState([])
 
@@ -28,8 +28,9 @@ export const ForecastDisplay = ({city}) => {
               setError(error.message);
             }
           };
-      
-          fetchForecast();
+          
+          if (cityhasBeenEntered && city && city.trim())
+            fetchForecast();
         }, [city]); // This hook will trigger whenever the city prop changes
       
 
