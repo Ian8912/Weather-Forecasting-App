@@ -47,21 +47,38 @@ export const ForcastCard = ({
 
     const formattedDay = `${parseInt(day)}${daySuffix}`;
     const monthName = monthMap[month] || 'Invalid Month';
-    const formattedDate = `${monthName} ${formattedDay}, 20${year}`;
+    const formattedDate = `${monthName} ${formattedDay}`;
     
     return formattedDate;
   };
 
   return (
-    <div className="weather-card">
-        <h3 className="text-xl font-bold">{formatDate(date)}</h3>
-        <p className="text-lg">High: {maxF}°F / {maxC}°C</p>
-        <p className="text-lg">Low: {minF}°F / {minC}°C</p>
-        <p className="text-lg">Wind Speed: {windspeed} m/s</p>
-        <p className="text-lg">Wind Description: {winddescription}</p>
-        <p className="text-lg">Precipitation: {precipitationDescription}</p>
-        {console.log(icon)}
-        <img src={icon.precipitateIcon} alt='Weather Icon'/>
-      </div>
+    <div className="weather-card bg-blue-50 rounded-3xl shadow-2xl p-6 flex flex-col items-center text-center hover:scale-110">
+        <h3 className="text-2xl font-bold mb-4">{formatDate(date)}</h3>
+        <img src={icon.precipitateIcon} alt="Weather Icon" className="w-24 h-24 mb-4" />
+
+        <div className="flex flex-col gap-2 w-full">
+            <div className="text-lg flex justify-between w-full">
+              <span>High:</span>
+              <span>{maxF}°F / {maxC}°C</span>
+            </div>
+            <div className="text-lg flex justify-between w-full">
+              <span>Low:</span>
+              <span>{minF}°F / {minC}°C</span>
+            </div>
+            <div className="text-lg flex justify-between w-full">
+              <span>Wind Speed:</span>
+              <span>{windspeed} m/s</span>
+            </div>
+            <div className="text-lg flex justify-between w-full">
+              <span>Wind:</span>
+              <span>{winddescription}</span>
+            </div>
+            <div className="text-lg flex justify-between w-full">
+              <span>Precipitation:</span>
+              <span>{precipitationDescription}</span>
+            </div>
+        </div>
+    </div>
   )
 }

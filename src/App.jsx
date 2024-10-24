@@ -255,10 +255,7 @@ function App() {
         <p className="text-center">No weather data available.</p>
       )}
     </>
-   
-
-        <CoordinateInputCard />
-
+  
         {/* Features Section */}
         <FeatureDisplaySection />
 
