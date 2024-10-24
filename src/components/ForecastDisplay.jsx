@@ -2,9 +2,13 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
+import WeatherIconService from '../WeatherIconService'
+
 export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setError}) => {
 
     const [forecastData, setForecastData] = useState([])
+
+    const IconServicer = new WeatherIconService()
 
     useEffect(() => {
         const fetchForecast = async () => {
@@ -38,6 +42,7 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
     {forecastData ? forecastData.map((day, index) => (
       <ForcastCard key={index} 
+        icon={"Hello"}
         date={day.date}
         maxC={day.maxC}
         maxF={day.maxF}
