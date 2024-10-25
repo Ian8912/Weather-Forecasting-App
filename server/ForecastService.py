@@ -38,7 +38,7 @@ class ForecastService():
 	        freq = pd.Timedelta(seconds = self.daily.Interval()),
 	        inclusive = "left"
         )}
-        return [date.strftime('%m-%d-%y') for date in daily_data['date']]
+        return [date.strftime('%A') for date in daily_data['date']]
 
     def getMinTemperature(self) -> list[list[int, int]]:
         min_daily_temperatures = self.daily.Variables(2).ValuesAsNumpy()

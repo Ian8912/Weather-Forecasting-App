@@ -2,8 +2,38 @@ import React from 'react'
 import CurrentWeatherDataDisplay from './CurrentWeatherDataDisplay'
 import { ForecastDisplay } from './ForecastDisplay'
 import '../App.css'
+import { useState, useEffect } from 'react'
 
-export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, errorMessage, setErrorMessage, loading } ) => {
+export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, errorMessage, setErrorMessage, loading, forecastingData } ) => {
+
+    const [isFahrenheit, setIsFahrenheit] = useState(true); // State for toggling temperature
+    const [forecastData, setForecastData] = useState([]);
+
+    useEffect(() => {
+        const fetchForecast = async () => {
+            try {
+              const response = await fetch(`http://localhost:5000/forecast?city=${weatherData.city}`, {
+                method: 'GET', // Make sure it's a GET request
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+      
+              if (!response.ok) {
+                throw new Error('Failed to fetch forecast data');
+              }
+              const data = await response.json();          
+              setForecastData(data); // Assuming the forecast data contains a 'list' array
+            } catch (error) {
+              setError(error.message);
+            }
+          };
+          if(weatherData) fetchForecast();
+        },[weatherData]); 
+
+    const toggleTemperatureUnit = () => {
+        setIsFahrenheit(!isFahrenheit);
+    };
 
     const LoadingSpinner = () => (
         <div className="flex justify-center items-center py-16">
@@ -13,23 +43,25 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
       );
 
   return (
-    <>
+    <div className='containter flex flex-col items-center justify-center w-full'>
             {/* Ternary conditional for loading */}
             {loading ? (
                 <LoadingSpinner />
             ) : (
                 <>
-                    <CurrentWeatherDataDisplay weatherData={weatherData} />
-                    {cityHasBeenEntered && (
+                    <CurrentWeatherDataDisplay weatherData={weatherData} isFahrenheit={isFahrenheit} setIsFahrenheit={setIsFahrenheit} />
+                    {
+                    (
                         <ForecastDisplay 
-                            city={city} 
+                            forecastData={forecastData} 
                             cityhasBeenEntered={cityHasBeenEntered} 
                             errorMessage={errorMessage} 
                             setError={setErrorMessage} 
+                            isFahrenheit={isFahrenheit}
                         />
                     )}
                 </>
             )}
-        </>
+        </div>
   )
 }

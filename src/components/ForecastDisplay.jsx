@@ -4,44 +4,17 @@ import { ForcastCard } from './ForcastCard'
 
 import WeatherIconService from '../WeatherIconService'
 
-export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setError}) => {
+export const ForecastDisplay = ({forecastData, cityhasBeenEntered, errorMessage, setError, isFahrenheit}) => {
 
-    const [forecastData, setForecastData] = useState([])
-
-    const IconServicer = new WeatherIconService()
-
-    useEffect(() => {
-        const fetchForecast = async () => {
-            try {
-              const response = await fetch(`http://localhost:5000/forecast?city=${city}`, {
-                method: 'GET', // Make sure it's a GET request
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              });
-      
-              if (!response.ok) {
-                throw new Error('Failed to fetch forecast data');
-              }
-              const data = await response.json();          
-              setForecastData(data); // Assuming the forecast data contains a 'list' array
-            } catch (error) {
-              setError(error.message);
-            }
-          };
-          
-          if (cityhasBeenEntered && city && city.trim())
-            fetchForecast();
-        }, [city, errorMessage]); 
-      
+    const IconServicer = new WeatherIconService()      
 
   return (
     <div className="container flex flex-wrap justify-center items-center mx-auto gap-5">
     {forecastData ? forecastData.map((day, index) => (
-      
+      <>
       <ForcastCard key={index} 
         icon={IconServicer.OpenMeteoForecastingIcons(day.precipitateDescription, day.winddescription)}
-        date={day.date}
+        date={index == 0 ? day.date = "Today" : day.date}
         maxC={day.maxC}
         maxF={day.maxF}
         minC={day.minC}
@@ -49,8 +22,9 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
         precipitationDescription={day.precipitateDescription}
         winddescription={day.winddescription}
         windspeed={day.windspeed}
-      
+        isFahrenheit={isFahrenheit}
       />
+      </>
     )) : 
     <p>{errorMessage}</p>
     }

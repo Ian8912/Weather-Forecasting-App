@@ -58,7 +58,7 @@ function App() {
         setLoading(false);
       });
   };
-
+  
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -203,8 +203,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`flex-col ${darkMode ? 'dark' : ''}`}>
-      <div className="p-12 bg-white dark:bg-[#0f172a]">
+    <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
+      <div className="p-12 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
         {/* Navbar */}
         <Navbar />
         {/* Weather Form Section */}
@@ -235,9 +235,6 @@ function App() {
    
         {/* Features Section */}
         <FeatureDisplaySection />
-
-        {/* Feedback Form Section */}
-        <FeedbackForm />
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
           <p>&copy; 2024 WeatherLink. All rights reserved.</p>
