@@ -21,7 +21,7 @@ def weather():
         # Fetch additional data (UV index and air quality)
         forecast_data = fetch_forecast_data(lat, lon)
         air_quality_data = fetch_air_quality_data(lat, lon)
-
+        print(weather_data)
     
         """ REDUNDANT CODE """
     elif city:
@@ -60,6 +60,11 @@ def weather():
     temperature_celsius = round(weather_data['main']['temp'], 2)
     temperature_fahrenheit = round((temperature_celsius * 9/5) + 32, 2)
     OpenWeatherIconID = weather_data['weather'][0]['icon']
+    min_temp_celsius = round(weather_data["main"]["temp_min"])
+    min_temp_fahrenheit = round((min_temp_celsius * 9/5) + 32, 2)
+    max_temp_celsius = round(weather_data["main"]["temp_max"])
+    max_temp_fahrenheit = round((max_temp_celsius * 9/5) + 32, 2)
+
 
     data = {
         'city': city_name,
@@ -67,6 +72,10 @@ def weather():
         'country': country,
         'temperature_fahrenheit': temperature_fahrenheit,
         'temperature_celsius': temperature_celsius,
+        'min_temp_celsius' : min_temp_celsius,
+        'min_temp_fahrenheit': min_temp_fahrenheit,
+        'max_temp_celsius': max_temp_celsius,
+        'max_temp_fahrenheit': max_temp_fahrenheit,
         'description': weather_data['weather'][0]['description'],
         'humidity': weather_data['main']['humidity'],
         'wind_speed': weather_data['wind']['speed'],
