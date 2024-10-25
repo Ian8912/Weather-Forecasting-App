@@ -10,75 +10,59 @@ export const ForcastCard = ({
   minF,
   precipitationDescription,
   winddescription,
-  windspeed
+  windspeed,
+  isFahrenheit
  }) => {
 
-   // Function to format the date
-   const formatDate = (dateStr) => {
-    // Split the date string into components (MM-DD-YY)
-    const parts = dateStr.split('-');
-    
-    if (parts.length !== 3) return "Invalid date format";
-    
-    const monthMap = {
-      '01': 'January',
-      '02': 'February',
-      '03': 'March',
-      '04': 'April',
-      '05': 'May',
-      '06': 'June',
-      '07': 'July',
-      '08': 'August',
-      '09': 'September',
-      '10': 'October',
-      '11': 'November',
-      '12': 'December'
-    };
-
-    const month = parts[0];
-    const day = parts[1];
-    const year = parts[2];
-
-    // Add suffix to the day (1st, 2nd, 3rd, etc.)
-    let daySuffix = 'th';
-    if (day.endsWith('1') && !day.endsWith('11')) daySuffix = 'st';
-    else if (day.endsWith('2') && !day.endsWith('12')) daySuffix = 'nd';
-    else if (day.endsWith('3') && !day.endsWith('13')) daySuffix = 'rd';
-
-    const formattedDay = `${parseInt(day)}${daySuffix}`;
-    const monthName = monthMap[month] || 'Invalid Month';
-    const formattedDate = `${monthName} ${formattedDay}`;
-    
-    return formattedDate;
+  // Function to calculate the position of the circle on the gradient
+  const calculateCirclePosition = (currentTemp, minTemp, maxTemp) => {
+    const range = maxTemp - minTemp;
+    const positionPercent = ((currentTemp - minTemp) / range) * 100; // Calculate position in percentage
+    return positionPercent;
   };
 
-  return (
-    <div className="weather-card bg-blue-50 rounded-3xl shadow-2xl p-6 flex flex-col items-center text-center hover:scale-110">
-        <h3 className="text-2xl font-bold mb-4">{formatDate(date)}</h3>
-        <img src={icon.precipitateIcon} alt="Weather Icon" className="w-24 h-24 mb-4" />
+  const currentTempF = (minF + maxF) / 2; // For example, we're taking the average of min and max temp
+  const circlePosition = calculateCirclePosition(currentTempF, minF, maxF);
 
-        <div className="flex flex-col gap-3 w-full">
-            <div className="text-lg flex justify-between w-full">
-              <span>High:</span>
-              <span>{maxF}°F / {maxC}°C</span>
-            </div>
-            <div className="text-lg flex justify-between w-full">
-              <span>Low:</span>
-              <span>{minF}°F / {minC}°C</span>
-            </div>
-            <div className="text-lg flex justify-between w-full">
-              <span>Wind Speed:</span>
-              <span>{windspeed} m/s</span>
-            </div>
-            <div className="text-lg flex justify-between w-full">
-              <span>Wind:</span>
-              <span>{winddescription}</span>
-            </div>
-            <div className="text-lg flex justify-between w-full">
-              <span>Precipitation:</span>
-              <span>{precipitationDescription}</span>
-            </div>
+  return (
+    <div className="weather-card w-1/6 p-6 bg-white rounded-3xl  hover:shadow-2xl transition-transform hover:scale-105 flex flex-col">
+      
+      {/* Date and Icon (aligned at the top) */}
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-left text-xl font-semibold text-gray-800 dark:text-gray-100">{date}</h3>
+        <img src={icon.precipitateIcon} alt="Weather Icon" className="w-16 h-16" />
+      </div>
+
+      {/* Temperature Gradient (with low and high temperatures) */}
+      <div className="relative flex items-center mb-4">
+        <span className="text-left text-lg text-gray-600 dark:text-gray-300 w-16">{isFahrenheit ? `${minF}°F ` : `${minC}°C`}</span>
+        
+        <div className="w-full h-2 mx-2 bg-gradient-to-r from-blue-400 via-yellow-300 to-red-500 rounded-full relative">
+          {/* Circle representing the current temperature */}
+          <div
+            className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg"
+            style={{ left: `${circlePosition}%` }}
+          ></div>
         </div>
+
+        <span className="text-right text-lg text-gray-600 dark:text-gray-300 w-16">{isFahrenheit ? `${maxF}°F ` : `${maxC}°C`}</span>
+      </div>
+
+      {/* Additional Details (aligned left) */}
+      <div className="flex flex-col text-left space-y-2 text-gray-700 dark:text-gray-300">
+        <div className="flex justify-between">
+          <span>Wind:</span>
+          <span>{winddescription}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Wind Speed:</span>
+          <span>{windspeed} m/s</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Precipitation:</span>
+          <span>{precipitationDescription}</span>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

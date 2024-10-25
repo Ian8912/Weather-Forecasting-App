@@ -25,14 +25,14 @@ export const SearchBar = ({city,
           </>
           <form onSubmit={handleWeatherSubmit} className="mt-8">
             <div className="relative inline-block w-full max-w-sm">
-              <input
-                type="text"
-                value={city}  // Bind to `city` state
-                onChange={handleCityChange}  // Update `city` as user types
-                onKeyDown={handleKeyPress}
-                placeholder="Enter city name"
-                className="text-black w-full px-3 py-2 border rounded text-sm"
-              />
+            <input
+              type="text"
+              value={city}  // Bind to `city` state
+              onChange={handleCityChange}  // Update `city` as user types
+              onKeyDown={handleKeyPress}
+              placeholder="Enter city name"
+              className="text-black w-full px-6 py-3 border rounded-full text-sm shadow-md focus:outline-none focus:border-blue-800"
+            />
 
               {/* Suggestions dropdown */}
               {suggestions.length > 0 && (
