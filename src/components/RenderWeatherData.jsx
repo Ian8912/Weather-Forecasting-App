@@ -43,15 +43,20 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
       );
 
   return (
-    <div className='containter flex flex-col items-center justify-center w-full'>
+    <div className='flex flex-col items-center justify-center w-full unified-weather-card rounded-3xl bg-blue-200'
+    style={{ borderRadius: '5rem' }}
+    >
             {/* Ternary conditional for loading */}
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <>
-                    <CurrentWeatherDataDisplay weatherData={weatherData} isFahrenheit={isFahrenheit} setIsFahrenheit={setIsFahrenheit} />
-                    {
-                    (
+                <div className='p-2 pb-10'>
+                    <CurrentWeatherDataDisplay 
+                        weatherData={weatherData} 
+                        isFahrenheit={isFahrenheit} 
+                        setIsFahrenheit={setIsFahrenheit} 
+                    />
+                
                         <ForecastDisplay 
                             forecastData={forecastData} 
                             cityhasBeenEntered={cityHasBeenEntered} 
@@ -59,8 +64,7 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
                             setError={setErrorMessage} 
                             isFahrenheit={isFahrenheit}
                         />
-                    )}
-                </>
+                </div>
             )}
         </div>
   )
