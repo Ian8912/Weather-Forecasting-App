@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 from weatherService import *
+from translationService import *
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
 CORS(app)
@@ -107,6 +108,20 @@ def forecast():
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     print(data)
     return jsonify(data), 200
+
+@app.route('/translate', methods=['POST'])
+def translate():
+    data = request.json
+    texts = data.get('texts')  # Expecting an array of texts
+    target_lang = data.get('target_lang')
+
+    if not texts or not target_lang:
+        return jsonify({'error': 'Invalid input'}), 400
+
+    # Join all texts with line breaks for batch translation
+    joined_text = "\n".join(texts)
+
+    return fetch_translation(joined_text, target_lang)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
