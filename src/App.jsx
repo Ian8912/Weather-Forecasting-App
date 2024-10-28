@@ -6,7 +6,6 @@ import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
 import errorService from './errorService';
-import { useTranslation } from 'react-i18next';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
 import FeedbackModal from './components/FeedbackModal';
@@ -21,7 +20,6 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  const { t } = useTranslation(); // Translation function
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -209,11 +207,11 @@ function App() {
       <section className="py-8">
         <div className="container mx-auto text-center">
           <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">{t('Weather for ')} {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">{t('Temperature')}: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">{t('Condition')}: {weatherData.description}</p>
-            <p className="text-lg">{t('Humidity')}: {weatherData.humidity}%</p>
-            <p className="text-lg">{t('Wind Speed')}: {weatherData.wind_speed} m/s</p>
+            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">Condition: {weatherData.description}</p>
+            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
+            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
             <p className="text-lg">
               UV Index: {weatherData.uv_index || 'N/A'}
             </p>
@@ -239,10 +237,10 @@ function App() {
               </svg>
             </button>
             <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
                   {darkMode ? 'Light Mode' : 'Dark Mode'}
@@ -252,10 +250,10 @@ function App() {
           </div>
           {menuOpen && (
             <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Home')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Features')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Contact')}</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{t('Log in')}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
                   {darkMode ? 'Light Mode' : 'Dark Mode'}
@@ -288,7 +286,7 @@ function App() {
         </>
         
       ) : (
-        <p className="text-center">{t('No weather data available.')}</p>
+        <p className="text-center">No weather data available.</p>
       )}
     </>
    
@@ -304,7 +302,7 @@ function App() {
           <button onClick={handleOpenModal} className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
             Give Feedback
           </button>
-          <p>&copy; {t('2024 WeatherLink. All rights reserved.')}</p>
+          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
         </footer>
       </div>
 

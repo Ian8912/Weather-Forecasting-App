@@ -1,6 +1,5 @@
 import React from 'react'
 import errorService from '../errorService';
-import { useTranslation } from 'react-i18next';
 export const SearchBar = ({city, 
   suggestions, 
   errorMessage, setcity, 
@@ -9,7 +8,7 @@ export const SearchBar = ({city,
    handleWeatherSubmit,
   }) => {
 
-  const { t } = useTranslation();
+  
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleWeatherSubmit(e); // Trigger the form submit when Enter is pressed
@@ -18,8 +17,8 @@ export const SearchBar = ({city,
     
   return (
     <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
-          <h2 className="text-4xl font-bold">{t('Get the Latest Weather Updates')}</h2>
-          <p className="mt-4 text-lg">{t('Enter a city name to get current weather updates.')}</p>
+          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
+          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
           <>
             {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
           </>
