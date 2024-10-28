@@ -56,6 +56,6 @@ const texts = {
     Nodata: 'No weather data available.',
     Rights: 'All rights reserved.'
 
-}
+};
 
 export default texts;
