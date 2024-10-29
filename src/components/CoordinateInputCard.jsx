@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import WeatherPage from '../routes/WeatherCoordsPage';
 import errorService from '../errorService';
-import { useTranslation } from 'react-i18next';
 
 function CoordinateInputCard() {
-  const { t } = useTranslation(); // Translation function
   const [longCoordinates, setLongCoordinates] = useState();
   const [latCoordinates, setLatCoordinates] = useState();
   const [errorMessage, setErrorMessage] = useState('');
@@ -42,11 +40,11 @@ function CoordinateInputCard() {
 
     return (
       <div className="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-[#0f172a] rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-center dark:text-[#cbd5e1]">{t('Enter Coordinates')}</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center dark:text-[#cbd5e1]">Enter Coordinates</h2>
   
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="latitude" className="block mb-2 dark:text-[#cbd5e1]">{t('Latitude')}</label>
+            <label htmlFor="latitude" className="block mb-2 dark:text-[#cbd5e1]">Latitude</label>
             <input
               type="text"
               name="latitude"
@@ -59,7 +57,7 @@ function CoordinateInputCard() {
           </div>
   
           <div className="mb-4">
-            <label htmlFor="longitude" className="block mb-2 dark:text-[#cbd5e1]">{t('Longitude')}</label>
+            <label htmlFor="longitude" className="block mb-2 dark:text-[#cbd5e1]">Longitude</label>
             <input
               type="text"
               name="longitude"
@@ -75,7 +73,7 @@ function CoordinateInputCard() {
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
   
           <button onClick={handleSubmit} type="submit" className="w-full py-2 px-4 bg-blue-600 text-white dark:bg-[#312e81] dark:hover:bg-[#4c1d95] rounded-lg">
-        {t('  Submit')}
+        Submit
           </button>
         </form>
       </div>
