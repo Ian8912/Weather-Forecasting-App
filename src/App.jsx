@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
 import FeedbackModal from './components/FeedbackModal';
+import db from './firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 
 // Functional component for the loading spinner
@@ -195,9 +197,16 @@ function App() {
     });
   };
 
-  const handleFeedbackSubmit = (e) => {
+  const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting feedback form:', formData);
+    try {
+      await addDoc(collection(db, 'feedback'), formData);
+      console.log('Feedback submitted successfully');
+      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
+    } catch (error) {
+      const errorMsg = errorService.handleError(error);
+      setErrorMessage(errorMsg.errorMessage);
+    }
   };
 
   const RenderWeatherData = ({ weatherData }) => {
