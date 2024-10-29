@@ -317,7 +317,13 @@ function App() {
         </footer>
       </div>
 
-      <FeedbackModal isVisible={isModalVisible} onClose={handleCloseModal} />
+      <FeedbackModal 
+        isVisible={isModalVisible} 
+        onClose={handleCloseModal} 
+        onSubmit={handleFeedbackSubmit} 
+        formData={formData} 
+        handleFeedbackChange={handleFeedbackChange} 
+/>
     </div>
   );
 }
