@@ -20,7 +20,7 @@ const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit})
   return (
     <div className="py-8">
       <div className="container rounded-xlmx-auto text-center">
-        <div className="p-6 flex flex-col items-center">
+        <div className="p-6 flex flex-col items-center text-white">
           
           {/* Temperature */}
           <div className="flex items-center justify-center mb-4">

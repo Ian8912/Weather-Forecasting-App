@@ -204,7 +204,7 @@ function App() {
 
   return (
     <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
-      <div className="p-12 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
+      <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
         {/* Navbar */}
         <Navbar />
         {/* Weather Form Section */}
@@ -220,7 +220,7 @@ function App() {
           />
         {/* Conditional rendering for loading spinner and weather data */}
     
-      
+      {weatherData ?
         <RenderWeatherData  
             weatherData={weatherData}
             city={city}
@@ -229,6 +229,9 @@ function App() {
             setErrorMessage={setErrorMessage}
             loading={loading}
         />
+        : 
+        <LoadingSpinner/>
+      }
 
           
     

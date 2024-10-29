@@ -8,7 +8,7 @@ export const Navbar = () => {
 
   return (
     <div className={darkMode ? 'dark' : ''} >
-        <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
+        <nav className="text-black dark:bg-[#312e81] dark:text-[#cbd5e1]">
     <div className="container mx-auto flex justify-between items-center">
       <h1 className="text-2xl font-bold">WeatherLink</h1>
 

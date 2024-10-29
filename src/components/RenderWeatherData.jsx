@@ -43,14 +43,14 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
       );
 
   return (
-    <div className='flex flex-col items-center justify-center w-full unified-weather-card rounded-3xl bg-blue-200'
-    style={{ borderRadius: '5rem' }}
-    >
+    <div className='flex flex-col items-center justify-center w-full unified-weather-card rounded-3xl bg-blue-500'
+    style={{ borderRadius: '5rem', transform: 'scale(0.9)', transformOrigin: 'top center' }}
+>
             {/* Ternary conditional for loading */}
             {loading ? (
                 <LoadingSpinner />
             ) : (
-                <div className='p-2 pb-10'>
+                <div className=' pb-6'>
                     <CurrentWeatherDataDisplay 
                         weatherData={weatherData} 
                         isFahrenheit={isFahrenheit} 
