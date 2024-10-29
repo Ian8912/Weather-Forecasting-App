@@ -17,7 +17,9 @@ export const SearchBar = ({city,
   };
     
   return (
-    <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
+    <header className=" dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-black py-24 text-center"
+    style={{ borderRadius: '5rem' }}
+    >
           <h2 className="text-4xl font-bold">{t('Get the Latest Weather Updates')}</h2>
           <p className="mt-4 text-lg">{t('Enter a city name to get current weather updates.')}</p>
           <>
