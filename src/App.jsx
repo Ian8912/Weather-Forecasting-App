@@ -309,11 +309,15 @@ function App() {
 
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
-          <button onClick={handleOpenModal} className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-            Give Feedback
-          </button>
-          <p>&copy; {t('2024 WeatherLink. All rights reserved.')}</p>
+          <div className="container mx-auto flex flex-col items-center space-y-4">
+            <button
+              onClick={handleOpenModal}
+              className="bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg"
+            >
+              Give Feedback
+            </button>
+            <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          </div>
         </footer>
       </div>
 
