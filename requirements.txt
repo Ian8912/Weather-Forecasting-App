@@ -130,3 +130,4 @@ Werkzeug==3.0.4
 wsproto==1.2.0
 WTForms==3.0.1
 zipp==3.17.0
+firebase-admin==6.1.0
