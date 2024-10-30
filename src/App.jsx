@@ -57,8 +57,9 @@ function App() {
         setErrorMessage(errorMsg.errorMessage);
         setLoading(false);
       });
-  };
-  
+  };      
+
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
