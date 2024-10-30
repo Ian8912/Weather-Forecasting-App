@@ -53,7 +53,7 @@ function CoordinateInputCard() {
               value={latCoordinates}
               onChange={latHandleChange}
               className="w-full px-4 py-2 border rounded-lg dark:bg-[#1e293b]"
-              placeholder="Enter latitude"
+              placeholder={translatedText.enterLat}
               required
             />
           </div>
@@ -66,7 +66,7 @@ function CoordinateInputCard() {
               value={longCoordinates}
               onChange={longHandleChange}
               className="w-full px-4 py-2 border rounded-lg dark:bg-[#1e293b]"
-              placeholder="Enter longitude"
+              placeholder={translatedText.enterLon}
               required
             />
           </div>

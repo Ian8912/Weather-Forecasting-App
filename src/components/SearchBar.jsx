@@ -33,7 +33,7 @@ export const SearchBar = ({city,
                 value={city}  // Bind to `city` state
                 onChange={handleCityChange}  // Update `city` as user types
                 onKeyDown={handleKeyPress}
-                placeholder="Enter city name"
+                placeholder={translatedText.enterName}
                 className="text-black w-full px-3 py-2 border rounded text-sm"
               />
 
