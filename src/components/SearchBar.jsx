@@ -18,11 +18,11 @@ export const SearchBar = ({city,
     }
   };
   
-  const { translatedText } = useTranslation();
+  const { translatedText } = useTranslation(); // Translation hook
   return (
     <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
-          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
+          <h2 className="text-4xl font-bold">{translatedText.Latest}</h2>
+          <p className="mt-4 text-lg">{translatedText.cityName}</p>
           <>
             {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
           </>
