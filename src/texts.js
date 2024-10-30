@@ -65,7 +65,8 @@ const texts = {
     enterLan: 'Enter your perferred language.',
     English: 'English',
     Spanish: 'Spanish',
-    French: 'French'
+    French: 'French',
+    German: 'German'
 
 };
 

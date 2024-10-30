@@ -22,6 +22,7 @@ const LanguageSelector = () => {
                 <option value="EN">{translatedText.English}</option>
                 <option value="ES">{translatedText.Spanish}</option>
                 <option value="FR">{translatedText.French}</option>
+                <option value="DE">{translatedText.German}</option>
             </select>
         </div>
       );
