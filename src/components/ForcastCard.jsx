@@ -1,6 +1,8 @@
 import React from 'react'
+import WeatherIconService from '../WeatherIconService';
 
 export const ForcastCard = ({ 
+  icon,
   date,
   maxC,
   maxF,
@@ -8,56 +10,58 @@ export const ForcastCard = ({
   minF,
   precipitationDescription,
   winddescription,
-  windspeed
+  windspeed,
+  isFahrenheit
  }) => {
 
-   // Function to format the date
-   const formatDate = (dateStr) => {
-    // Split the date string into components (MM-DD-YY)
-    const parts = dateStr.split('-');
-    
-    if (parts.length !== 3) return "Invalid date format";
-    
-    const monthMap = {
-      '01': 'January',
-      '02': 'February',
-      '03': 'March',
-      '04': 'April',
-      '05': 'May',
-      '06': 'June',
-      '07': 'July',
-      '08': 'August',
-      '09': 'September',
-      '10': 'October',
-      '11': 'November',
-      '12': 'December'
-    };
-
-    const month = parts[0];
-    const day = parts[1];
-    const year = parts[2];
-
-    // Add suffix to the day (1st, 2nd, 3rd, etc.)
-    let daySuffix = 'th';
-    if (day.endsWith('1') && !day.endsWith('11')) daySuffix = 'st';
-    else if (day.endsWith('2') && !day.endsWith('12')) daySuffix = 'nd';
-    else if (day.endsWith('3') && !day.endsWith('13')) daySuffix = 'rd';
-
-    const formattedDay = `${parseInt(day)}${daySuffix}`;
-    const monthName = monthMap[month] || 'Invalid Month';
-    const formattedDate = `${monthName} ${formattedDay}, 20${year}`;
-    
-    return formattedDate;
+  // Function to calculate the position of the circle on the gradient
+  const calculateCirclePosition = (currentTemp, minTemp, maxTemp) => {
+    const range = maxTemp - minTemp;
+    const positionPercent = ((currentTemp - minTemp) / range) * 100; // Calculate position in percentage
+    return positionPercent;
   };
 
+  const currentTempF = (minF + maxF) / 2; // For example, we're taking the average of min and max temp
+  const circlePosition = calculateCirclePosition(currentTempF, minF, maxF);
+
   return (
-    <div className="weather-card">
-        <h3 className="text-xl font-bold">{formatDate(date)}</h3>
-        <p className="text-lg">High: {maxF}°F / {maxC}°C</p>
-        <p className="text-lg">Low: {minF}°F / {minC}°C</p>
-        <p className="text-lg">Wind Speed: {windspeed} m/s</p>
-        <p className="text-lg">Wind Description: {winddescription}</p>
-        <p className="text-lg">Precipitation: {precipitationDescription}</p>
+    <div className="weather-card max-w-xs w-full sm:w-1/2 md:w-1/3 lg:w-1/6 p-4 m-2 bg-white rounded-3xl hover:shadow-2xl transition-transform hover:scale-105 flex flex-col">
+      
+    {/* Date and Icon */}
+    <div className="flex justify-between items-center mb-4">
+      <h3 className="text-left text-lg font-semibold text-gray-800 dark:text-gray-100">{date}</h3>
+      <img src={icon.precipitateIcon} alt="Weather Icon" className="w-12 h-12 md:w-16 md:h-16" />
+    </div>
+
+    {/* Temperature Gradient */}
+    <div className="relative flex items-center mb-4">
+      <span className="text-left text-sm md:text-lg text-gray-600 dark:text-gray-300">{isFahrenheit ? `${minF}°F ` : `${minC}°C`}</span>
+      
+      <div className="w-full h-2 mx-2 bg-gradient-to-r from-blue-400 via-yellow-300 to-red-500 rounded-full relative">
+        <div
+          className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg"
+          style={{ left: `${circlePosition}%` }}
+        ></div>
       </div>
-  )
+
+      <span className="text-right text-sm md:text-lg text-gray-600 dark:text-gray-300">{isFahrenheit ? `${maxF}°F ` : `${maxC}°C`}</span>
+    </div>
+
+    {/* Additional Details */}
+    <div className="flex flex-col text-left space-y-1 text-gray-700 dark:text-gray-300 text-sm md:text-base">
+      <div className="flex justify-between">
+        <span>Wind:</span>
+        <span>{winddescription}</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Wind Speed:</span>
+        <span>{windspeed} m/s</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Precipitation:</span>
+        <span>{precipitationDescription}</span>
+      </div>
+    </div>
+  </div>
+  );
 }
