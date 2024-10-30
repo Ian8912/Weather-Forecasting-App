@@ -51,16 +51,16 @@ export const ForcastCard = ({
     return formattedDate;
   };
 
-  const { translatedText } = useTranslation();
+  const { translatedText } = useTranslation(); // Translation hook
 
   return (
     <div className="weather-card">
         <h3 className="text-xl font-bold">{formatDate(date)}</h3>
-        <p className="text-lg">High: {maxF}°F / {maxC}°C</p>
-        <p className="text-lg">Low: {minF}°F / {minC}°C</p>
-        <p className="text-lg">Wind Speed: {windspeed} m/s</p>
-        <p className="text-lg">Wind Description: {winddescription}</p>
-        <p className="text-lg">Precipitation: {precipitationDescription}</p>
+        <p className="text-lg">{translatedText.High}: {maxF}°F / {maxC}°C</p>
+        <p className="text-lg">{translatedText.Low}: {minF}°F / {minC}°C</p>
+        <p className="text-lg">{translatedText.windSpeed}: {windspeed} m/s</p>
+        <p className="text-lg">{translatedText.windDescription}: {winddescription}</p>
+        <p className="text-lg">{translatedText.Precipitation}: {precipitationDescription}</p>
       </div>
   )
 }

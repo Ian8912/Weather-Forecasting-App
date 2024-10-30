@@ -3,7 +3,7 @@ import { useTranslation } from '../routes/TranslationContext';
 
 const FeedbackModal = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
-  const { translatedText } = useTranslation();
+  const { translatedText } = useTranslation(); // Translation hook
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg relative">
