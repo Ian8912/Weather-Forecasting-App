@@ -10,11 +10,14 @@ const LanguageSelector = () => {
       };
     
       return (
-        <select value={language} onChange={handleChange}>
-          <option value="EN">English</option>
-          <option value="ES">Spanish</option>
-          <option value="FR">French</option>
-        </select>
+        <div>
+            <p className="mt-4 text-lg">Enter your perferred language.</p>
+            <select placeholder="English" value={language} onChange={handleChange}>
+            <option value="EN">English</option>
+            <option value="ES">Spanish</option>
+            <option value="FR">French</option>
+            </select>
+        </div>
       );
 };
 
