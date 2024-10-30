@@ -33,10 +33,9 @@ export const TranslationProvider = ({ children }) => {
     }
   };
 
-  const toggleLanguage = async () => {
-    const newLang = language === 'EN' ? 'FR' : 'EN';
-    setLanguage(newLang);
-    await translateAllText(texts, newLang);
+  const handleLanguageChange = async (selectedLang) => {
+    setLanguage(selectedLang);
+    await translateAllText(texts, selectedLang);
   };
 
   useEffect(() => {
