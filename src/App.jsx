@@ -29,7 +29,7 @@ function App() {
     feedback: ''
   });
   
-  const { translatedText } = useTranslation();
+  const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
   const [city, setCity] = useState(''); 
@@ -202,22 +202,22 @@ function App() {
 
   const RenderWeatherData = ({ weatherData }) => {
     if (!weatherData) {
-      return <p>{t('No weather data available. Please enter a city to check the weather.')}</p>;
+      return <p>{translatedText.noWeather}</p>;
     }
 
     return (
       <section className="py-8">
         <div className="container mx-auto text-center">
           <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">Condition: {weatherData.description}</p>
-            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
+            <h3 className="text-2xl font-bold">{translatedText.weatherFor} {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
+            <p className="text-lg">{translatedText.Temperature}: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
+            <p className="text-lg">{translatedText.Condition}: {weatherData.description}</p>
+            <p className="text-lg">{translatedText.Humidity}: {weatherData.humidity}%</p>
+            <p className="text-lg">{translatedText.windSpeed}: {weatherData.wind_speed} m/s</p>
             <p className="text-lg">
-              UV Index: {weatherData.uv_index || 'N/A'}
+            {translatedText.UV}: {weatherData.uv_index || 'N/A'}
             </p>
-            <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
+            <p className="text-lg">{translatedText.Air}: {weatherData.air_quality} AQI</p>
           </div>
         </div>
       </section>
@@ -239,10 +239,10 @@ function App() {
               </svg>
             </button>
             <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Home}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Features}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Contact}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.logIn}</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
                   {darkMode ? 'Light Mode' : 'Dark Mode'}
@@ -252,10 +252,10 @@ function App() {
           </div>
           {menuOpen && (
             <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Home}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Features}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Contact}</a></li>
+              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.logIn}</a></li>
               <li>
                 <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
                   {darkMode ? 'Light Mode' : 'Dark Mode'}
@@ -288,7 +288,7 @@ function App() {
         </>
         
       ) : (
-        <p className="text-center">No weather data available.</p>
+        <p className="text-center">{translatedText.Nodata}</p>
       )}
     </>
    
@@ -300,11 +300,11 @@ function App() {
 
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
           <button onClick={handleOpenModal} className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
             Give Feedback
           </button>
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
         </footer>
       </div>
 

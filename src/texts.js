@@ -48,6 +48,7 @@ const texts = {
     Load:'Loading weather data...',
 
     // from App.jsx
+    noWeather: 'No weather data available. Please enter a city to check the weather.',
     weatherFor: 'Weather for',
     Condition: 'Condition',
     Humidity: 'Humidity',
