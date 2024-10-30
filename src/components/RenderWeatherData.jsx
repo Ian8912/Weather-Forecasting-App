@@ -6,14 +6,14 @@ import { useState, useEffect } from 'react'
 
 export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, errorMessage, setErrorMessage, loading, forecastingData } ) => {
 
-    const [isFahrenheit, setIsFahrenheit] = useState(true); // State for toggling temperature
+    const [isFahrenheit, setIsFahrenheit] = useState(true); 
     const [forecastData, setForecastData] = useState([]);
 
     useEffect(() => {
         const fetchForecast = async () => {
             try {
               const response = await fetch(`http://localhost:5000/forecast?city=${weatherData.city}`, {
-                method: 'GET', // Make sure it's a GET request
+                method: 'GET', 
                 headers: {
                   'Content-Type': 'application/json'
                 }
@@ -23,7 +23,7 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
                 throw new Error('Failed to fetch forecast data');
               }
               const data = await response.json();          
-              setForecastData(data); // Assuming the forecast data contains a 'list' array
+              setForecastData(data); 
             } catch (error) {
               setError(error.message);
             }
@@ -46,7 +46,6 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
     <div className='flex flex-col items-center justify-center w-full unified-weather-card rounded-3xl bg-blue-500'
     style={{ borderRadius: '5rem', transform: 'scale(0.9)', transformOrigin: 'top center' }}
 >
-            {/* Ternary conditional for loading */}
             {loading ? (
                 <LoadingSpinner />
             ) : (
