@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactMapGL, {Source, Layer} from 'react-map-gl';
 import Modal from 'react-modal';  // Import react-modal
+import { useTranslation } from '../routes/TranslationContext';
 
 const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
@@ -21,6 +22,7 @@ const FeatureDisplaySection = () => {
     height: '400px',
   });
 
+  const { translatedText } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
 
   // Toggles for layers

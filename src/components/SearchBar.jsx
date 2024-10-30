@@ -1,6 +1,8 @@
 import React from 'react'
 import errorService from '../errorService';
 import LanguageSelector from './LanguageSelector';
+import { useTranslation } from '../routes/TranslationContext';
+
 export const SearchBar = ({city, 
   suggestions, 
   errorMessage, setcity, 
@@ -15,7 +17,8 @@ export const SearchBar = ({city,
       handleWeatherSubmit(e); // Trigger the form submit when Enter is pressed
     }
   };
-    
+  
+  const { translatedText } = useTranslation();
   return (
     <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
           <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>

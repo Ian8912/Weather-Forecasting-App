@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from '../routes/TranslationContext';
 
 export const ForcastCard = ({ 
   date,
@@ -49,6 +50,8 @@ export const ForcastCard = ({
     
     return formattedDate;
   };
+
+  const { translatedText } = useTranslation();
 
   return (
     <div className="weather-card">

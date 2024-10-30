@@ -1,6 +1,8 @@
 import React from 'react'
+import { useTranslation } from '../routes/TranslationContext';
 
 const FeatureForm = () => {
+  const { translatedText } = useTranslation();
   return (
    <div className="container mx-auto">
     <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>

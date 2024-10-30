@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import WeatherPage from '../routes/WeatherCoordsPage';
 import errorService from '../errorService';
+import { useTranslation } from '../routes/TranslationContext';
 
 function CoordinateInputCard() {
   const [longCoordinates, setLongCoordinates] = useState();
   const [latCoordinates, setLatCoordinates] = useState();
   const [errorMessage, setErrorMessage] = useState('');
 
+  const { translatedText } = useTranslation();
   const navigate = useNavigate();
 
   const longHandleChange = (e) => {

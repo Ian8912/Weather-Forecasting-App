@@ -9,6 +9,7 @@ import errorService from './errorService';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
 import FeedbackModal from './components/FeedbackModal';
+import { useTranslation } from './routes/TranslationContext';
 
 
 // Functional component for the loading spinner
@@ -28,6 +29,7 @@ function App() {
     feedback: ''
   });
   
+  const { translatedText } = useTranslation();
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
   const [city, setCity] = useState(''); 

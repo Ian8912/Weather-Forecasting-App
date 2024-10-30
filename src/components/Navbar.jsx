@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
+import { useTranslation } from '../routes/TranslationContext';
 
 export const Navbar = () => {
 
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { translatedText } = useTranslation();
 
   return (
     <div className={darkMode ? 'dark' : ''} >
