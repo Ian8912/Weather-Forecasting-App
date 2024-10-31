@@ -26,7 +26,7 @@ const FeedbackForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-        {t('Name')}
+        {translatedText.Name}
         </label>
         <input
           id="name"

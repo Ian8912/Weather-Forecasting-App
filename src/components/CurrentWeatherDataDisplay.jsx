@@ -1,11 +1,11 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next';
 import OpenWeatherIcon from '../components/OpenWeatherIcon';
 import { useState } from 'react';
+import { useTranslation } from '../routes/TranslationContext';
 
 const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit}) => {
 
-  const { t } = useTranslation();
+  const { translatedText } = useTranslation(); // Translation hook
 
   const toggleTemperatureUnit = () => {
     setIsFahrenheit(!isFahrenheit);
@@ -13,7 +13,7 @@ const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit})
 
 
   if (!weatherData) {
-    return <p>{t('No weather data available. Please enter a city to check the weather.')}</p>;
+    return <p>{translatedText.noWeather}</p>;
   }
 
   
@@ -58,9 +58,9 @@ const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit})
 
           {/* Additional Information: Humidity, UV Index, Air Quality */}
           <div className="mt-4 flex gap-3">
-            <p className="text-lg">{t('Humidity')}: {weatherData.humidity}%</p>
-            <p className="text-lg">{t('UV Index')}: {weatherData.uv_index || 'N/A'}</p>
-            <p className="text-lg">{t('Air Quality')}: {weatherData.air_quality} AQI</p>
+            <p className="text-lg">{translatedText.Humidity}: {weatherData.humidity}%</p>
+            <p className="text-lg">{translatedText.UV}: {weatherData.uv_index || 'N/A'}</p>
+            <p className="text-lg">{translatedText.Air}: {weatherData.air_quality} AQI</p>
           </div>
 
         </div>

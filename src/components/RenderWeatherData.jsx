@@ -3,11 +3,13 @@ import CurrentWeatherDataDisplay from './CurrentWeatherDataDisplay'
 import { ForecastDisplay } from './ForecastDisplay'
 import '../App.css'
 import { useState, useEffect } from 'react'
+import { useTranslation } from '../routes/TranslationContext';
 
 export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, errorMessage, setErrorMessage, loading, forecastingData } ) => {
 
     const [isFahrenheit, setIsFahrenheit] = useState(true); 
     const [forecastData, setForecastData] = useState([]);
+    const { translatedText } = useTranslation(); // Translation hook
 
     useEffect(() => {
         const fetchForecast = async () => {
@@ -38,7 +40,7 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
     const LoadingSpinner = () => (
         <div className="flex justify-center items-center py-16">
           <div className="spinner"></div>
-          <p className="dark:text-[#cbd5e1] text-lg ml-4">Loading weather data...</p>
+          <p className="dark:text-[#cbd5e1] text-lg ml-4">{translatedText.Load}</p>
         </div>
       );
 
