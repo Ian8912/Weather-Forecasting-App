@@ -12,6 +12,7 @@ import OpenWeatherIcon from './components/OpenWeatherIcon';
 import FeedbackForm from './components/FeedbackForm';
 import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import { RenderWeatherData } from './components/RenderWeatherData';
+import FeedbackModal from './components/FeedbackModal'
 
 
 // Functional component for the loading spinner

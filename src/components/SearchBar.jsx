@@ -19,8 +19,8 @@ export const SearchBar = ({city,
     <header className=" dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-black py-24 text-center"
     style={{ borderRadius: '5rem' }}
     >
-          <h2 className="text-4xl font-bold">{t('Get the Latest Weather Updates')}</h2>
-          <p className="mt-4 text-lg">{t('Enter a city name to get current weather updates.')}</p>
+          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
+          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
           <>
             {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
           </>
