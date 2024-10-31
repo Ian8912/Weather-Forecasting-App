@@ -14,6 +14,7 @@ export const ForcastCard = ({
   windspeed,
   isFahrenheit
  }) => {
+  const { translatedText } = useTranslation(); // Translation hook
 
   // Function to calculate the position of the circle on the gradient
   const calculateCirclePosition = (currentTemp, minTemp, maxTemp) => {
@@ -45,22 +46,22 @@ export const ForcastCard = ({
         ></div>
       </div>
 
-  const { translatedText } = useTranslation(); // Translation hook
+  
       <span className="text-right text-sm md:text-lg text-gray-600 dark:text-gray-300">{isFahrenheit ? `${maxF}°F ` : `${maxC}°C`}</span>
     </div>
 
     {/* Additional Details */}
     <div className="flex flex-col text-left space-y-1 text-gray-700 dark:text-gray-300 text-sm md:text-base">
       <div className="flex justify-between">
-        <span>Wind:</span>
+        <span>{translatedText.Wind}:</span>
         <span>{winddescription}</span>
       </div>
       <div className="flex justify-between">
-        <span>Wind Speed:</span>
+        <span>{translatedText.windSpeed}:</span>
         <span>{windspeed} m/s</span>
       </div>
       <div className="flex justify-between">
-        <span>Precipitation:</span>
+        <span>{translatedText.Precipitation}:</span>
         <span>{precipitationDescription}</span>
       </div>
     </div>

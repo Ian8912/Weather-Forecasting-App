@@ -21,7 +21,7 @@ export const SearchBar = ({city,
   const { translatedText } = useTranslation(); // Translation hook
   return (
     <header className=" dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-black py-24 text-center"
-    style={{ borderRadius: '5rem' }}
+    style={{ borderRadius: '5rem' }}>
           <h2 className="text-4xl font-bold">{translatedText.Latest}</h2>
           <p className="mt-4 text-lg">{translatedText.cityName}</p>
           <>

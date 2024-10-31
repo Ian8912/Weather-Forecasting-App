@@ -35,6 +35,7 @@ const texts = {
     Low: 'Low',
     windSpeed: 'Wind Speed',
     windDescription: 'Wind Description',
+    Wind: 'Wind',
 
     // from Navbar
     Home: 'Home',
