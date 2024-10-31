@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../routes/TranslationContext';
 
 const FeedbackForm = () => {
-  const { t } = useTranslation(); // Translation function
+  const { translatedText } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,11 +22,11 @@ const FeedbackForm = () => {
 
   return (
    <div className="container mx-auto =-5">
-    <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{t('Feedback Form')}</h3>
+    <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{translatedText.feedbackForm}</h3>
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-        {t('Name')}
+        {translatedText.Name}
         </label>
         <input
           id="name"
@@ -39,7 +39,7 @@ const FeedbackForm = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-        Email
+        {translatedText.Email}
         </label>
         <input
           id="email"
@@ -52,7 +52,7 @@ const FeedbackForm = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-        Feedback
+        {translatedText.Feedback}
         </label>
         <textarea
           id="feedback"
@@ -66,7 +66,7 @@ const FeedbackForm = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
       >
-        Submit
+        {translatedText.Submit}
       </button>
     </form>
   </div>

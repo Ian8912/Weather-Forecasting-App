@@ -10,9 +10,10 @@ import { SearchBar } from './components/SearchBar';
 import WeatherIconService from './WeatherIconService';
 import OpenWeatherIcon from './components/OpenWeatherIcon';
 import FeedbackForm from './components/FeedbackForm';
-import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import { RenderWeatherData } from './components/RenderWeatherData';
+import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import FeedbackModal from './components/FeedbackModal'
+import { useTranslation } from './routes/TranslationContext';
 
 
 // Functional component for the loading spinner
@@ -27,7 +28,7 @@ function App() {
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
   
-  
+  const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
   const [city, setCity] = useState(''); 
@@ -242,11 +243,11 @@ function App() {
         <FeatureDisplaySection />
         {/* Footer */}
         <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
           <button onClick={handleOpenModal} className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-            Give Feedback
+          {translatedText.Give}
           </button>
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
         </footer>
       </div>
 

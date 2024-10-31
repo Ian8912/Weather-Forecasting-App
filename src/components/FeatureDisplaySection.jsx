@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactMapGL, {Source, Layer} from 'react-map-gl';
 import Modal from 'react-modal';  // Import react-modal
+import { useTranslation } from '../routes/TranslationContext';
 
 const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
@@ -21,6 +22,7 @@ const FeatureDisplaySection = () => {
     height: '400px',
   });
 
+  const { translatedText } = useTranslation(); // Translation hook
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
 
   // Toggles for layers
@@ -120,7 +122,7 @@ const FeatureDisplaySection = () => {
     <>
       <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
         <div className="container mx-auto">
-          <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
+          <h3 className="text-3xl font-bold text-center mb-8">{translatedText.Features}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Accurate Forecasts Card */}
@@ -128,8 +130,8 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('forecasts')}
             >
-              <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
-              <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
+              <h4 className="text-xl font-semibold">{translatedText.accurateForecasts}</h4>
+              <p className="mt-4">{translatedText.reportLocation}</p>
             </div>
 
             {/* Interactive Maps Card */}
@@ -137,8 +139,8 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('maps')}  // Trigger the modal when this card is clicked
             >
-              <h4 className="text-xl font-semibold">Interactive Maps</h4>
-              <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
+              <h4 className="text-xl font-semibold">{translatedText.interactiveMaps}</h4>
+              <p className="mt-4">{translatedText.weatherMaps}</p>
             </div>
 
             {/* Alerts & Warnings Card */}
@@ -146,8 +148,8 @@ const FeatureDisplaySection = () => {
               className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110"
               onClick={() => handleFeatureClick('alerts')}
             >
-              <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
-              <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
+              <h4 className="text-xl font-semibold">{translatedText.alertsWarnings}</h4>
+              <p className="mt-4">{translatedText.timelyAlerts}</p>
             </div>
           </div>
         </div>
@@ -189,7 +191,7 @@ const FeatureDisplaySection = () => {
           fontSize: '14px',
           textAlign: 'center',
         }}>
-          To close map, click outside the modal.
+          {translatedText.closeMap}
         </div>
 
         {/* Legend to toggle layers */}
@@ -203,7 +205,7 @@ const FeatureDisplaySection = () => {
           zIndex: 1000,
           borderRadius: '5px',
         }}>
-          <h4>Legend</h4>
+          <h4>{translatedText.Legend}</h4>
           <label>
             <input
               type="checkbox"
@@ -211,7 +213,7 @@ const FeatureDisplaySection = () => {
               onChange={() => toggleLayer('clouds')}
               className='checkbox-large'
             />
-            Clouds
+            {translatedText.Clouds}
           </label>
           <br />
           <label>
@@ -221,7 +223,7 @@ const FeatureDisplaySection = () => {
               onChange={() => toggleLayer('precipitation')}
               className='checkbox-large'
             />
-            Precipitation
+            {translatedText.Precipitation}
           </label>
           <br />
           <label>
@@ -231,7 +233,7 @@ const FeatureDisplaySection = () => {
               onChange={() => toggleLayer('temperature')}
               className='checkbox-large'
             />
-            Temperature
+            {translatedText.Temperature}
           </label>
           {/*<br />
           <label>

@@ -4,6 +4,8 @@ const texts = {
     Latitude: 'Latitude',
     Longitude: 'Longitude',
     Submit: 'Submit',
+    enterLat: 'Enter latitude',
+    enterLon: 'Enter longitude',
 
     // from FeatureDisplaySection
     Features: 'Features',
@@ -33,6 +35,7 @@ const texts = {
     Low: 'Low',
     windSpeed: 'Wind Speed',
     windDescription: 'Wind Description',
+    Wind: 'Wind',
 
     // from Navbar
     Home: 'Home',
@@ -42,19 +45,29 @@ const texts = {
     // from SearchBar
     Latest: 'Get the Latest Weather Updates',
     cityName:'Enter a city name to get current weather updates.',
+    enterName:'Enter city name',
     
     // from WeatherCoordsPage
     currentWeather:'Current Weather',
     Load:'Loading weather data...',
 
     // from App.jsx
+    noWeather: 'No weather data available. Please enter a city to check the weather.',
     weatherFor: 'Weather for',
     Condition: 'Condition',
     Humidity: 'Humidity',
     UV: 'UV Index',
     Air: 'Air Quality',
     Nodata: 'No weather data available.',
-    Rights: 'All rights reserved.'
+    Rights: 'All rights reserved.',
+    Give:'Give Feedback',
+
+    // from LanguageSelector
+    enterLan: 'Enter your perferred language.',
+    English: 'English',
+    Spanish: 'Spanish',
+    French: 'French',
+    German: 'German'
 
 };
 
