@@ -1,10 +1,27 @@
 import React from 'react'
+import { useState } from 'react';
 import { useTranslation } from '../routes/TranslationContext';
 
-const FeatureForm = () => {
+const FeedbackForm = () => {
   const { translatedText } = useTranslation();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    feedback: ''
+  });
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    
+  }
+
+  const handleChange = (e) => {
+    console.log(e);
+    
+  }
+
   return (
-   <div className="container mx-auto">
+   <div className="container mx-auto =-5">
     <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{translatedText.feedbackForm}</h3>
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
@@ -56,4 +73,4 @@ const FeatureForm = () => {
   )
 }
 
-export default FeatureForm
+export default FeedbackForm

@@ -22,7 +22,11 @@ def weather():
         # Fetch additional data (UV index and air quality)
         forecast_data = fetch_forecast_data(lat, lon)
         air_quality_data = fetch_air_quality_data(lat, lon)
+        print(weather_data)
+    
+        """ REDUNDANT CODE """
     elif city:
+        print("APP: ========= City Search")
         # Fetch geolocation data by city name
         geo_data = fetch_geo_data(city)
         if 'error' in geo_data:
@@ -46,6 +50,7 @@ def weather():
     else:
         return jsonify({"error": "City or coordinates are required"}), 400
 
+    """ REDUNDANT CODE """
     # Handle missing UV index by setting fallback to "N/A"
     uv_index = forecast_data.get('uv_index', "N/A")
     
@@ -55,6 +60,12 @@ def weather():
     state = weather_data['sys'].get('state', 'N/A')
     temperature_celsius = round(weather_data['main']['temp'], 2)
     temperature_fahrenheit = round((temperature_celsius * 9/5) + 32, 2)
+    OpenWeatherIconID = weather_data['weather'][0]['icon']
+    min_temp_celsius = round(weather_data["main"]["temp_min"])
+    min_temp_fahrenheit = round((min_temp_celsius * 9/5) + 32, 2)
+    max_temp_celsius = round(weather_data["main"]["temp_max"])
+    max_temp_fahrenheit = round((max_temp_celsius * 9/5) + 32, 2)
+
 
     data = {
         'city': city_name,
@@ -62,11 +73,16 @@ def weather():
         'country': country,
         'temperature_fahrenheit': temperature_fahrenheit,
         'temperature_celsius': temperature_celsius,
+        'min_temp_celsius' : min_temp_celsius,
+        'min_temp_fahrenheit': min_temp_fahrenheit,
+        'max_temp_celsius': max_temp_celsius,
+        'max_temp_fahrenheit': max_temp_fahrenheit,
         'description': weather_data['weather'][0]['description'],
         'humidity': weather_data['main']['humidity'],
         'wind_speed': weather_data['wind']['speed'],
         'uv_index': uv_index,
-        'air_quality': air_quality_data.get('air_quality_index', "N/A")  # Handle missing air quality
+        'air_quality': air_quality_data.get('air_quality_index', "N/A"),  # Handle missing air quality
+        'openweathericonid': OpenWeatherIconID
     }
     return jsonify(data), 200
 
@@ -106,7 +122,6 @@ def forecast():
     data = forecast_servicer.GetForecast()
     if not data:
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
-    print(data)
     return jsonify(data), 200
 
 @app.route('/translate', methods=['POST'])
