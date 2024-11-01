@@ -3,6 +3,7 @@ from flask_cors import CORS
 import json
 from weatherService import *
 from translationService import *
+
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
 CORS(app)
@@ -22,7 +23,10 @@ def weather():
         # Fetch additional data (UV index and air quality)
         forecast_data = fetch_forecast_data(lat, lon)
         air_quality_data = fetch_air_quality_data(lat, lon)
-        print(weather_data)
+        uv_index_data = fetch_uv_index_openuv(lat, lon)
+
+        # Print to verify the data source
+        print("Forecast Data:", forecast_data)
     
         """ REDUNDANT CODE """
     elif city:
@@ -47,12 +51,11 @@ def weather():
         # Fetch additional data (UV index and air quality)
         forecast_data = fetch_forecast_data(lat, lon)
         air_quality_data = fetch_air_quality_data(lat, lon)
+        uv_index_data = fetch_uv_index_openuv(lat, lon)
+
+        #print("Forecast Data:", forecast_data)
     else:
         return jsonify({"error": "City or coordinates are required"}), 400
-
-    """ REDUNDANT CODE """
-    # Handle missing UV index by setting fallback to "N/A"
-    uv_index = forecast_data.get('uv_index', "N/A")
     
     # Prepare and return the response
     city_name = weather_data.get('name', 'Unknown')
@@ -65,6 +68,10 @@ def weather():
     min_temp_fahrenheit = round((min_temp_celsius * 9/5) + 32, 2)
     max_temp_celsius = round(weather_data["main"]["temp_max"])
     max_temp_fahrenheit = round((max_temp_celsius * 9/5) + 32, 2)
+
+    # Extract the UV indices or set a default value
+    uv_index = uv_index_data.get('current_uv_index', 'N/A')
+    max_uv_index = uv_index_data.get('max_uv_index', 'N/A')
 
 
     data = {
@@ -81,6 +88,7 @@ def weather():
         'humidity': weather_data['main']['humidity'],
         'wind_speed': weather_data['wind']['speed'],
         'uv_index': uv_index,
+        'max_uv_index': max_uv_index,
         'air_quality': air_quality_data.get('air_quality_index', "N/A"),  # Handle missing air quality
         'openweathericonid': OpenWeatherIconID
     }

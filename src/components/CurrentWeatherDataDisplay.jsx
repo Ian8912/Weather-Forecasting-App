@@ -59,7 +59,8 @@ const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit})
           {/* Additional Information: Humidity, UV Index, Air Quality */}
           <div className="mt-4 flex gap-3">
             <p className="text-lg">{translatedText.Humidity}: {weatherData.humidity}%</p>
-            <p className="text-lg">{translatedText.UV}: {weatherData.uv_index || 'N/A'}</p>
+            <p className="text-lg">{translatedText.UV}: {weatherData.uv_index.toFixed(2) || 'N/A'}</p>
+            <p className="text-lg">{translatedText.MaxUV}: {weatherData.max_uv_index.toFixed(2) || 'N/A'}</p>
             <p className="text-lg">{translatedText.Air}: {weatherData.air_quality} AQI</p>
           </div>
 

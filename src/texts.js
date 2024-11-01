@@ -57,6 +57,7 @@ const texts = {
     Condition: 'Condition',
     Humidity: 'Humidity',
     UV: 'UV Index',
+    MaxUV: 'Max UV Index',
     Air: 'Air Quality',
     Nodata: 'No weather data available.',
     Rights: 'All rights reserved.',
