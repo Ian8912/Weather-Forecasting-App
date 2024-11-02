@@ -106,12 +106,25 @@ const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit 
             </div>
 
             {/* Interactive Map Image */}
-            <div className="absolute top-1/2 right-12 transform -translate-y-1/2">
+            <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
+               {/* Background circle for contrast */}
+              <div className="absolute inset-0 w-80px h-80px rounded-full bg-white/10 z-[-1]"></div>
+
               <img
                 src="/images/Realistic_Earth_Image.png"
-                alt="Globe with Transparent Background" 
+                alt="Globe with Transparent Background"
                 onClick={openModal}
-                className="cursor-pointer w-20 h-20 hover:scale-110 transition-transform duration-200"
+                className="cursor-pointer hover:scale-110 hover:rotate-6 transition-transform duration-200 group-hover:shadow-lg"
+                style={{
+                  width: '200px',
+                  height: '200px',
+                  borderRadius: '50%',
+                  boxShadow: '0 6px 12px rgba(0, 0, 0, 0.3)',
+                  clipPath: 'circle(45% at 50% 50%)',
+                  animation: 'float 3s ease-in-out infinite',
+                  perspective: '1000px',
+                  filter: 'drop-shadow(0 0 10px rgba(0, 128, 255, 0.5))', // adds a glowing effect
+                }}
               />
             </div>
           </div>
