@@ -3,16 +3,11 @@ import ReactMapGL, {Source, Layer} from 'react-map-gl';
 import Modal from 'react-modal';  // Import react-modal
 import { useTranslation } from '../routes/TranslationContext';
 
-const WEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
-const MAP_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
-
-//console.log("OpenWeatherMap API Key:", WEATHER_API_KEY);
-//console.log("Mapbox API Key:", MAP_API_KEY);
-
 // Make sure to set the app element for accessibility
 Modal.setAppElement('#root');
 
 const FeatureDisplaySection = () => {
+  const [apiKeys, setApiKeys] = useState({ WEATHER_API_KEY: '', MAP_API_KEY: '' });
   const [activeFeature, setActiveFeature] = useState(null);
   const [viewport, setViewport] = useState({
     latitude: 30.2672,
@@ -25,74 +20,25 @@ const FeatureDisplaySection = () => {
   const { translatedText } = useTranslation(); // Translation hook
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
 
+  useEffect(() => {
+    // Ensure this points to your Flask backend
+    fetch('http://localhost:5000/api/keys')
+      .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        //console.log("Fetched API Keys:", data);
+        setApiKeys(data);
+      })
+      .catch(error => console.error('Error fetching API keys:', error));
+  }, []);
+
+
   // Toggles for layers
   const [showClouds, setShowClouds] = useState(false);
   const [showPrecipitation, setShowPrecipitation] = useState(false);
-  //const [showUvIndex, setShowUvIndex] = useState(false);
-  //const [showAirQuality, setShowAirQuality] = useState(false);
   const [showTemperature, setShowTemperature] = useState(false);
-
-  // Data states for different layers
-  //const [uvData, setUvData] = useState([]);
-  //const [airQualityData, setAirQualityData] = useState([]);
-
-  //let uvLastFetchTime = 0;
-  //let airQualityLastFetchTime = 0;
-  
-  // Fetch UV Index Data
-  {/*useEffect(() => {
-    async function fetchUvIndex() {
-      const currentTime = Date.now();
-      // Fetch only if more than 10 minutes have passed since the last request
-      if (currentTime - uvLastFetchTime > 600000) {
-        try {
-          const lat = viewport.latitude;
-          const lon = viewport.longitude;
-          const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${WEATHER_API_KEY}`
-          );
-          if (!response.ok) throw new Error('Failed to fetch UV Index data');
-          const data = await response.json();
-          setUvData([data.current.uvi]);
-          uvLastFetchTime = currentTime; // Update last fetch time
-        } catch (error) {
-          console.error(error);
-          setUvData([]); // Handle error
-        }
-      }
-    }
-  
-    if (showUvIndex) fetchUvIndex();
-  }, [showUvIndex, viewport.latitude, viewport.longitude]);*/}
-  
-  // Fetch Air Quality Data
-  {/*useEffect(() => {
-    async function fetchAirQuality() {
-      const currentTime = Date.now();
-      // Fetch only if more than 10 minutes have passed since the last request
-      if (currentTime - airQualityLastFetchTime > 600000) {
-        try {
-          const lat = viewport.latitude;
-          const lon = viewport.longitude;
-          const response = await fetch(
-            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
-          );
-          if (!response.ok) throw new Error('Failed to fetch air quality data');
-          const data = await response.json();
-          setAirQualityData(data.list);
-          airQualityLastFetchTime = currentTime; // Update last fetch time
-        } catch (error) {
-          console.error(error);
-          setAirQualityData([]); // Handle error
-        }
-      }
-    }
-  
-    if (showAirQuality) fetchAirQuality();
-  }, [showAirQuality, viewport.latitude, viewport.longitude]);*/}
-
-  //console.log('UV Data:', uvData);
-  //console.log('Air Quality Data:', airQualityData);
 
   const openModal = () => {
     setIsModalOpen(true);  // Open the modal
@@ -106,8 +52,6 @@ const FeatureDisplaySection = () => {
     if (layer === 'clouds') setShowClouds(!showClouds);
     if (layer === 'precipitation') setShowPrecipitation(!showPrecipitation);
     if (layer === 'temperature') setShowTemperature(!showTemperature);
-    //if (layer === 'uvIndex') setShowUvIndex(!showUvIndex);
-    //if (layer === 'airQuality') setShowAirQuality(!showAirQuality);
   };
 
   const handleFeatureClick = (feature) => {
@@ -235,39 +179,13 @@ const FeatureDisplaySection = () => {
             />
             {translatedText.Temperature}
           </label>
-          {/*<br />
-          <label>
-            <input
-              type="checkbox"
-              checked={showUvIndex}
-              onChange={() => toggleLayer('uvIndex')}
-              className="checkbox-large"
-            />
-            UV Index
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              checked={showAirQuality}
-              onChange={() => toggleLayer('airQuality')}
-              className="checkbox-large"
-            />
-            Air Quality
-          </label>*/}
         </div>
-
-        {/* Temporary div for debugging */}
-        {/*<div style={{ height: '100%', backgroundColor: 'red' }}>
-          <p>Map should be here</p>
-        </div>
-      </Modal>*/}
 
         {/* Render the Mapbox map inside the modal */}
         <div style={{ width: '100%' ,height: '100%' }}>
           <ReactMapGL
             {...viewport}
-            mapboxAccessToken={MAP_API_KEY}
+            mapboxAccessToken={apiKeys.MAP_API_KEY}
             onMove={(evt) => setViewport(evt.viewState)}
             mapStyle="mapbox://styles/mapbox/streets-v11"
             scrollZoom={true}     // Enable zooming with scroll
@@ -280,7 +198,7 @@ const FeatureDisplaySection = () => {
                 id="weather-clouds"
                 type="raster"
                 tiles={[
-                  `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                  `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${apiKeys.WEATHER_API_KEY}`
                 ]}
                 tileSize={256}
               >
@@ -293,7 +211,7 @@ const FeatureDisplaySection = () => {
                 id="weather-precipitation"
                 type="raster"
                 tiles={[
-                  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                  `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${apiKeys.WEATHER_API_KEY}`
                 ]}
                 tileSize={256}
               >
@@ -306,59 +224,13 @@ const FeatureDisplaySection = () => {
                 id="weather-temperature"
                 type="raster"
                 tiles={[
-                  `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`
+                  `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${apiKeys.WEATHER_API_KEY}`
                 ]}
                 tileSize={256}
               >
                 <Layer id="temperature-layer" type="raster" />
               </Source>
             )}
-
-            {/* UV Index Markers */}
-            {/*{showUvIndex && uvData.length > 0 && uvData.map((uv, index) => (
-              uv && (
-                <Marker key={index} latitude={uv.lat} longitude={uv.lon}>
-                  <div style={{
-                    backgroundColor: uv.value > 11 ? 'purple' :
-                                    uv.value > 8 ? 'red' :
-                                    uv.value > 6 ? 'orange' :
-                                    uv.value > 3 ? 'yellow' : 'green',
-                    width: '40px',  // Increased width for better visibility
-                    height: '40px', // Increased height for better visibility
-                    borderRadius: '50%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}>
-                    UV: {uv.value}
-                  </div>
-                </Marker>
-              )
-            ))}*/}
-
-            {/* Air Quality Markers */}
-            {/*{showAirQuality && airQualityData.length > 0 && airQualityData.map((aqi, index) => (
-              aqi && aqi.coord && (
-                <Marker key={index} latitude={aqi.coord.lat || 0} longitude={aqi.coord.lon || 0}>
-                  <div style={{
-                    backgroundColor: aqi.main.aqi <= 2 ? 'green' :
-                                    aqi.main.aqi === 3 ? 'yellow' : 'red',
-                    width: '40px',  // Increased width for better visibility
-                    height: '40px', // Increased height for better visibility
-                    borderRadius: '50%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}>
-                    AQI: {aqi.main.aqi || 'N/A'}
-                  </div>
-                </Marker>
-              )
-            ))}*/}
           </ReactMapGL>
         </div>
       </Modal>

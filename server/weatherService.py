@@ -6,13 +6,15 @@ from ForecastService import *
 # Load environment variables
 load_dotenv()
 
-WEATHER_API_KEY = os.getenv('VITE_OPENWEATHER_API_KEY')
+WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+MAP_API_KEY = os.getenv('MAPBOX_API_KEY')
+OPENUV_API_KEY = os.getenv('OPENUV_API_KEY')
+
 BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
 GEO_URL = 'http://api.openweathermap.org/geo/1.0/direct'
 FORECAST_URL = 'https://api.openweathermap.org/data/3.0/onecall'
 AIR_QUALITY_URL = 'http://api.openweathermap.org/data/2.5/air_pollution'
 
-OPENUV_API_KEY = os.getenv('OPENUV_API_KEY')
 
 # Function to fetch weather data by coordinates
 def fetch_weather_data(lat, lon):
@@ -35,6 +37,7 @@ def fetch_geo_data(city):
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch city data: " + str(e)}
 
+
 # Function to fetch forecast data
 def fetch_forecast_data(lat, lon):
     forecast_url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={WEATHER_API_KEY}"
@@ -43,7 +46,7 @@ def fetch_forecast_data(lat, lon):
         response.raise_for_status()
         data = response.json()
 
-        return {'forecast_data': data}
+        #return {'forecast_data': data}
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch forecast data: " + str(e)}
 
@@ -107,4 +110,12 @@ def fetch_air_quality_data(lat, lon):
         return {'air_quality_index': aqi}
     except requests.exceptions.RequestException as e:
         return {"error": "Failed to fetch air quality data: " + str(e)}
+    
+
+# Function to get the API keys
+def get_api_keys():
+    return {
+        'WEATHER_API_KEY': WEATHER_API_KEY,
+        'MAP_API_KEY': MAP_API_KEY
+    }
     
