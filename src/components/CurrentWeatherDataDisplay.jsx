@@ -60,14 +60,18 @@ const CurrentWeatherDataDisplay = ({weatherData, isFahrenheit, setIsFahrenheit})
           <div className="mt-4 space-y-2">
             {/* First Row: Humidity and Air Quality */}
             <div className="flex flex-wrap gap-x-4">
-              <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-              <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
+              <p className="text-lg">{translatedText.Humidity}: {weatherData.humidity}%</p>
+              <p className="text-lg">{translatedText.Air}: {weatherData.air_quality} AQI</p>
             </div>
             
             {/* Second Row: Current UV Index and Max UV Index */}
             <div className="flex flex-wrap gap-x-4">
-              <p className="text-lg">UV Index: {weatherData.uv_index.toFixed(2) || 'N/A'}</p>
-              <p className="text-lg">Max UV Index: {weatherData.max_uv_index.toFixed(2) || 'N/A'}</p>
+            <p className="text-lg">
+              {translatedText.UV}: {weatherData.uv_index ? Number(weatherData.uv_index).toFixed(2) : 'N/A'}
+            </p>
+            <p className="text-lg">
+              {translatedText.MaxUV}: {weatherData.max_uv_index ? Number(weatherData.max_uv_index).toFixed(2) : 'N/A'}
+            </p>
             </div>
           </div>
 
