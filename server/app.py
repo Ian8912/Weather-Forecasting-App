@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 from weatherService import *
+from notificationsBackend import notifications_bp
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
 CORS(app)
@@ -107,6 +108,8 @@ def forecast():
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     print(data)
     return jsonify(data), 200
+
+app.register_blueprint(notifications_bp)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

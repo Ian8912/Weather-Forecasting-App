@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+import json
+from flask import Flask, request, jsonify, Blueprint
 from pywebpush import webpush, WebPushException
 
 app = Flask(__name__)
@@ -9,6 +10,9 @@ VAPID_PRIVATE_KEY = "<Your Private VAPID Key>"
 
 # Example: A list to store user subscriptions
 subscriptions = []
+
+# Create a Blueprint for notifications
+notifications_bp = Blueprint('notifications', __name__)
 
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
