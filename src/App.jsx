@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import CoordinateInputCard from './components/CoordinateInputCard';
-import FeatureDisplaySection from './components/FeatureDisplaySection';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
 import errorService from './errorService';
@@ -237,14 +236,9 @@ function App() {
       }
 
           
-    
-   
-        {/* Features Section */}
-        <FeatureDisplaySection />
         {/* Footer */}
-        <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
-          <button onClick={handleOpenModal} className="bg-blue-500 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
+        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
+          <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
           {translatedText.Give}
           </button>
           <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>

@@ -8,6 +8,7 @@ app = Flask(__name__, static_folder='../client/dist', template_folder='../client
 
 CORS(app)
 
+
 @app.route('/weather/', methods=['GET'])
 def weather():
     lat = request.args.get('lat')
@@ -94,6 +95,7 @@ def weather():
     }
     return jsonify(data), 200
 
+
 @app.route('/city-suggestions', methods=['GET'])
 def city_suggestions():
     city = request.args.get('city', '').strip()
@@ -108,6 +110,7 @@ def city_suggestions():
     cities = [{'name': g['name'], 'country': g['country'], 'state': g.get('state', ''), 'lat': g['lat'], 'lon': g['lon']} for g in geo_data]
     return jsonify({"cities": cities}), 200
 
+
 @app.route('/coords/<float:lat>/<float:long>/', methods=['GET'])
 def weatherFromCoords(lat, long):
     weather_data = fetch_weather_data(lat, long)
@@ -120,6 +123,7 @@ def weatherFromCoords(lat, long):
     }
     return jsonify(data), 200
 
+
 @app.route('/forecast', methods=['GET'])
 def forecast():
     city = request.args.get("city", '').strip()
@@ -131,6 +135,7 @@ def forecast():
     if not data:
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     return jsonify(data), 200
+
 
 @app.route('/translate', methods=['POST'])
 def translate():
@@ -145,6 +150,14 @@ def translate():
     joined_text = "\n".join(texts)
 
     return fetch_translation(joined_text, target_lang)
+
+
+# Endpoint to send API keys to the front end securely
+@app.route('/api/keys', methods=['GET'])
+def get_keys():
+    keys = get_api_keys()  # Call the function to get API keys
+    return jsonify(keys)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
