@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
@@ -159,6 +159,34 @@ function App() {
   const handleCloseModal = () => {
     setModalVisible(false);
   };
+
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    const resetTimer = () => {
+      clearTimeout(timerRef.current);
+      if (!hasModalBeenShown) {
+        timerRef.current = setTimeout(() => {
+          handleOpenModal();
+        }, 300000); 
+      }
+    };
+  
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('click', resetTimer);
+  
+    timerRef.current = setTimeout(() => {
+      handleOpenModal();
+    }, 300000);
+  
+    return () => {
+      clearTimeout(timerRef.current);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+      window.removeEventListener('click', resetTimer);
+    };
+  }, [hasModalBeenShown]);
 
   useEffect(() => {
     const resetTimer = () => {
