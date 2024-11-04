@@ -24,3 +24,18 @@ async function initPushNotifications() {
 
 // Initializes push notifications on page load
 document.addEventListener('DOMContentLoaded', initPushNotifications);
+
+document.getElementById("alertsBox").addEventListener("click", function() {
+    // Trigger the alerts function when the box is clicked
+    fetchAlerts();
+});
+
+function fetchAlerts() {
+    fetch('/trigger-notification', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            // Display the alert data to the user
+            alert(data.message || "New alert received!");
+        })
+        .catch(error => console.error("Error fetching alerts:", error));
+}

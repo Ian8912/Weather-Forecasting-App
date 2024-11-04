@@ -24,6 +24,7 @@ const FeatureDisplaySection = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
+  const [isAlertsModalOpen, setIsAlertsModalOpen] = useState(false);
 
   // Toggles for layers
   const [showClouds, setShowClouds] = useState(false);
@@ -102,6 +103,14 @@ const FeatureDisplaySection = () => {
     setIsModalOpen(false);  // Close the modal
   };
 
+  const openAlertsModal = () => {
+    setIsAlertsModalOpen(true); // Open the alerts modal
+  };
+
+  const closeAlertsModal = () => {
+    setIsAlertsModalOpen(false); // Close the alerts modal
+  };
+
   const toggleLayer = (layer) => {
     if (layer === 'clouds') setShowClouds(!showClouds);
     if (layer === 'precipitation') setShowPrecipitation(!showPrecipitation);
@@ -113,6 +122,9 @@ const FeatureDisplaySection = () => {
   const handleFeatureClick = (feature) => {
     if (feature === 'maps') {
       openModal();  // Open the modal when "Interactive Maps" is clicked
+    } else if (feature === 'alerts') {
+      console.log("Alerts card clicked");
+      openAlertsModal();
     } else {
       setActiveFeature(feature);  // Handle other feature clicks
     }
@@ -177,6 +189,7 @@ const FeatureDisplaySection = () => {
           }
         }}
       >
+
         {/* Message to instruct users */}
         <div style={{
           position: 'absolute',
