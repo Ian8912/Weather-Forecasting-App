@@ -188,34 +188,6 @@ function App() {
     };
   }, [hasModalBeenShown]);
 
-  useEffect(() => {
-    const resetTimer = () => {
-      clearTimeout(timerId);
-      if (!hasModalBeenShown) {
-        const newTimerId = setTimeout(() => {
-          handleOpenModal();
-        }, 300000); 
-        setTimerId(newTimerId);
-      }
-    };
-
-    window.addEventListener('mousemove', resetTimer);
-    window.addEventListener('keydown', resetTimer);
-    window.addEventListener('click', resetTimer);
-
-    const initialTimerId = setTimeout(() => {
-      handleOpenModal();
-    }, 300000);
-    setTimerId(initialTimerId);
-
-    return () => {
-      clearTimeout(initialTimerId);
-      window.removeEventListener('mousemove', resetTimer);
-      window.removeEventListener('keydown', resetTimer);
-      window.removeEventListener('click', resetTimer);
-    };
-  }, [hasModalBeenShown, timerId]);
-
   const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
     setFormData({
