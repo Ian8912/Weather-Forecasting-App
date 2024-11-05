@@ -80,10 +80,13 @@ dist-ssr
 venv/
 .venv/
 
-# Compiled Python bytecode
+# Compiled Python code
 
 *.pyc
 *__pycache__/
 *pytest_cache
+tempCodeRunnerFile.py
 
 *.sqlite
+
+requirements.txt

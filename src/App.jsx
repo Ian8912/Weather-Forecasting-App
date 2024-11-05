@@ -11,8 +11,10 @@ import OpenWeatherIcon from './components/OpenWeatherIcon';
 import FeedbackForm from './components/FeedbackForm';
 import { RenderWeatherData } from './components/RenderWeatherData';
 import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
-import FeedbackModal from './components/FeedbackModal'
 import { useTranslation } from './routes/TranslationContext';
+import FeedbackModal from './components/FeedbackModal';
+import db from './firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 
 // Functional component for the loading spinner
@@ -24,6 +26,7 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
   
@@ -190,15 +193,22 @@ function App() {
 
   const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value
-    });
+    }));
   };
 
-  const handleFeedbackSubmit = (e) => {
+  const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting feedback form:', formData);
+    try {
+      await addDoc(collection(db, 'feedback'), formData);
+      console.log('Feedback submitted successfully');
+      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
+    } catch (error) {
+      const errorMsg = errorService.handleError(error);
+      setErrorMessage(errorMsg.errorMessage);
+    }
   };
 
   
@@ -237,15 +247,23 @@ function App() {
 
           
         {/* Footer */}
-        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-          {translatedText.Give}
-          </button>
-          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
+        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
+          <div className="flex flex-col items-center space-y-2">
+            <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
+              {translatedText.Give}
+            </button>
+            <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
+          </div>
         </footer>
-      </div>
+        </div>
 
-      <FeedbackModal isVisible={isModalVisible} onClose={handleCloseModal} />
+      <FeedbackModal 
+        isVisible={isModalVisible} 
+        onClose={handleCloseModal} 
+        onSubmit={handleFeedbackSubmit} 
+        formData={formData} 
+        handleFeedbackChange={handleFeedbackChange} 
+/>
     </div>
   );
 }
