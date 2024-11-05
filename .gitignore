@@ -86,3 +86,7 @@ venv/
 *__pycache__/
 *pytest_cache
 tempCodeRunnerFile.py
+
+*.sqlite
+
+requirements.txt

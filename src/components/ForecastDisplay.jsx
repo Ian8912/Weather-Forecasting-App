@@ -2,43 +2,19 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { ForcastCard } from './ForcastCard'
 
-export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setError}) => {
+import WeatherIconService from '../WeatherIconService'
 
-    const [forecastData, setForecastData] = useState([])
+export const ForecastDisplay = ({forecastData, cityhasBeenEntered, errorMessage, setError, isFahrenheit}) => {
 
-    useEffect(() => {
-        const fetchForecast = async () => {
-            try {
-              const response = await fetch(`http://localhost:5000/forecast?city=${city}`, {
-                method: 'GET', // Make sure it's a GET request
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              });
-      
-              if (!response.ok) {
-                throw new Error('Failed to fetch forecast data');
-              }
-      
-              const data = await response.json();
-              console.log(data);
-              
-              setForecastData(data); // Assuming the forecast data contains a 'list' array
-            } catch (error) {
-              setError(error.message);
-            }
-          };
-          
-          if (cityhasBeenEntered && city && city.trim())
-            fetchForecast();
-        }, [city, errorMessage]); 
-      
+    const IconServicer = new WeatherIconService()      
 
   return (
-    <div className="container mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
+    <div className="container flex flex-wrap justify-center items-center mx-auto gap-5">
     {forecastData ? forecastData.map((day, index) => (
+      <>
       <ForcastCard key={index} 
-        date={day.date}
+        icon={IconServicer.OpenMeteoForecastingIcons(day.precipitateDescription, day.winddescription)}
+        date={index == 0 ? day.date = "Today" : day.date}
         maxC={day.maxC}
         maxF={day.maxF}
         minC={day.minC}
@@ -46,8 +22,9 @@ export const ForecastDisplay = ({city, cityhasBeenEntered, errorMessage, setErro
         precipitationDescription={day.precipitateDescription}
         winddescription={day.winddescription}
         windspeed={day.windspeed}
-      
+        isFahrenheit={isFahrenheit}
       />
+      </>
     )) : 
     <p>{errorMessage}</p>
     }

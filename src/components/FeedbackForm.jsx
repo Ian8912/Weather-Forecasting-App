@@ -1,15 +1,32 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { useTranslation } from '../routes/TranslationContext';
 
-const FeatureForm = () => {
-  const { t } = useTranslation(); // Translation function
+const FeedbackForm = () => {
+  const { translatedText } = useTranslation();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    feedback: ''
+  });
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    
+  }
+
+  const handleChange = (e) => {
+    console.log(e);
+    
+  }
+
   return (
-   <div className="container mx-auto">
-    <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{t('Feedback Form')}</h3>
+   <div className="container mx-auto =-5">
+    <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{translatedText.feedbackForm}</h3>
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-        {t('Name')}
+        {translatedText.Name}
         </label>
         <input
           id="name"
@@ -22,7 +39,7 @@ const FeatureForm = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-        {t('Email')}
+        {translatedText.Email}
         </label>
         <input
           id="email"
@@ -35,7 +52,7 @@ const FeatureForm = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-        {t('Feedback')}
+        {translatedText.Feedback}
         </label>
         <textarea
           id="feedback"
@@ -49,11 +66,11 @@ const FeatureForm = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
       >
-        {t('Submit')}
+        {translatedText.Submit}
       </button>
     </form>
   </div>
   )
 }
 
-export default FeatureForm
+export default FeedbackForm

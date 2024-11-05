@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import CoordinateInputCard from './components/CoordinateInputCard';
-import FeatureDisplaySection from './components/FeatureDisplaySection';
-import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
 import errorService from './errorService';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { SearchBar } from './components/SearchBar';
+import WeatherIconService from './WeatherIconService';
+import OpenWeatherIcon from './components/OpenWeatherIcon';
+import FeedbackForm from './components/FeedbackForm';
+import { RenderWeatherData } from './components/RenderWeatherData';
+import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
+import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
 import db from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
@@ -22,14 +26,11 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    feedback: ''
-  });
   
+  const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
   const [city, setCity] = useState(''); 
@@ -50,6 +51,8 @@ function App() {
         return handledResponse.json();
       })
       .then((data) => {
+        console.log(data);
+        
         setWeatherData(data);
         setLoading(false);
       })
@@ -58,7 +61,8 @@ function App() {
         setErrorMessage(errorMsg.errorMessage);
         setLoading(false);
       });
-  };
+  };      
+
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -159,40 +163,40 @@ function App() {
     setModalVisible(false);
   };
 
+  const timerRef = useRef(null);
+
   useEffect(() => {
     const resetTimer = () => {
-      clearTimeout(timerId);
+      clearTimeout(timerRef.current);
       if (!hasModalBeenShown) {
-        const newTimerId = setTimeout(() => {
+        timerRef.current = setTimeout(() => {
           handleOpenModal();
         }, 300000); 
-        setTimerId(newTimerId);
       }
     };
-
+  
     window.addEventListener('mousemove', resetTimer);
     window.addEventListener('keydown', resetTimer);
     window.addEventListener('click', resetTimer);
-
-    const initialTimerId = setTimeout(() => {
+  
+    timerRef.current = setTimeout(() => {
       handleOpenModal();
     }, 300000);
-    setTimerId(initialTimerId);
-
+  
     return () => {
-      clearTimeout(initialTimerId);
+      clearTimeout(timerRef.current);
       window.removeEventListener('mousemove', resetTimer);
       window.removeEventListener('keydown', resetTimer);
       window.removeEventListener('click', resetTimer);
     };
-  }, [hasModalBeenShown, timerId]);
+  }, [hasModalBeenShown]);
 
   const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value
-    });
+    }));
   };
 
   const handleFeedbackSubmit = async (e) => {
@@ -207,71 +211,14 @@ function App() {
     }
   };
 
-  const RenderWeatherData = ({ weatherData }) => {
-    if (!weatherData) {
-      return <p>{t('No weather data available. Please enter a city to check the weather.')}</p>;
-    }
-
-    return (
-      <section className="py-8">
-        <div className="container mx-auto text-center">
-          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">Condition: {weatherData.description}</p>
-            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
-            <p className="text-lg">
-              UV Index: {weatherData.uv_index || 'N/A'}
-            </p>
-            <p className="text-lg">Air Quality: {weatherData.air_quality} AQI</p>
-          </div>
-        </div>
-      </section>
-    );
-  };
-
+  
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`flex-col ${darkMode ? 'dark' : ''}`}>
-      <div className="p-12 bg-white dark:bg-[#0f172a]">
+    <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
+      <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
         {/* Navbar */}
-        <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold">WeatherLink</h1>
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-            <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          </div>
-          {menuOpen && (
-            <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          )}
-        </nav>
-
+        <Navbar />
         {/* Weather Form Section */}
         <SearchBar 
           city={city} 
@@ -284,38 +231,27 @@ function App() {
           hasCityBeenEntered={setCityHasBeenEntered}
           />
         {/* Conditional rendering for loading spinner and weather data */}
-    <>
-      {loading ? (
-        <LoadingSpinner />
-      ) : weatherData ? (
-        <> 
-          <RenderWeatherData weatherData={weatherData} />
-          {cityHasBeenEntered && <ForecastDisplay city={city} cityhasBeenEntered={cityHasBeenEntered} errorMessage={errorMessage} setError={setErrorMessage} />}
+    
+      {weatherData ?
+        <RenderWeatherData  
+            weatherData={weatherData}
+            city={city}
+            cityHasBeenEntered={cityHasBeenEntered}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+            loading={loading}
+        />
+        : 
+        <LoadingSpinner/>
+      }
+
           
-        </>
-        
-      ) : (
-        <p className="text-center">No weather data available.</p>
-      )}
-    </>
-   
-
-        <CoordinateInputCard />
-
-        {/* Features Section */}
-        <FeatureDisplaySection />
-
         {/* Footer */}
-        <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <div className="container mx-auto flex flex-col items-center space-y-4">
-            <button
-              onClick={handleOpenModal}
-              className="bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg"
-            >
-              Give Feedback
-            </button>
-            <p>&copy; 2024 WeatherLink. All rights reserved.</p>
-          </div>
+        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
+          <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 mt-4 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
+            {translatedText.Give}
+          </button>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
         </footer>
       </div>
 

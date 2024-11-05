@@ -1,6 +1,8 @@
 import React from 'react'
 import errorService from '../errorService';
-import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from '../routes/TranslationContext';
+
 export const SearchBar = ({city, 
   suggestions, 
   errorMessage, setcity, 
@@ -9,30 +11,32 @@ export const SearchBar = ({city,
    handleWeatherSubmit,
   }) => {
 
-  const { t } = useTranslation();
+  
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleWeatherSubmit(e); // Trigger the form submit when Enter is pressed
     }
   };
-    
+  
+  const { translatedText } = useTranslation(); // Translation hook
   return (
-    <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
-          <h2 className="text-4xl font-bold">{t('Get the Latest Weather Updates')}</h2>
-          <p className="mt-4 text-lg">{t('Enter a city name to get current weather updates.')}</p>
+    <header className=" dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-black py-24 text-center"
+    style={{ borderRadius: '5rem' }}>
+          <h2 className="text-4xl font-bold">{translatedText.Latest}</h2>
+          <p className="mt-4 text-lg">{translatedText.cityName}</p>
           <>
             {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
           </>
           <form onSubmit={handleWeatherSubmit} className="mt-8">
             <div className="relative inline-block w-full max-w-sm">
-              <input
-                type="text"
-                value={city}  // Bind to `city` state
-                onChange={handleCityChange}  // Update `city` as user types
-                onKeyDown={handleKeyPress}
-                placeholder="Enter city name"
-                className="text-black w-full px-3 py-2 border rounded text-sm"
-              />
+            <input
+              type="text"
+              value={city}  // Bind to `city` state
+              onChange={handleCityChange}  // Update `city` as user types
+              onKeyDown={handleKeyPress}
+                placeholder={translatedText.enterName}
+              className="text-black w-full px-6 py-3 border rounded-full text-sm shadow-md focus:outline-none focus:border-blue-800"
+            />
 
               {/* Suggestions dropdown */}
               {suggestions.length > 0 && (
@@ -54,6 +58,7 @@ export const SearchBar = ({city,
               Check Weather Now
             </button>*/}
           </form>
+          <LanguageSelector />
         </header>
   )
 }

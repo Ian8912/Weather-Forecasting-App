@@ -1,8 +1,9 @@
 import React from 'react';
+import { useTranslation } from '../routes/TranslationContext';
 
 const FeedbackModal = ({ isVisible, onClose, onSubmit, formData, handleFeedbackChange }) => {
   if (!isVisible) return null;
-
+  const { translatedText } = useTranslation(); // Translation hook
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg relative">
@@ -44,7 +45,7 @@ const FeedbackModal = ({ isVisible, onClose, onSubmit, formData, handleFeedbackC
               onChange={handleFeedbackChange}
             ></textarea>
           </div>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">{translatedText.Submit}</button>
         </form>
       </div>
     </div>
