@@ -121,6 +121,34 @@ This is a **weather app** project created for our software engineering course. G
 
 **##############################################################################################**
 
+
+## Sprint 2 (October 14th, 2024 - November 4th, 2024)
+
+### Contributions
+
+**Anthony:**
+
+- **Jira Task SCRUM-140: Break down some components (e.g., App.jsx) into smaller, reusable components.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-140
+
+- **Jira Task SCRUM-100: install i18next dependencies and configure i18next file**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-100
+
+- **Jira Task SCRUM-99: Set up DeepL API in the backend**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-99
+
+- **Jira Task SCRUM-97: Configure all front-end files to apply translation**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-97
+
+- **Jira Task SCRUM-97: Implement language selection (e.g., English, Spanish, French) in the settings or header.**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
+
+
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
