@@ -148,7 +148,6 @@ This is a **weather app** project created for our software engineering course. G
 
 - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
 
-
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
@@ -251,6 +250,26 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 - **Jira Task SCRUM-97: Implement language selection (e.g., English, Spanish, French) in the settings or header.**
 
   - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
+
+**##############################################################################################**
+
+**Nicholas:**
+
+- **Jira Task SCRUM-142: API-integration for feedback form**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-142?atlOrigin=eyJpIjoiNWMwODFjMjU5NzkwNGQ1Nzg4YjQxODcyNDM3ZDRlOTUiLCJwIjoiaiJ9
+
+- **Jira Task SCRUM-136: Folder rescruture, organizes components, services, and utilities in a scalable manner.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-139?atlOrigin=eyJpIjoiMjczMTYyZTk1NjgzNGRiYzlkZDI3YzMzZDUxZDU2ZjciLCJwIjoiaiJ9
+
+- **Jira SCRUM-25: Create feedback form automation**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-143?atlOrigin=eyJpIjoiNzhhZmJjZmVkNzQ1NDRhZmJhOGExMTVkNDJhOGJlMTciLCJwIjoiaiJ9
+
+- **Jira SCRUM-145: Implement Success and Error Messages for Feedback Submission**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-145?atlOrigin=eyJpIjoiYTkzNTE2ODJjYjE1NDU4YzliZWQwYTRhODAxNDhjYTMiLCJwIjoiaiJ9
 
 **##############################################################################################**
 
