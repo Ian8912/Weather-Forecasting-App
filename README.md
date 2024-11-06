@@ -202,6 +202,8 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 
 **##############################################################################################**
 
+**Anthony:**
+
 - **Jira Task SCRUM-140: Break down some components (e.g., App.jsx) into smaller, reusable components.**
 
   - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-140
