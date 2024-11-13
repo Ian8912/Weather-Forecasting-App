@@ -3,8 +3,6 @@ from flask_cors import CORS
 import json
 from weatherService import *
 from translationService import *
-import { db } from './firebaseConfig';
-
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
