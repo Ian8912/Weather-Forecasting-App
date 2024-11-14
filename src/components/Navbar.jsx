@@ -24,7 +24,7 @@ export const Navbar = () => {
 
       {/* Links for Larger Screens */}
       <ul className="hidden md:flex space-x-6">
-      <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Home}</a></li>
+      <li><Link to = "/" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Home}</Link></li>
       <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Features}</a></li>
       <li><Link to = "/contact" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.Contact}</Link></li>
       <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">{translatedText.logIn}</a></li>
