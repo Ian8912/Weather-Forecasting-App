@@ -21,7 +21,7 @@ export const ForecastDisplay = ({forecastData, cityhasBeenEntered, errorMessage,
         minF={day.minF}
         precipitationDescription={day.precipitateDescription}
         winddescription={day.winddescription}
-        windspeed={day.windspeed}
+        windspeed={parseFloat(day.windspeed).toFixed(1)}
         isFahrenheit={isFahrenheit}
       />
       </>
