@@ -27,7 +27,9 @@ export const ForcastCard = ({
   const circlePosition = calculateCirclePosition(currentTempF, minF, maxF);
 
   return (
-    <div className="weather-card max-w-xs w-full sm:w-1/2 md:w-1/3 lg:w-1/6 p-4 m-2 bg-white rounded-3xl hover:shadow-2xl transition-transform hover:scale-105 flex flex-col">
+    <div
+      className="weather-card max-w-xs w-64 h-60 p-4 m-2 bg-white rounded-3xl hover:shadow-2xl transition-transform hover:scale-105 flex flex-col"
+    >
       
     {/* Date and Icon */}
     <div className="flex justify-between items-center mb-4">
