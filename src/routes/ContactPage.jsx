@@ -14,6 +14,14 @@ function ContactPage () {
                     that are missing that could better inform the user when it comes to the weather. 
                     We hope to create an app that people can love and appreciate.
                     </p>
+
+                    <div className="flex flex-col items-start p-4 bg-blue-400 rounded-lg">
+                        <h3 className="text-2xl font-semibold text-black mb-2">Our Goal</h3>
+                        <p className="text-black">
+                        This project's main goal is to have a functional app that tends to all the user's needs 
+                        while embedding features that enhances the user experience.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
