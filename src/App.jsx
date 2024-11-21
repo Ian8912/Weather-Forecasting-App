@@ -17,6 +17,9 @@ import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import API_BASE_URL from "./config";
 
+console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
+
+
 
 
 // Functional component for the loading spinner
