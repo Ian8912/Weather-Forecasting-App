@@ -9,7 +9,7 @@ app = Flask(__name__, static_folder='../client/dist', template_folder='../client
 CORS(app)
 
 
-@app.route('/weather/', methods=['GET'])
+@app.route('/weather', methods=['GET'])
 def weather():
     lat = request.args.get('lat')
     lon = request.args.get('lon')
