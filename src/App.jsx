@@ -17,9 +17,6 @@ import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import API_BASE_URL from "./config";
 
-console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
-
-
 
 
 // Functional component for the loading spinner
@@ -120,7 +117,7 @@ function App() {
     setCity(cityInput);
 
     if (cityInput.length > 2) {
-      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+      fetch(`${API_BASE_URL}/city-suggestions?city=${cityInput}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.cities) {
@@ -209,10 +206,10 @@ function App() {
     try {
       await addDoc(collection(db, 'feedback'), formData);
       console.log('Feedback submitted successfully');
-      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
+      setFormData({ name: '', email: '', feedback: '' });
     } catch (error) {
-      const errorMsg = errorService.handleError(error);
-      setErrorMessage(errorMsg.errorMessage);
+      console.error('Error submitting feedback:', error);
+      setErrorMessage('Failed to submit feedback. Please try again.');
     }
   };
 
