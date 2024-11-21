@@ -9,7 +9,8 @@ export const ForecastDisplay = ({forecastData, cityhasBeenEntered, errorMessage,
     const IconServicer = new WeatherIconService()      
 
   return (
-    <div className="container flex flex-wrap justify-center items-center mx-auto gap-5">
+    <div className="container flex flex-wrap justify-center items-start mx-auto gap-5">
+
     {forecastData ? forecastData.map((day, index) => (
       <>
       <ForcastCard key={index} 
@@ -21,7 +22,7 @@ export const ForecastDisplay = ({forecastData, cityhasBeenEntered, errorMessage,
         minF={day.minF}
         precipitationDescription={day.precipitateDescription}
         winddescription={day.winddescription}
-        windspeed={day.windspeed}
+        windspeed={parseFloat(day.windspeed).toFixed(1)}
         isFahrenheit={isFahrenheit}
       />
       </>

@@ -265,7 +265,7 @@ function App() {
         onSubmit={handleFeedbackSubmit} 
         formData={formData} 
         handleFeedbackChange={handleFeedbackChange} 
-/>
+      />
     </div>
   );
 }
