@@ -15,6 +15,8 @@ import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
 import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import API_BASE_URL from "./config";
+
 
 
 // Functional component for the loading spinner
@@ -42,7 +44,7 @@ function App() {
 
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+    fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
       .then((response) => {
         const handledResponse = errorService.handleApiError(response, 'Failed to fetch weather data.');
         if (handledResponse.errorMessage) {
@@ -88,7 +90,7 @@ function App() {
     }
 
     setLoading(true);  
-    fetch(`http://localhost:5000/weather?city=${city}`)
+    fetch(`${API_BASE_URL}/weather?city=${city}`)
       .then((response) => {
         if (!response.ok) {
           if (response.status === 404) {
