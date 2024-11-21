@@ -1,0 +1,60 @@
+.history-saved-cities {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .city-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .city-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .city-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .city-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .city-name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .city-temp {
+    color: #555;
+  }
+  
+  .weather-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .remove-button {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .remove-button:hover {
+    background-color: #c0392b;
+  }
+  
