@@ -4,6 +4,8 @@ import { ForecastDisplay } from './ForecastDisplay'
 import '../App.css'
 import { useState, useEffect } from 'react'
 import { useTranslation } from '../routes/TranslationContext';
+import API_BASE_URL from "../config";
+
 
 export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, errorMessage, setErrorMessage, loading, forecastingData } ) => {
 
@@ -14,7 +16,7 @@ export const RenderWeatherData = ( { weatherData, city, cityHasBeenEntered, erro
     useEffect(() => {
         const fetchForecast = async () => {
             try {
-              const response = await fetch(`http://localhost:5000/forecast?city=${weatherData.city}`, {
+              const response = await fetch(`${API_BASE_URL}/forecast?city=${weatherData.city}`, {
                 method: 'GET', 
                 headers: {
                   'Content-Type': 'application/json'

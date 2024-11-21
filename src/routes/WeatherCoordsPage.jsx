@@ -20,7 +20,7 @@ const WeatherPage = () => {
 
    useEffect(() => {
     if (lat && long) {
-      fetch(`http://localhost:5000/coords/${lat}/${long}/`)
+      fetch(`${API_BASE_URL}/coords/${lat}/${long}/`)
         .then((response) => {
           const handledResponse = errorService.handleApiError(response, 'Failed to fetch weather data.');
           if (handledResponse.errorMessage) {

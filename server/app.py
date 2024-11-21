@@ -14,7 +14,7 @@ CORS(app)
 load_dotenv()
 
 
-@app.route('/weather/', methods=['GET'])
+@app.route('/weather', methods=['GET'])
 def weather():
     lat = request.args.get('lat')
     lon = request.args.get('lon')
@@ -200,4 +200,4 @@ def generate_prompt():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=5000)
