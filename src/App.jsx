@@ -15,6 +15,7 @@ import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
 import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import HistorySavedCities from './components/HistorySavedCities';
 
 
 // Functional component for the loading spinner
@@ -40,6 +41,15 @@ function App() {
   const [timerId, setTimerId] = useState(null);
   const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
 
+  const [savedCities, setSavedCities] = useState([
+    { name: 'New York', country: 'USA' },
+    { name: 'Tokyo', country: 'Japan' },
+  ]);
+  const [recentHistory, setRecentHistory] = useState([
+    { name: 'Los Angeles', country: 'USA' },
+    { name: 'London', country: 'UK' },
+  ]);
+  
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
     fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
@@ -102,7 +112,13 @@ function App() {
         setWeatherData(data);  
         setLoading(false);  
         setSuggestions([]);  
-        setErrorMessage(null);  
+        setErrorMessage(null); 
+        
+        setRecentHistory((prev) => {
+          const updatedHistory = prev.filter((c) => c.name !== city);
+          updatedHistory.unshift({ name: city });
+          return updatedHistory.slice(0, 5); // Keep the history limited to 5 cities
+        });
       })
       .catch((error) => {
         setLoading(false);  
@@ -244,7 +260,6 @@ function App() {
         : 
         <LoadingSpinner/>
       }
-
           
         {/* Footer */}
         <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
