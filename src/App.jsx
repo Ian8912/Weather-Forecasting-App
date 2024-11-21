@@ -143,7 +143,7 @@ function App() {
 
     setLoading(true);
     setCityHasBeenEntered(true)
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+    fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
         setWeatherData({ ...data, ...locationDetails }); 
