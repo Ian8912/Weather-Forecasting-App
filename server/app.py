@@ -3,10 +3,15 @@ from flask_cors import CORS
 import json
 from weatherService import *
 from translationService import *
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
 CORS(app)
+
+load_dotenv()
 
 
 @app.route('/weather/', methods=['GET'])
@@ -157,6 +162,41 @@ def translate():
 def get_keys():
     keys = get_api_keys()  # Call the function to get API keys
     return jsonify(keys)
+
+
+# Initialize the OpenAI client
+client = OpenAI(
+    api_key = os.environ.get("OPENAI_API_KEY")  # Load API key from environment variables
+)
+
+@app.route('/generate-prompt', methods=['POST'])
+def generate_prompt():
+    try:
+        # Get input from the frontend
+        data = request.json
+        user_input = data.get('user_input', '')
+
+        # Generate response using OpenAI client
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": user_input,
+                }
+            ],
+            model="gpt-3.5-turbo",  # Update model if necessary
+            max_tokens=100 # Limit the response to 100 tokens
+        )
+
+        response_content = chat_completion.choices[0].message.content.strip()
+
+        # Extract and return the assistant's response
+        return jsonify({'response': response_content})
+    except Exception as e:
+        # Log and return the error
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
+
 
 
 if __name__ == '__main__':
