@@ -6,6 +6,7 @@ from translationService import *
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from notificationsBackend import notifications_bp
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
@@ -141,7 +142,6 @@ def forecast():
         return jsonify({"error": "Cannot find forecast for this city!"}), 400
     return jsonify(data), 200
 
-
 @app.route('/translate', methods=['POST'])
 def translate():
     data = request.json
@@ -197,7 +197,7 @@ def generate_prompt():
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
 
-
+app.register_blueprint(notifications_bp)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
