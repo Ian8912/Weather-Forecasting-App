@@ -1,4 +1,7 @@
 .history-saved-cities {
+    position: relative;
+    left: 4%;
+    width: 90%;
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;

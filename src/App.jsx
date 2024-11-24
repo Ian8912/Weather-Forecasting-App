@@ -32,14 +32,14 @@ function App() {
     {
       name: 'New York',
       temperature: 22,
-      icon: 'https://example.com/sunny-icon.png',
+      icon: 'https://openweathermap.org/img/wn/01d@2x.png',
       weather: 'Sunny',
       isSaved: true,
     },
     {
       name: 'San Francisco',
       temperature: 18,
-      icon: 'https://example.com/cloudy-icon.png',
+      icon: 'https://openweathermap.org/img/wn/04d@2x.png',
       weather: 'Cloudy',
       isSaved: false,
     },
