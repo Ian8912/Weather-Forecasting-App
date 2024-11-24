@@ -27,6 +27,32 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  
+  const [cities, setCities] = useState([
+    {
+      name: 'New York',
+      temperature: 22,
+      icon: 'https://example.com/sunny-icon.png',
+      weather: 'Sunny',
+      isSaved: true,
+    },
+    {
+      name: 'San Francisco',
+      temperature: 18,
+      icon: 'https://example.com/cloudy-icon.png',
+      weather: 'Cloudy',
+      isSaved: false,
+    },
+  ]);
+
+  const handleCityClick = (cityName) => {
+    console.log(`Clicked on city: ${cityName}`);
+  };
+
+  const handleRemoveCity = (cityName) => {
+    setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
+  };
+
   const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,15 +66,6 @@ function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
   const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
-
-  const [savedCities, setSavedCities] = useState([
-    { name: 'New York', country: 'USA' },
-    { name: 'Tokyo', country: 'Japan' },
-  ]);
-  const [recentHistory, setRecentHistory] = useState([
-    { name: 'Los Angeles', country: 'USA' },
-    { name: 'London', country: 'UK' },
-  ]);
   
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
@@ -72,7 +89,6 @@ function App() {
         setLoading(false);
       });
   };      
-
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -227,7 +243,6 @@ function App() {
     }
   };
 
-  
   const [darkMode, setDarkMode] = useState(false);
 
   return (
@@ -247,7 +262,12 @@ function App() {
           hasCityBeenEntered={setCityHasBeenEntered}
           />
         {/* Conditional rendering for loading spinner and weather data */}
-    
+        {/* HistorySavedCities */}
+      <HistorySavedCities
+        cities={cities}
+        onCityClick={handleCityClick}
+        onRemoveCity={handleRemoveCity}
+      />
       {weatherData ?
         <RenderWeatherData  
             weatherData={weatherData}
