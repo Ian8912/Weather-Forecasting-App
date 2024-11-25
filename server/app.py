@@ -160,11 +160,13 @@ def translate():
     if not texts or not target_lang:
         return jsonify({'error': 'Invalid input'}), 400
 
-    # Translation logic (e.g., using a translation API)
-    translations = []
-    for text in texts:
-        # Replace with actual API call or translation logic
-        translations.append(f"Translated {text} to {target_lang}")
+    # Join all texts with line breaks for batch translation
+    joined_text = "\n".join(texts)
+
+    # Call fetch_translation and return the results
+    translations = fetch_translation(joined_text, target_lang)
+    if isinstance(translations, dict) and 'error' in translations:
+        return jsonify(translations), 500
 
     return jsonify({'translated_texts': translations}), 200
 
