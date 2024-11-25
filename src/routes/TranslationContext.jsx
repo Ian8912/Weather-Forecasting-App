@@ -22,23 +22,24 @@ export const TranslationProvider = ({ children }) => {
           target_lang: targetLang,
         }),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Translation API failed');
       }
-
+  
       const data = await response.json();
       const translated = {};
       Object.keys(texts).forEach((key, index) => {
         translated[key] = data.translated_texts[index];
       });
-      setTranslatedText(translated);
+      setTranslatedText(translated); // No debug strings
     } catch (error) {
       console.error('Translation error:', error);
       alert('Translation failed. Please try again later.');
     }
   };
+  
 
   const handleLanguageChange = async (selectedLang) => {
     setLanguage(selectedLang);
