@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import { getTimeOfDay } from './timeOfDayUtils.js';
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
@@ -18,8 +19,6 @@ import { collection, addDoc } from 'firebase/firestore';
 import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
 
-
-
 // Functional component for the loading spinner
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-16">
@@ -29,7 +28,7 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  
+  const [timeOfDay, setTimeOfDay] = useState(''); // NEW: Tracks the time of day
   const [cities, setCities] = useState([
     {
       name: 'New York',
@@ -56,9 +55,8 @@ function App() {
   };
 
   const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
-  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
+  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  
   const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
@@ -68,7 +66,7 @@ function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
   const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
-  
+
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
     fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
@@ -81,23 +79,29 @@ function App() {
       })
       .then((data) => {
         console.log(data);
-        
         setWeatherData(data);
         setLoading(false);
+
+        // NEW: Set the time of day based on fetched weather data
+        if (data.sunrise && data.sunset) {
+          const currentTime = new Date().toISOString();
+          const calculatedTimeOfDay = getTimeOfDay(currentTime, data.sunrise, data.sunset);
+          setTimeOfDay(calculatedTimeOfDay);
+        }
       })
       .catch((error) => {
         const errorMsg = errorService.handleError(error);
         setErrorMessage(errorMsg.errorMessage);
         setLoading(false);
       });
-  };      
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          fetchWeatherByCoords(latitude, longitude);  
+          fetchWeatherByCoords(latitude, longitude);
         },
         (error) => {
           setErrorMessage('Unable to access location. Please enter a city manually.');
@@ -109,13 +113,13 @@ function App() {
   }, []);
 
   const handleWeatherSubmit = (e) => {
-    e.preventDefault();  
+    e.preventDefault();
     if (!city) {
       alert('Please enter a city');
       return;
     }
 
-    setLoading(true);  
+    setLoading(true);
     fetch(`${API_BASE_URL}/weather?city=${city}`)
       .then((response) => {
         if (!response.ok) {
@@ -127,180 +131,63 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setWeatherData(data);  
-        setLoading(false);  
-        setSuggestions([]);  
-        setErrorMessage(null); 
-        
-        setRecentHistory((prev) => {
-          const updatedHistory = prev.filter((c) => c.name !== city);
-          updatedHistory.unshift({ name: city });
-          return updatedHistory.slice(0, 5); // Keep the history limited to 5 cities
-        });
+        setWeatherData(data);
+        setLoading(false);
+        setSuggestions([]);
+        setErrorMessage(null);
+
+        // NEW: Set the time of day when fetching weather by city
+        if (data.sunrise && data.sunset) {
+          const currentTime = new Date().toISOString();
+          const calculatedTimeOfDay = getTimeOfDay(currentTime, data.sunrise, data.sunset);
+          setTimeOfDay(calculatedTimeOfDay);
+        }
       })
       .catch((error) => {
-        setLoading(false);  
-        setErrorMessage(error.message);  
+        setLoading(false);
+        setErrorMessage(error.message);
       });
   };
-
-  const handleCityChange = (e) => {
-    const cityInput = e.target.value;
-    setCity(cityInput);
-
-    if (cityInput.length > 2) {
-      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.cities) {
-            setSuggestions(data.cities); 
-          } else {
-            setSuggestions([]);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching city suggestions:', error);
-        });
-    } else {
-      setSuggestions([]); 
-    }
-  };
-
-  const handleCitySelect = (selectedCity) => {
-    const { lat, lon, name, state, country } = selectedCity;
-    setCity(name); 
-    setSuggestions([]); 
-
-    const locationDetails = { name, state, country };
-
-    setLoading(true);
-    setCityHasBeenEntered(true)
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setWeatherData({ ...data, ...locationDetails }); 
-        setLoading(false); 
-      })
-      .catch((error) => {
-        console.error('Error fetching weather data:', error);
-        setLoading(false); // Stop loading even if there's an error
-        setCityHasBeenEntered(false)
-      });
-  };
-
-  const handleOpenModal = () => {
-    setModalVisible(true);
-    setHasModalBeenShown(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
-
-  const timerRef = useRef(null);
-
-  useEffect(() => {
-    const resetTimer = () => {
-      clearTimeout(timerRef.current);
-      if (!hasModalBeenShown) {
-        timerRef.current = setTimeout(() => {
-          handleOpenModal();
-        }, 300000); 
-      }
-    };
-  
-    window.addEventListener('mousemove', resetTimer);
-    window.addEventListener('keydown', resetTimer);
-    window.addEventListener('click', resetTimer);
-  
-    timerRef.current = setTimeout(() => {
-      handleOpenModal();
-    }, 300000);
-  
-    return () => {
-      clearTimeout(timerRef.current);
-      window.removeEventListener('mousemove', resetTimer);
-      window.removeEventListener('keydown', resetTimer);
-      window.removeEventListener('click', resetTimer);
-    };
-  }, [hasModalBeenShown]);
-
-  const handleFeedbackChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value
-    }));
-  };
-
-  const handleFeedbackSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await addDoc(collection(db, 'feedback'), formData);
-      console.log('Feedback submitted successfully');
-      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
-    } catch (error) {
-      const errorMsg = errorService.handleError(error);
-      setErrorMessage(errorMsg.errorMessage);
-    }
-  };
-
-  const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
+    <div className={`py-8 flex-col ${timeOfDay} overflow-x-hidden`}>
       <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
         {/* Navbar */}
         <Navbar />
+
         {/* Weather Form Section */}
-        <SearchBar 
-          city={city} 
-          suggestions={suggestions} 
-          errorMessage={errorMessage} 
-          setCity={setCity} 
-          handleCityChange={handleCityChange} 
-          handleCitySelect={handleCitySelect} 
+        <SearchBar
+          city={city}
+          suggestions={suggestions}
+          errorMessage={errorMessage}
+          setCity={setCity}
+          handleCityChange={(e) => setCity(e.target.value)}
+          handleCitySelect={(selectedCity) => handleCityClick(selectedCity.name)}
           handleWeatherSubmit={handleWeatherSubmit}
           hasCityBeenEntered={setCityHasBeenEntered}
-          />
-        {/* Conditional rendering for loading spinner and weather data */}
-        {/* HistorySavedCities */}
-      <HistorySavedCities
-        cities={cities}
-        onCityClick={handleCityClick}
-        onRemoveCity={handleRemoveCity}
-      />
-      {weatherData ?
-        <RenderWeatherData  
+        />
+
+        {/* History Saved Cities */}
+        <HistorySavedCities
+          cities={cities}
+          onCityClick={handleCityClick}
+          onRemoveCity={handleRemoveCity}
+        />
+
+        {/* Render Weather Data */}
+        {weatherData ? (
+          <RenderWeatherData
             weatherData={weatherData}
             city={city}
             cityHasBeenEntered={cityHasBeenEntered}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
             loading={loading}
-        />
-        : 
-        <LoadingSpinner/>
-      }
-          
-        {/* Footer */}
-        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
-          <div className="flex flex-col items-center space-y-2">
-            <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-              {translatedText.Give}
-            </button>
-            <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
-          </div>
-        </footer>
-        </div>
-
-      <FeedbackModal 
-        isVisible={isModalVisible} 
-        onClose={handleCloseModal} 
-        onSubmit={handleFeedbackSubmit} 
-        formData={formData} 
-        handleFeedbackChange={handleFeedbackChange} 
-      />
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
     </div>
   );
 }
