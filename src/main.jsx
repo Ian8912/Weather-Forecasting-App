@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
     
         <Routes>
-          
+          <Route path="/news" element={<NewsPage />} />
           <Route path="/" element={<App />} /> 
           <Route path="/coords/:lat/:long/" element={<WeatherPage />} />
           <Route path="/tailored-advice" element={<TailoredAdvice/>} />
