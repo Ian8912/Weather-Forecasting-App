@@ -7,6 +7,7 @@ import WeatherPage from './routes/WeatherCoordsPage.jsx'
 import { TranslationProvider } from './routes/TranslationContext';
 import TailoredAdvice from './routes/TailoredAdvice.jsx'
 import ContactPage from './routes/ContactPage.jsx'
+import NewsPage from './routes/NewsPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <TranslationProvider>
