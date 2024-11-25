@@ -15,6 +15,7 @@ import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
 import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
 
 
@@ -28,6 +29,32 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  
+  const [cities, setCities] = useState([
+    {
+      name: 'New York',
+      temperature: 22,
+      icon: 'https://openweathermap.org/img/wn/01d@2x.png',
+      weather: 'Sunny',
+      isSaved: true,
+    },
+    {
+      name: 'San Francisco',
+      temperature: 18,
+      icon: 'https://openweathermap.org/img/wn/04d@2x.png',
+      weather: 'Cloudy',
+      isSaved: false,
+    },
+  ]);
+
+  const handleCityClick = (cityName) => {
+    console.log(`Clicked on city: ${cityName}`);
+  };
+
+  const handleRemoveCity = (cityName) => {
+    setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
+  };
+
   const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,7 +68,7 @@ function App() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
   const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
-
+  
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
     fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
@@ -64,7 +91,6 @@ function App() {
         setLoading(false);
       });
   };      
-
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -104,7 +130,13 @@ function App() {
         setWeatherData(data);  
         setLoading(false);  
         setSuggestions([]);  
-        setErrorMessage(null);  
+        setErrorMessage(null); 
+        
+        setRecentHistory((prev) => {
+          const updatedHistory = prev.filter((c) => c.name !== city);
+          updatedHistory.unshift({ name: city });
+          return updatedHistory.slice(0, 5); // Keep the history limited to 5 cities
+        });
       })
       .catch((error) => {
         setLoading(false);  
@@ -213,7 +245,6 @@ function App() {
     }
   };
 
-  
   const [darkMode, setDarkMode] = useState(false);
 
   return (
@@ -233,7 +264,12 @@ function App() {
           hasCityBeenEntered={setCityHasBeenEntered}
           />
         {/* Conditional rendering for loading spinner and weather data */}
-    
+        {/* HistorySavedCities */}
+      <HistorySavedCities
+        cities={cities}
+        onCityClick={handleCityClick}
+        onRemoveCity={handleRemoveCity}
+      />
       {weatherData ?
         <RenderWeatherData  
             weatherData={weatherData}
@@ -246,7 +282,6 @@ function App() {
         : 
         <LoadingSpinner/>
       }
-
           
         {/* Footer */}
         <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
