@@ -11,7 +11,11 @@ app = Flask(__name__, static_folder='../client/dist', template_folder='../client
 
 CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:5173", "https://gorn-weather-app.onrender.com"]
+        "origins": [
+            "http://localhost:5173",  # Local development
+            "https://weatherlink-ac684.web.app",  # Firebase deployed frontend
+            "https://weatherlinkdatabase.web.app"  # Another possible deployment site
+        ]
     }
 })
 
@@ -159,7 +163,12 @@ def translate():
     # Join all texts with line breaks for batch translation
     joined_text = "\n".join(texts)
 
-    return fetch_translation(joined_text, target_lang)
+    # Call fetch_translation and return the results
+    translations = fetch_translation(joined_text, target_lang)
+    if isinstance(translations, dict) and 'error' in translations:
+        return jsonify(translations), 500
+
+    return jsonify({'translated_texts': translations}), 200
 
 
 # Endpoint to send API keys to the front end securely
