@@ -9,7 +9,11 @@ from dotenv import load_dotenv
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={r"/*": {"origins": ["https://weatherlink-ac684.web.app"]}})
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173", "https://gorn-weather-app.onrender.com"]
+    }
+})
 
 
 load_dotenv()

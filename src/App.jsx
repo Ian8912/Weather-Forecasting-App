@@ -13,8 +13,8 @@ import { RenderWeatherData } from './components/RenderWeatherData';
 import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
-import { db } from './firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from "firebase/firestore";
+import { feedbackDb } from "./firebaseConfig";
 import API_BASE_URL from "./config";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -204,15 +204,24 @@ function App() {
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.feedback) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
     try {
-      await addDoc(collection(db, 'feedback'), formData);
-      console.log('Feedback submitted successfully');
-      setFormData({ name: '', email: '', feedback: '' });
+      console.log("Preparing to submit feedback:", formData);
+      const feedbackCollection = collection(feedbackDb, "feedback"); // Use feedbackDb here
+      console.log("Firestore collection reference:", feedbackCollection);
+      await addDoc(feedbackCollection, formData);
+      console.log("Feedback submitted successfully");
+      setFormData({ name: "", email: "", feedback: "" });
     } catch (error) {
-      console.error('Error submitting feedback:', error);
-      setErrorMessage('Failed to submit feedback. Please try again.');
+      console.error("Error submitting feedback:", error);
+      setErrorMessage("Failed to submit feedback. Please try again.");
     }
   };
+  
+  
 
   
   const [darkMode, setDarkMode] = useState(false);
