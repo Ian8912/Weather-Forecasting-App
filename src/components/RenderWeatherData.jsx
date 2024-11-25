@@ -4,7 +4,7 @@ import { ForecastDisplay } from './ForecastDisplay';
 import '../App.css';
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../routes/TranslationContext';
-import API_BASE_URL from './config';
+import API_BASE_URL from "../config";
 
 export const RenderWeatherData = ({
   weatherData,
