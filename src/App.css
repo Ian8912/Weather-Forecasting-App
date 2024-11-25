@@ -1,43 +1,50 @@
+/* Root styles */
 #root {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* App container */
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Top Background Section */
+.top-background {
+  position: relative;
+  height: 40vh; /* Adjust this height based on preference */
+  background: url('/images/forest-background.svg') no-repeat center center;
+  background-size: cover; /* Ensure it scales nicely */
+  z-index: 1;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+  color: white; /* Ensure text or buttons are visible */
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Weather Info Section (Inside Top Background) */
+.weather-info {
+  text-align: center;
+  z-index: 2; /* Ensure it appears above the background */
+  color: #ffffff; /* Text color for the title and search bar */
+  padding: 1rem;
 }
 
-.card {
-  padding: 2em;
+/* Main Content Section */
+.main-content {
+  position: relative;
+  flex: 1; /* Allow it to fill the remaining space */
+  z-index: 3; /* Ensure it is above everything */
+  background: white; /* Keep a clean background for the rest of the page */
+  padding: 2rem;
 }
 
-.read-the-docs {
-  color: #888;
-}
-
+/* Weather card */
 .weather-card {
   background-color: #f9f9f9;
   padding: 1.5rem;
@@ -57,20 +64,7 @@
   margin: 0.5rem 0;
 }
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column; /* Stack the spinner and text vertically */
-  justify-content: center;
-  align-items: center; /* Horizontally center the content */
-  min-height: 200px; /* Adjust height if needed */
-}
-
+/* Spinner styles */
 .spinner {
   display: inline-block;
   width: 50px;
@@ -81,75 +75,59 @@
   animation: spinner 1s ease-in-out infinite;
 }
 
-.spinner-text {
-  margin-top: 10px; /* Adjust for spacing between spinner and text */
-  font-size: 1.2rem;
-  color: #888;
+/* Animated Background */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Keep the background behind content */
+  background: url('/images/forest-background.svg') no-repeat center center;
+  background-size: cover; /* Ensure it scales to the screen */
+  animation: subtle-move 30s linear infinite; /* Smooth movement */
 }
 
-/* Regular styles */
-body {
-  background-color: white;
-  color: black;
+/* Keyframes for subtle animation */
+@keyframes subtle-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 50% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
-/* Forced Colors Mode */
-@media (forced-colors: active) {
-  body {
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-  /* Example for a button */
-  button {
-    background-color: ButtonFace;
-    color: ButtonText;
-    border-color: ButtonText;
-  }
-
-  /* Example for links */
-  a {
-    color: LinkText;
-  }
-
-  /* Example for any other elements */
-  .card {
-    background-color: ButtonFace;
-    color: WindowText;
-    border-color: GrayText;
-  }
-
-  .checkbox-large {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  /* Unified Weather Card Style */
-  .unified-weather-card {
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 10rem;
-    margin-top: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-
-.unified-weather-card h3 {
-  font-size: 2rem;
-  color: #333;
+/* Time-of-Day Themes */
+.app-container.morning .top-background {
+  filter: brightness(1.2); /* Brighten the background for morning */
 }
 
-.unified-weather-card .forecast-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
+.app-container.afternoon .top-background {
+  filter: brightness(1); /* Normal brightness for afternoon */
 }
 
+.app-container.evening .top-background {
+  filter: brightness(0.8) sepia(0.3); /* Warm tones for evening */
+}
+
+.app-container.night .top-background {
+  filter: brightness(0.5) contrast(1.2); /* Darken for night */
+}
+
+/* Footer */
+footer {
+  background: #312e81; /* Dark blue */
+  color: #cbd5e1; /* Light text */
+  text-align: center;
+  padding: 1rem;
+}
+
+footer button {
+  background-color: #3b82f6; /* Blue button */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+footer button:hover {
+  background-color: #2563eb; /* Darker blue */
 }
