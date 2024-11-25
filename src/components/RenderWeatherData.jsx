@@ -22,25 +22,25 @@ export const RenderWeatherData = ({
   useEffect(() => {
     const fetchForecast = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/forecast?city=${weatherData.city}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
+        if (!weatherData || !weatherData.city) throw new Error("City data is missing.");
+    
+        const response = await fetch(`${API_BASE_URL}/forecast?city=${weatherData.city}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
         if (!response.ok) {
-          throw new Error(`Forecast error: ${response.statusText}`);
+          throw new Error(`Failed to fetch forecast: ${response.statusText}`);
         }
-
+    
         const data = await response.json();
         setForecastData(data);
-        setForecastError(null); // Clear any existing errors
+        setForecastError(null);
       } catch (error) {
-        setForecastError(error.message); // Set forecast error
+        console.error('Error fetching forecast:', error.message);
+        setForecastError(error.message);
       }
     };
 
