@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import texts from '../texts';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import API_BASE_URL from "../config";
 
 const TranslationContext = createContext();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 export const useTranslation = () => useContext(TranslationContext);
 
 export const TranslationProvider = ({ children }) => {
-  const [language, setLanguage] = useState('EN');
+  const [language, setLanguage] = useState("EN");
   const [translatedText, setTranslatedText] = useState({});
 
   const translateAllText = async (texts, targetLang) => {
