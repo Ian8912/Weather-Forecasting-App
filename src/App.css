@@ -139,17 +139,36 @@ body {
     max-width: 800px;
     margin: auto;
   }
-  
 
-.unified-weather-card h3 {
-  font-size: 2rem;
-  color: #333;
+  .unified-weather-card h3 {
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .unified-weather-card .forecast-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
 }
 
-.unified-weather-card .forecast-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
+/* New Styles for Dynamic Background Based on Time of Day */
+.app-container.morning {
+  background-color: #ffefb5; /* Example morning background */
+  transition: background-color 0.5s ease-in-out;
 }
 
+.app-container.afternoon {
+  background-color: #87cefa; /* Example afternoon background */
+  transition: background-color 0.5s ease-in-out;
+}
+
+.app-container.evening {
+  background-color: #ffcccb; /* Example evening background */
+  transition: background-color 0.5s ease-in-out;
+}
+
+.app-container.night {
+  background-color: #2c3e50; /* Example night background */
+  transition: background-color 0.5s ease-in-out;
 }
