@@ -28,7 +28,7 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  const [timeOfDay, setTimeOfDay] = useState(''); // NEW: Tracks the time of day
+  const [timeOfDay, setTimeOfDay] = useState('day'); // Add timeOfDay state
   const [cities, setCities] = useState([
     {
       name: 'New York',
@@ -57,11 +57,12 @@ function App() {
   const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(false); 
-  const [city, setCity] = useState(''); 
-  const [suggestions, setSuggestions] = useState([]); 
+  const [loading, setLoading] = useState(false);
+  const [city, setCity] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
@@ -96,6 +97,7 @@ function App() {
       });
   };
 
+  // Geolocation Effect
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -111,6 +113,22 @@ function App() {
       setErrorMessage('Geolocation is not supported by your browser.');
     }
   }, []);
+
+  // Time-of-Day Effect
+  useEffect(() => {
+    const now = new Date();
+    const hours = now.getHours();
+
+    if (hours >= 6 && hours < 12) {
+      setTimeOfDay('morning');
+    } else if (hours >= 12 && hours < 18) {
+      setTimeOfDay('afternoon');
+    } else if (hours >= 18 && hours < 21) {
+      setTimeOfDay('evening');
+    } else {
+      setTimeOfDay('night');
+    }
+  }, []); // Minimal addition to set the time of day
 
   const handleWeatherSubmit = (e) => {
     e.preventDefault();
@@ -135,13 +153,6 @@ function App() {
         setLoading(false);
         setSuggestions([]);
         setErrorMessage(null);
-
-        // NEW: Set the time of day when fetching weather by city
-        if (data.sunrise && data.sunset) {
-          const currentTime = new Date().toISOString();
-          const calculatedTimeOfDay = getTimeOfDay(currentTime, data.sunrise, data.sunset);
-          setTimeOfDay(calculatedTimeOfDay);
-        }
       })
       .catch((error) => {
         setLoading(false);
@@ -149,45 +160,73 @@ function App() {
       });
   };
 
+  const handleCityChange = (e) => {
+    const cityInput = e.target.value;
+    setCity(cityInput);
+
+    if (cityInput.length > 2) {
+      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.cities) {
+            setSuggestions(data.cities);
+          } else {
+            setSuggestions([]);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching city suggestions:', error);
+        });
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+    setHasModalBeenShown(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <div className={`py-8 flex-col ${timeOfDay} overflow-x-hidden`}>
+    <div className={`app-container ${timeOfDay}`}>
+      {/* Top Section with the Animated Background */}
+      <div className="top-background">
+        <div className="weather-info">
+          <h1 className="text-white text-3xl font-bold">Get the Latest Weather Updates</h1>
+          <SearchBar
+            city={city}
+            suggestions={suggestions}
+            errorMessage={errorMessage}
+            setCity={setCity}
+            handleCityChange={handleCityChange}
+            handleWeatherSubmit={handleWeatherSubmit}
+          />
+        </div>
+      </div>
+
       <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
-        {/* Navbar */}
         <Navbar />
-
-        {/* Weather Form Section */}
-        <SearchBar
-          city={city}
-          suggestions={suggestions}
-          errorMessage={errorMessage}
-          setCity={setCity}
-          handleCityChange={(e) => setCity(e.target.value)}
-          handleCitySelect={(selectedCity) => handleCityClick(selectedCity.name)}
-          handleWeatherSubmit={handleWeatherSubmit}
-          hasCityBeenEntered={setCityHasBeenEntered}
-        />
-
-        {/* History Saved Cities */}
         <HistorySavedCities
           cities={cities}
           onCityClick={handleCityClick}
           onRemoveCity={handleRemoveCity}
         />
-
-        {/* Render Weather Data */}
         {weatherData ? (
-          <RenderWeatherData
-            weatherData={weatherData}
-            city={city}
-            cityHasBeenEntered={cityHasBeenEntered}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
-            loading={loading}
-          />
+          <RenderWeatherData weatherData={weatherData} />
         ) : (
           <LoadingSpinner />
         )}
+        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
+          <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+            {translatedText.Give}
+          </button>
+        </footer>
       </div>
+      <FeedbackModal isVisible={isModalVisible} onClose={handleCloseModal} />
     </div>
   );
 }
