@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 load_dotenv()
 
