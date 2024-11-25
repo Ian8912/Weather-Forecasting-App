@@ -13,6 +13,19 @@
   flex-direction: column;
 }
 
+/* Navbar styles */
+.navbar {
+  position: relative;
+  z-index: 3; /* Ensure it is above the background */
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* Top Background Section */
 .top-background {
   position: relative;
@@ -25,14 +38,23 @@
   justify-content: center; /* Horizontally center the content */
   color: white; /* Ensure text or buttons are visible */
   padding: 1rem;
+  text-align: center;
 }
 
 /* Weather Info Section (Inside Top Background) */
 .weather-info {
-  text-align: center;
   z-index: 2; /* Ensure it appears above the background */
   color: #ffffff; /* Text color for the title and search bar */
   padding: 1rem;
+}
+
+.weather-info h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.weather-info .search-bar {
+  margin-top: 1rem;
 }
 
 /* Main Content Section */
@@ -42,37 +64,57 @@
   z-index: 3; /* Ensure it is above everything */
   background: white; /* Keep a clean background for the rest of the page */
   padding: 2rem;
+  margin-top: -2rem; /* Slight overlap for visual effect */
+  border-radius: 8px; /* Smooth edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-/* Weather card */
-.weather-card {
+/* Recent & Saved Cities Section */
+.recent-saved-cities {
+  margin-top: 1rem;
+  padding: 1rem;
   background-color: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-top: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recent-saved-cities button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recent-saved-cities button:hover {
+  background-color: #2563eb;
+}
+
+.recent-saved-cities button:focus {
+  outline: 2px solid #93c5fd;
+}
+
+/* Footer */
+footer {
+  background: #312e81; /* Dark blue */
+  color: #cbd5e1; /* Light text */
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
 }
 
-.weather-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+footer button {
+  background-color: #3b82f6; /* Blue button */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
 }
-
-.weather-card p {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-}
-
-/* Spinner styles */
-.spinner {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(195, 195, 195, 0.6);
-  border-radius: 50%;
-  border-top-color: #646cff;
-  animation: spinner 1s ease-in-out infinite;
+footer button:hover {
+  background-color: #2563eb; /* Darker blue */
 }
 
 /* Animated Background */
@@ -110,24 +152,4 @@
 
 .app-container.night .top-background {
   filter: brightness(0.5) contrast(1.2); /* Darken for night */
-}
-
-/* Footer */
-footer {
-  background: #312e81; /* Dark blue */
-  color: #cbd5e1; /* Light text */
-  text-align: center;
-  padding: 1rem;
-}
-
-footer button {
-  background-color: #3b82f6; /* Blue button */
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-footer button:hover {
-  background-color: #2563eb; /* Darker blue */
 }

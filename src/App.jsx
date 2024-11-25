@@ -193,7 +193,10 @@ function App() {
 
   return (
     <div className={`app-container ${timeOfDay}`}>
-      {/* Top Section with the Animated Background */}
+      {/* Navbar at the top */}
+      <Navbar />
+  
+      {/* Top Background Section */}
       <div className="top-background">
         <div className="weather-info">
           <h1 className="text-white text-3xl font-bold">Get the Latest Weather Updates</h1>
@@ -207,14 +210,18 @@ function App() {
           />
         </div>
       </div>
-
-      <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
-        <Navbar />
+  
+      {/* Recent and Saved Cities Section */}
+      <div className="recent-saved-cities p-4">
         <HistorySavedCities
           cities={cities}
           onCityClick={handleCityClick}
           onRemoveCity={handleRemoveCity}
         />
+      </div>
+  
+      {/* Main Content Section */}
+      <div className="main-content p-2 bg-white dark:bg-[#0f172a]">
         {weatherData ? (
           <RenderWeatherData weatherData={weatherData} />
         ) : (
@@ -226,6 +233,8 @@ function App() {
           </button>
         </footer>
       </div>
+  
+      {/* Feedback Modal */}
       <FeedbackModal isVisible={isModalVisible} onClose={handleCloseModal} />
     </div>
   );
