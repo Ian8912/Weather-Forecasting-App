@@ -17,8 +17,7 @@ def fetch_translation(text, lang):
     )
 
     if response.status_code == 200:
-        # Split the translated texts back into an array
         translations = response.json()['translations'][0]['text'].split("\n")
-        return jsonify({'translated_texts': translations})
+        return translations  # Ensure clean response
     else:
-        return jsonify({'error': 'Translation failed'}), response.status_code
+        return {'error': 'Translation failed'}, response.status_code
