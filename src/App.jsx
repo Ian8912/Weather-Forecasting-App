@@ -16,6 +16,7 @@ import FeedbackModal from './components/FeedbackModal';
 import { db } from './firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import API_BASE_URL from "./config";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 
