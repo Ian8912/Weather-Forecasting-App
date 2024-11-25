@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { getTimeOfDay } from './timeOfDayUtils.js';
+import { getTimeOfDay } from './utils/timeOfDayUtils.js'; // Utility for determining the time of day
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
