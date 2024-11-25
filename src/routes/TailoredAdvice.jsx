@@ -18,11 +18,11 @@ function TailoredAdvice() {
 
   // Array of background images
   const images = [
-    '/images/noaa-day-clouds-unsplash.jpg',
-    '/images/noaa-grassfield-unsplash.jpg',
-    '/images/noaa-night-lightning-unsplash.jpg',
-    '/images/noaa-ocean-sunset-unsplash.jpg',
-    '/images/noaa-snowy-terrain-unsplash.jpg'
+    '/images/noaa-day-clouds-unsplash.jpg?v=1',
+    '/images/noaa-grassfield-unsplash.jpg?v=1',
+    '/images/noaa-night-lightning-unsplash.jpg?v=1',
+    '/images/noaa-ocean-sunset-unsplash.jpg?v=1',
+    '/images/noaa-snowy-terrain-unsplash.jpg?v=1',
   ];
 
   // Set a random background image on component mount
