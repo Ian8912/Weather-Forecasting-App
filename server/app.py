@@ -11,7 +11,11 @@ app = Flask(__name__, static_folder='../client/dist', template_folder='../client
 
 CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:5173", "https://gorn-weather-app.onrender.com"]
+        "origins": [
+            "http://localhost:5173",  # Local development
+            "https://weatherlink-ac684.web.app",  # Firebase deployed frontend
+            "https://weatherlinkdatabase.web.app"  # Another possible deployment site
+        ]
     }
 })
 
