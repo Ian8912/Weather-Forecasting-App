@@ -3,8 +3,7 @@ import OpenWeatherIcon from '../components/OpenWeatherIcon';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
 import Modal from 'react-modal';
 import { useTranslation } from '../routes/TranslationContext';
-import API_BASE_URL from './config';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import API_BASE_URL from '../config';
 
 
 const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit }) => {
