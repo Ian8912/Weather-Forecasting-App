@@ -121,20 +121,51 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (document.querySelector('.sky-background')) {
-      const updateShootingStarPosition = () => {
-        const skyBackground = document.querySelector('.sky-background::before');
-        const randomX = Math.floor(Math.random() * 100); // Random horizontal position (0-100%)
-        const randomY = Math.floor(Math.random() * 50); // Random vertical position (0-50% of the screen)
+    const createShootingStar = () => {
+      const shootingStarsContainer = document.querySelector('.shooting-stars');
+      if (!shootingStarsContainer) return; // Prevent errors if container is not available
+  
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      const randomX = Math.random() * 100;
+      star.style.setProperty('--x', `${randomX}vw`);
+      shootingStarsContainer.appendChild(star);
+  
+      setTimeout(() => {
+        shootingStarsContainer.removeChild(star);
+      }, 5000); // Matches the animation duration
+    };
+    
+    const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
-        // Apply the random positions to custom properties
-        document.documentElement.style.setProperty('--x', `${randomX}%`);
-        document.documentElement.style.setProperty('--y', `${randomY}%`);
+  useEffect(() => {
+    setTimeout(() => {
+      const cloudContainer = document.querySelector('.clouds');
+      if (!cloudContainer) return; // Prevent errors if container is not available
+  
+      const createCloud = () => {
+        const cloud = document.createElement('div');
+        cloud.className = 'cloud';
+  
+        // Randomize size and vertical position
+        const randomSize = Math.random() > 0.5 ? 'small' : 'large';
+        const randomY = Math.random() * 50;
+  
+        cloud.classList.add(randomSize);
+        cloud.style.top = `${randomY}vh`;
+  
+        cloudContainer.appendChild(cloud);
+  
+        setTimeout(() => {
+          cloudContainer.removeChild(cloud);
+        }, 40000); // Matches the longest animation duration
       };
-
-      // Update position periodically
-      setInterval(updateShootingStarPosition, 5000); // Matches animation duration
-    }
+  
+      const interval = setInterval(createCloud, Math.random() * 4000 + 6000);
+      return () => clearInterval(interval); // Cleanup on unmount
+    }, 0);
   }, []);
 
   const handleWeatherSubmit = (e) => {
@@ -284,6 +315,9 @@ function App() {
         <div className="sky-background">
           {/* Shooting Stars Container */}
           <div className="shooting-stars"></div>
+  
+          {/* Clouds Container */}
+          <div className="clouds"></div>
         </div>
   
         {/* Navbar */}
@@ -346,7 +380,6 @@ function App() {
       />
     </div>
   );
-  
   
 }
 

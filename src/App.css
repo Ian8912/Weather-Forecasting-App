@@ -1,170 +1,44 @@
+/* Base styles */
 #root {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.weather-card {
-  background-color: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-top: 1.5rem;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.weather-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.weather-card p {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column; /* Stack the spinner and text vertically */
-  justify-content: center;
-  align-items: center; /* Horizontally center the content */
-  min-height: 200px; /* Adjust height if needed */
-}
-
-.spinner {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(195, 195, 195, 0.6);
-  border-radius: 50%;
-  border-top-color: #646cff;
-  animation: spinner 1s ease-in-out infinite;
-}
-
-.spinner-text {
-  margin-top: 10px; /* Adjust for spacing between spinner and text */
-  font-size: 1.2rem;
-  color: #888;
-}
-
-/* Regular styles */
 body {
   background-color: white;
   color: black;
 }
 
-/* Forced Colors Mode */
+/* Forced Colors Mode for accessibility */
 @media (forced-colors: active) {
   body {
     background-color: ButtonFace;
     color: ButtonText;
   }
-
-  /* Example for a button */
   button {
     background-color: ButtonFace;
     color: ButtonText;
     border-color: ButtonText;
   }
-
-  /* Example for links */
   a {
     color: LinkText;
   }
-
-  /* Example for any other elements */
   .card {
     background-color: ButtonFace;
     color: WindowText;
     border-color: GrayText;
   }
-
-  .checkbox-large {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  /* Unified Weather Card Style */
-  .unified-weather-card {
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 10rem;
-    margin-top: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-
-.unified-weather-card h3 {
-  font-size: 2rem;
-  color: #333;
 }
 
-.unified-weather-card .forecast-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
-}
-
-}
-
-
-/* Extend the background for the entire top section */
+/* Top Section and Sky Background */
 .top-section {
   position: relative;
   width: 100%;
-  min-height: 300px; /* Adjust based on your design */
+  min-height: 300px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 2rem; /* Space between the background and the content */
+  padding-bottom: 2rem;
 }
 
 .sky-background {
@@ -173,7 +47,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #0b1c47, #111827); /* Night sky gradient */
   z-index: -1;
   overflow: hidden;
 }
@@ -183,9 +56,16 @@ body {
   background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Daytime colors */
 }
 
-/* Starry Night */
+.app-container.morning .sky-background {
+  background: linear-gradient(to bottom, #fbcf8c, #87ceeb); /* Morning colors */
+}
+
+.app-container.evening .sky-background {
+  background: linear-gradient(to bottom, #ff7f50, #1e3a8a); /* Evening colors */
+}
+
 .app-container.night .sky-background {
-  background: linear-gradient(to bottom, #0b1c47, #111827); /* Dark blue gradient for night */
+  background: linear-gradient(to bottom, #0b1c47, #111827); /* Nighttime colors */
 }
 
 /* Stars */
@@ -220,7 +100,7 @@ body {
   z-index: -1;
 }
 
-/* Twinkling animation */
+/* Twinkling Animation */
 @keyframes twinkling {
   0%, 100% {
     opacity: 1;
@@ -230,60 +110,121 @@ body {
   }
 }
 
-/* Shooting Star: Randomized */
-.app-container.night .sky-background::before {
-  content: '';
+/* Shooting Stars (Dynamic via JavaScript) */
+.shooting-star {
   position: absolute;
   width: 150px; /* Length of the shooting star */
   height: 2px; /* Thickness of the shooting star */
   background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
   z-index: -1; /* Behind the content */
-  animation: shooting-star 5s infinite ease-in-out;
-  opacity: 0;
-  
-  /* Custom properties for random start position */
-  --x: 0; /* Horizontal start position */
-  --y: 0; /* Vertical start position */
-  top: var(--y); /* Set starting vertical position */
-  left: var(--x); /* Set starting horizontal position */
+  animation: shooting-star 5s ease-in-out;
+  opacity: 0.8; /* Initial visibility */
 }
 
-/* Shooting Star Animation with Random Start */
+/* Shooting Star Animation */
 @keyframes shooting-star {
   0% {
-    opacity: 0;
-    transform: translate(0, 0) rotate(45deg);
-  }
-  10% {
+    transform: translate(var(--x), 0) rotate(45deg); /* Start at the top */
     opacity: 1;
   }
-  50% {
-    opacity: 0.8;
-    transform: translate(100vw, 100vh) rotate(45deg); /* Move across the screen */
+  80% {
+    opacity: 0.6;
   }
   100% {
+    transform: translate(calc(var(--x) + 100vw), 100vh) rotate(45deg); /* Move diagonally off-screen */
     opacity: 0;
-    transform: translate(200vw, 200vh) rotate(45deg);
   }
 }
 
-.app-container.morning .sky-background {
-  background: linear-gradient(to bottom, #fbcf8c, #87ceeb); /* Morning colors */
-}
 
-.app-container.evening .sky-background {
-  background: linear-gradient(to bottom, #ff7f50, #1e3a8a); /* Evening colors */
-}
-
-/* Content section styles */
+/* Main Content */
 .content {
   padding: 1rem;
-  z-index: 2; /* Keep content above the top section */
+  z-index: 2;
   background-color: #f9f9f9;
   color: #000;
 }
 
 .app-container.night .content {
   background-color: #0f172a;
-  color: #cbd5e1; /* Light text for dark mode */
+  color: #cbd5e1;
+}
+
+/* Other Components */
+.weather-card {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.weather-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.weather-card p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(195, 195, 195, 0.6);
+  border-radius: 50%;
+  border-top-color: #646cff;
+  animation: spinner 1s ease-in-out infinite;
+}
+
+/* Cloud Container */
+.clouds {
+  position: absolute;
+  top: 20%; /* Adjust vertical positioning as needed */
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1; /* Behind main content */
+  overflow: hidden;
+  pointer-events: none; /* Make clouds non-interactive */
+}
+
+/* Individual Cloud */
+.cloud {
+  position: absolute;
+  width: 10%; /* Scaled for responsiveness */
+  height: 5%;
+  background: rgba(255, 255, 255, 0.8); /* White with transparency */
+  border-radius: 50%;
+  box-shadow: 
+    50px 50px 20px rgba(255, 255, 255, 0.5), /* Softer layers */
+    100px 100px 40px rgba(255, 255, 255, 0.3);
+  animation: move-clouds 30s linear infinite;
+  will-change: transform, opacity; /* Performance optimization */
+}
+
+/* Randomize Cloud Sizes */
+.cloud.small {
+  width: 8%;
+  height: 4%;
+  animation-duration: 20s; /* Faster for smaller clouds */
+}
+
+.cloud.large {
+  width: 15%;
+  height: 8%;
+  animation-duration: 40s; /* Slower for larger clouds */
+}
+
+/* Cloud Movement */
+@keyframes move-clouds {
+  0% {
+    transform: translateX(-150%); /* Start off-screen left */
+  }
+  100% {
+    transform: translateX(150%); /* Move off-screen right */
+  }
 }
