@@ -175,6 +175,7 @@ body {
   height: 100%; /* Full height of the top section */
   z-index: -1; /* Ensure it stays behind all content */
   transition: background 1s ease-in-out;
+  overflow: hidden; /* Prevent stars from overflowing */
 }
 
 /* Dynamic Backgrounds Based on Time */
@@ -182,8 +183,36 @@ body {
   background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Daytime colors */
 }
 
+/* Starry Night */
 .app-container.night .sky-background {
-  background: linear-gradient(to bottom, #1e3a8a, #111827); /* Nighttime colors */
+  background: linear-gradient(to bottom, #0b1c47, #111827); /* Dark blue gradient for night */
+}
+
+/* Add stars */
+.app-container.night .sky-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+              radial-gradient(2px 2px at 50% 10%, #fff, transparent),
+              radial-gradient(1.5px 1.5px at 70% 60%, #fff, transparent),
+              radial-gradient(2px 2px at 90% 50%, #fff, transparent),
+              radial-gradient(1px 1px at 10% 80%, #fff, transparent),
+              radial-gradient(1.5px 1.5px at 60% 90%, #fff, transparent);
+  animation: twinkling 3s infinite;
+}
+
+/* Twinkling animation */
+@keyframes twinkling {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .app-container.morning .sky-background {
