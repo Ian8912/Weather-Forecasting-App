@@ -9,81 +9,49 @@ export const Navbar = () => {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <nav className="navbar text-black dark:bg-[#312e81] dark:text-[#cbd5e1] shadow-lg">
-        <div className="container mx-auto flex justify-between items-center p-4">
-          {/* Logo */}
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-[#cbd5e1]">
-            WeatherLink
-          </h1>
+      <nav className="fixed top-0 left-0 w-full bg-white dark:bg-[#312e81] text-black dark:text-[#cbd5e1] z-50 shadow-md">
+        <div className="container mx-auto flex justify-between items-center py-4 px-6">
+          <h1 className="text-2xl font-bold">WeatherLink</h1>
 
           {/* Hamburger Menu for Mobile */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-blue-600 dark:text-[#cbd5e1] focus:outline-none"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-black dark:text-white focus:outline-none">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
 
           {/* Links for Larger Screens */}
           <ul className="hidden md:flex space-x-6">
             <li>
-              <Link
-                to="/"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <Link to="/" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Home}
               </Link>
             </li>
             <li>
-              <Link
-                to="/tailored-advice"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <Link to="/tailored-advice" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 Tailored Advice
               </Link>
             </li>
             <li>
-              <Link
-                to="/features"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Features}
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                to="/contact"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <Link to="/contact" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Contact}
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.logIn}
-              </Link>
+              </a>
             </li>
             <li>
               {/* Button to toggle dark mode */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="dark-mode-toggle ml-1"
+                className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg"
               >
                 {darkMode ? 'Light Mode' : 'Dark Mode'}
               </button>
@@ -93,51 +61,32 @@ export const Navbar = () => {
 
         {/* Links for Smaller Screens, Toggled by Hamburger Button */}
         {menuOpen && (
-          <ul className="md:hidden flex flex-col space-y-4 bg-white dark:bg-[#1e1b4b] text-center p-4">
+          <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
             <li>
-              <Link
-                to="/"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Home}
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                to="/tailored-advice"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
-                Tailored Advice
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/features"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Features}
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                to="/contact"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.Contact}
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                to="/login"
-                className="nav-link hover:bg-blue-700 dark:hover:bg-[#1e1b4b]"
-              >
+              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
                 {translatedText.logIn}
-              </Link>
+              </a>
             </li>
             <li>
+              {/* Button to toggle dark mode */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="dark-mode-toggle"
+                className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg"
               >
                 {darkMode ? 'Light Mode' : 'Dark Mode'}
               </button>
