@@ -108,17 +108,29 @@ function App() {
   }, []);
 
 
-  // Simulate different times of the day for testing:
-  // *** TESTING PURPOSES ONLY DO NOT DELETE JUST IGNORE ***
-  //useEffect(() => {
-  //  setTimeOfDay('morning'); // Change to 'day', 'evening', or 'night' to test
-  //}, []);
+  /* Simulate different times of the day for testing:
+   * *** TESTING PURPOSES ONLY DO NOT DELETE JUST IGNORE  *** */
+
+/*  useEffect(() => {
+    setTimeOfDay('night'); // Change to 'day', 'evening', or 'night' to test
+  }, []); */
+
+  const getTimeOfDay = (now) => {
+    const currentHour = now.getHours();
+    if (currentHour >= 6 && currentHour < 12) {
+      return "morning"; // 6:00 AM to 11:59 AM
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "day"; // 12:00 PM to 5:59 PM
+    } else if (currentHour >= 18 && currentHour < 21) {
+      return "evening"; // 6:00 PM to 8:59 PM
+    } else {
+      return "night"; // 9:00 PM to 5:59 AM
+    }
+  };
 
   useEffect(() => {
-    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
-    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
-    const now = Date.now();
-    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
+    const now = new Date();
+    const currentPeriod = getTimeOfDay(now);
     setTimeOfDay(currentPeriod);
   }, []);
 
