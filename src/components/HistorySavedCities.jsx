@@ -34,12 +34,10 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
         } else {
           console.error('Failed to fetch recent cities:', response.statusText);
           setError('Failed to load recent cities.');
-          setCities(mockRecentCities); // Use mock data as fallback
         }
       } catch (error) {
         console.error('Error fetching recent cities:', error);
         setError('An error occurred while fetching cities.');
-        setCities(mockRecentCities); // Use mock data as fallback
       } finally {
         setLoading(false);
       }
