@@ -1,43 +1,159 @@
+/* Base styles */
+@import 'mapbox-gl/dist/mapbox-gl.css';
 #root {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  background-color: white;
+  color: black;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Forced Colors Mode for accessibility */
+@media (forced-colors: active) {
+  body {
+    background-color: ButtonFace;
+    color: ButtonText;
   }
-  to {
-    transform: rotate(360deg);
+  button {
+    background-color: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonText;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  a {
+    color: LinkText;
+  }
+  .card {
+    background-color: ButtonFace;
+    color: WindowText;
+    border-color: GrayText;
   }
 }
 
-.card {
-  padding: 2em;
+/* Sky Background */
+.sky-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Restrict to .top-section height */
+  z-index: -1; /* Keep it behind .top-section */
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+/* Top Section */
+.top-section {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  z-index: 1; /* Ensure it’s above the sky-background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem;
+  overflow: hidden; /* Prevent it from overflowing into the map */
 }
 
+/* Dynamic Backgrounds Based on Time */
+.app-container.day .sky-background {
+  background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Daytime colors */
+}
+
+.app-container.morning .sky-background {
+  background: linear-gradient(to bottom, #fbcf8c, #87ceeb); /* Morning colors */
+}
+
+.app-container.evening .sky-background {
+  background: linear-gradient(to bottom, #ff7f50, #1e3a8a); /* Evening colors */
+}
+
+.app-container.night .sky-background {
+  background: linear-gradient(to bottom, #0b1c47, #111827); /* Nighttime colors */
+}
+
+/* Stars */
+.app-container.night .sky-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(2px 2px at 5% 10%, #fff, transparent),
+    radial-gradient(2px 2px at 15% 25%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 20% 50%, #fff, transparent),
+    radial-gradient(2px 2px at 30% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 35% 75%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 40% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 60% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 75% 50%, #fff, transparent),
+    radial-gradient(2px 2px at 85% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 25%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 95% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 10% 95%, #fff, transparent),
+    radial-gradient(2px 2px at 20% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 10%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 50% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 5%, #fff, transparent),
+    radial-gradient(2px 2px at 90% 70%, #fff, transparent);
+  animation: twinkling 3s infinite;
+  z-index: -1;
+}
+
+/* Twinkling Animation */
+@keyframes twinkling {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Shooting Stars (Dynamic via JavaScript) */
+.shooting-star {
+  position: absolute;
+  width: 150px; /* Length of the shooting star */
+  height: 2px; /* Thickness of the shooting star */
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
+  z-index: -1; /* Behind the content */
+  animation: shooting-star 5s ease-in-out;
+  opacity: 0.8; /* Initial visibility */
+}
+
+/* Shooting Star Animation */
+@keyframes shooting-star {
+  0% {
+    transform: translate(var(--x), 0) rotate(45deg); /* Start at the top */
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(calc(var(--x) + 100vw), 100vh) rotate(45deg); /* Move diagonally off-screen */
+    opacity: 0;
+  }
+}
+
+
+/* Main Content */
+.content {
+  padding: 1rem;
+  z-index: 2;
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+.app-container.night .content {
+  background-color: #0f172a;
+  color: #cbd5e1;
+}
+
+/* Other Components */
 .weather-card {
   background-color: #f9f9f9;
   padding: 1.5rem;
@@ -57,20 +173,6 @@
   margin: 0.5rem 0;
 }
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column; /* Stack the spinner and text vertically */
-  justify-content: center;
-  align-items: center; /* Horizontally center the content */
-  min-height: 200px; /* Adjust height if needed */
-}
-
 .spinner {
   display: inline-block;
   width: 50px;
@@ -81,75 +183,230 @@
   animation: spinner 1s ease-in-out infinite;
 }
 
-.spinner-text {
-  margin-top: 10px; /* Adjust for spacing between spinner and text */
-  font-size: 1.2rem;
-  color: #888;
+/* Clouds Container */
+.clouds {
+  position: absolute;
+  top: 10%; /* Upper part of the background */
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-/* Regular styles */
-body {
-  background-color: white;
-  color: black;
+/* Cloud Shapes */
+.cloud {
+  position: absolute;
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0); /* Subtle gradient */
+  opacity: 0.85; /* Slight transparency */
+  animation: move-clouds linear infinite;
+  clip-path: polygon(50% 0%, 63% 19%, 81% 19%, 100% 38%, 93% 56%, 100% 75%, 88% 100%, 25% 100%, 13% 88%, 6% 75%, 13% 50%, 19% 38%, 38% 31%);
 }
 
-/* Forced Colors Mode */
-@media (forced-colors: active) {
-  body {
-    background-color: ButtonFace;
-    color: ButtonText;
-  }
-
-  /* Example for a button */
-  button {
-    background-color: ButtonFace;
-    color: ButtonText;
-    border-color: ButtonText;
-  }
-
-  /* Example for links */
-  a {
-    color: LinkText;
-  }
-
-  /* Example for any other elements */
-  .card {
-    background-color: ButtonFace;
-    color: WindowText;
-    border-color: GrayText;
-  }
-
-  .checkbox-large {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  /* Unified Weather Card Style */
-  .unified-weather-card {
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 10rem;
-    margin-top: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-
-.unified-weather-card h3 {
-  font-size: 2rem;
-  color: #333;
+.cloud.shape-1 {
+  width: 100px;
+  height: 60px;
 }
 
-.unified-weather-card .forecast-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
+.cloud.shape-2 {
+  width: 140px;
+  height: 90px;
 }
 
+.cloud.shape-3 {
+  width: 180px;
+  height: 110px;
+}
+
+.cloud.shape-4 {
+  width: 160px;
+  height: 100px;
+  clip-path: polygon(40% 0%, 55% 10%, 70% 15%, 85% 25%, 100% 40%, 90% 60%, 80% 80%, 60% 100%, 30% 85%, 10% 65%, 0% 45%, 20% 30%);
+}
+
+/* Cloud Movement */
+@keyframes move-clouds {
+  0% {
+    transform: translateX(-150%);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}
+
+/* Cloud Animation Durations */
+.cloud.small {
+  animation-duration: 30s;
+}
+
+.cloud.large {
+  animation-duration: 50s;
+}
+
+/* Moon Styling */
+.moon {
+  position: absolute;
+  top: 10%; /* Position near the top */
+  right: 10%; /* Position near the right */
+  width: 80px; /* Moon size */
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #f5f3ce, #e3e1c6 70%, #c9c6af 100%);
+  border-radius: 50%; /* Make it circular */
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5), /* Glow effect */
+              0 0 40px 15px rgba(255, 255, 255, 0.2); /* Soft outer glow */
+  z-index: -1; /* Behind foreground content */
+}
+
+/* Add Subtle Animation */
+.moon {
+  animation: moon-hover 10s ease-in-out infinite;
+}
+
+@keyframes moon-hover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Subtle hover effect */
+  }
+}
+
+.moon::before,
+.moon::after {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+
+.moon::before {
+  width: 15px;
+  height: 15px;
+  top: 20%;
+  left: 30%;
+}
+
+.moon::after {
+  width: 10px;
+  height: 10px;
+  top: 60%;
+  left: 70%;
+}
+
+/* Sun Styles */
+.sun {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius: 50%;
+  z-index: 0;
+  animation-timing-function: ease-in-out;
+  transition: transform 2s ease, bottom 2s ease;
+}
+
+/* Sun Position for Different Times of Day */
+.sun.morning {
+  animation: sunrise 8s ease-in-out forwards;
+}
+
+.sun.day {
+  bottom: 60%; /* High in the sky */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sun.evening {
+  animation: sunset 8s ease-in-out forwards;
+}
+
+/* Sunrise Animation */
+@keyframes sunrise {
+  0% {
+    bottom: -10%; /* Below the horizon */
+    left: 10%;
+    transform: translateX(-50%);
+  }
+  100% {
+    bottom: 50%; /* Mid-sky */
+    left: 50%; /* Centered */
+    transform: translateX(-50%);
+  }
+}
+
+/* Sunset Animation */
+@keyframes sunset {
+  0% {
+    bottom: 50%; /* Mid-sky */
+    left: 50%; /* Centered */
+    transform: translateX(-50%);
+  }
+  100% {
+    bottom: -10%; /* Below the horizon */
+    left: 90%; /* Moving to the horizon */
+    transform: translateX(-50%);
+  }
+}
+
+/* Map Container */
+.map-container {
+  position: relative;
+  z-index: 2; /* Ensure it's above the .sky-background and .top-section */
+  width: 100%;
+  height: 100%;
+}
+
+/* Content */
+.content {
+  padding: 1rem;
+  z-index: 2; /* Above the sky-background */
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+/* Map Legend */
+.map-legend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 200px;
+  z-index: 1100; /* Ensure it's above the map */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-legend:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Legend Placement */
+@media (max-width: 768px) {
+  .map-legend {
+    font-size: 12px;
+    padding: 10px;
+    top: auto;
+    bottom: 10px;
+  }
+}
+
+/* Checkbox Styling */
+.checkbox-large {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+/* Prevent Scrolling */
+.no-scroll {
+  position: fixed; /* Freezes the viewport */
+  overflow: hidden; /* Disables scrolling */
+  width: 100%; /* Prevents horizontal shifts */
+  height: 100%; /* Prevents page height issues */
 }

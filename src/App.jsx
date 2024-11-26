@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Modal from 'react-modal';
 import './App.css';
+import { getTimeOfDay } from './utils/timeOfDayUtils';
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
@@ -19,9 +21,8 @@ import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+Modal.setAppElement('#root');
 
-
-// Functional component for the loading spinner
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-16">
     <div className="spinner"></div>
@@ -30,7 +31,19 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  
+  const [timeOfDay, setTimeOfDay] = useState('day');
+  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
+  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { translatedText } = useTranslation(); // Translation hook
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [city, setCity] = useState(''); 
+  const [suggestions, setSuggestions] = useState([]); 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+  const [hasModalBeenShown, setHasModalBeenShown] = useState(false);
   const [cities, setCities] = useState([
     {
       name: 'New York',
@@ -55,20 +68,6 @@ function App() {
   const handleRemoveCity = (cityName) => {
     setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
   };
-
-  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
-  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false);
-  
-  const { translatedText } = useTranslation(); // Translation hook
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(false); 
-  const [city, setCity] = useState(''); 
-  const [suggestions, setSuggestions] = useState([]); 
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [timerId, setTimerId] = useState(null);
-  const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
   
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
@@ -109,6 +108,88 @@ function App() {
     }
   }, []);
 
+
+  /* Simulate different times of the day for testing:
+   * *** TESTING PURPOSES ONLY DO NOT DELETE JUST IGNORE  *** */
+
+/*  useEffect(() => {
+    setTimeOfDay('night'); // Change to 'day', 'evening', or 'night' to test
+  }, []); */
+
+  const getTimeOfDay = (now) => {
+    const currentHour = now.getHours();
+    if (currentHour >= 6 && currentHour < 12) {
+      return "morning"; // 6:00 AM to 11:59 AM
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "day"; // 12:00 PM to 5:59 PM
+    } else if (currentHour >= 18 && currentHour < 21) {
+      return "evening"; // 6:00 PM to 8:59 PM
+    } else {
+      return "night"; // 9:00 PM to 5:59 AM
+    }
+  };
+
+  useEffect(() => {
+    const now = new Date();
+    const currentPeriod = getTimeOfDay(now);
+    setTimeOfDay(currentPeriod);
+  }, []);
+
+  useEffect(() => {
+    if (timeOfDay !== 'night') return;
+
+    const shootingStarsContainer = document.querySelector('.shooting-stars');
+    if (!shootingStarsContainer) return;
+
+    const createShootingStar = () => {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      const randomX = Math.random() * 100;
+      star.style.setProperty('--x', `${randomX}vw`);
+      shootingStarsContainer.appendChild(star);
+
+      setTimeout(() => {
+        shootingStarsContainer.removeChild(star);
+      }, 5000); 
+    };
+
+    const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
+
+    return () => clearInterval(interval); 
+  }, [timeOfDay]);
+
+  useEffect(() => {
+    const cloudContainer = document.querySelector('.clouds');
+    if (!cloudContainer) return; 
+  
+    const createCloud = () => {
+      const cloud = document.createElement('div');
+      cloud.className = 'cloud';
+      const shapes = ['shape-1', 'shape-2', 'shape-3', 'shape-4'];
+      const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+      cloud.classList.add(randomShape);
+      const randomSize = Math.random() > 0.5 ? 'small' : 'large';
+      cloud.classList.add(randomSize);
+      const randomY = Math.random() * 30; 
+      cloud.style.top = `${randomY}vh`;
+      const randomDelay = Math.random() * 10;
+      cloud.style.animationDelay = `${randomDelay}s`;
+      cloudContainer.appendChild(cloud);
+      setTimeout(() => {
+        if (cloudContainer.contains(cloud)) {
+          cloudContainer.removeChild(cloud);
+        }
+      }, 50000); 
+    };
+  
+    const interval = setInterval(() => {
+      if (document.querySelectorAll('.cloud').length < 10) {
+        createCloud();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
   const handleWeatherSubmit = (e) => {
     e.preventDefault();  
     if (!city) {
@@ -184,7 +265,7 @@ function App() {
       })
       .catch((error) => {
         console.error('Error fetching weather data:', error);
-        setLoading(false); // Stop loading even if there's an error
+        setLoading(false); 
         setCityHasBeenEntered(false)
       });
   };
@@ -258,11 +339,28 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
-      <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
+    <div className={`app-container ${darkMode ? 'dark' : ''} ${timeOfDay}`}>
+      {/* Top Section with Dynamic Background */}
+      <div className="top-section">
+        {/* Dynamic Background */}
+        <div className="sky-background">
+          {/* Shooting Stars for Night */}
+          {timeOfDay === 'night' && <div className="shooting-stars"></div>}
+  
+          {/* Moon for Night */}
+          {timeOfDay === 'night' && <div className="moon"></div>}
+  
+          {/* Sun for Morning, Day, and Evening */}
+          {timeOfDay !== 'night' && <div className={`sun ${timeOfDay}`}></div>}
+  
+          {/* Clouds */}
+          <div className="clouds"></div>
+        </div>
+  
         {/* Navbar */}
         <Navbar />
-        {/* Weather Form Section */}
+  
+        {/* Search Bar */}
         <SearchBar 
           city={city} 
           suggestions={suggestions} 
@@ -272,38 +370,44 @@ function App() {
           handleCitySelect={handleCitySelect} 
           handleWeatherSubmit={handleWeatherSubmit}
           hasCityBeenEntered={setCityHasBeenEntered}
-          />
-        {/* Conditional rendering for loading spinner and weather data */}
-        {/* HistorySavedCities */}
-      <HistorySavedCities
-        cities={cities}
-        onCityClick={handleCityClick}
-        onRemoveCity={handleRemoveCity}
-      />
-      {weatherData ?
-        <RenderWeatherData  
+        />
+      </div>
+  
+      {/* Main Content */}
+      <div className="content">
+        <HistorySavedCities
+          cities={cities}
+          onCityClick={handleCityClick}
+          onRemoveCity={handleRemoveCity}
+        />
+        {weatherData ? (
+          <RenderWeatherData  
             weatherData={weatherData}
             city={city}
             cityHasBeenEntered={cityHasBeenEntered}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
             loading={loading}
-        />
-        : 
-        <LoadingSpinner/>
-      }
-          
-        {/* Footer */}
-        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
-          <div className="flex flex-col items-center space-y-2">
-            <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-              {translatedText.Give}
-            </button>
-            <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
-          </div>
-        </footer>
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+  
+      {/* Footer */}
+      <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-2">
+          <button 
+            onClick={handleOpenModal} 
+            className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg"
+          >
+            {translatedText.Give}
+          </button>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
         </div>
-
+      </footer>
+  
+      {/* Feedback Modal */}
       <FeedbackModal 
         isVisible={isModalVisible} 
         onClose={handleCloseModal} 
@@ -313,6 +417,8 @@ function App() {
       />
     </div>
   );
+  
+  
 }
 
 export default App;
