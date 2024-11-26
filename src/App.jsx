@@ -14,9 +14,11 @@ import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
 import { db } from './firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from "firebase/firestore";
+import { feedbackDb } from "./firebaseConfig";
 import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 
@@ -149,7 +151,7 @@ function App() {
     setCity(cityInput);
 
     if (cityInput.length > 2) {
-      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+      fetch(`${API_BASE_URL}/city-suggestions?city=${cityInput}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.cities) {
@@ -175,7 +177,7 @@ function App() {
 
     setLoading(true);
     setCityHasBeenEntered(true)
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+    fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
         setWeatherData({ ...data, ...locationDetails }); 
@@ -235,15 +237,24 @@ function App() {
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.feedback) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
     try {
-      await addDoc(collection(db, 'feedback'), formData);
-      console.log('Feedback submitted successfully');
-      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
+      console.log("Preparing to submit feedback:", formData);
+      const feedbackCollection = collection(feedbackDb, "feedback"); // Use feedbackDb here
+      console.log("Firestore collection reference:", feedbackCollection);
+      await addDoc(feedbackCollection, formData);
+      console.log("Feedback submitted successfully");
+      setFormData({ name: "", email: "", feedback: "" });
     } catch (error) {
-      const errorMsg = errorService.handleError(error);
-      setErrorMessage(errorMsg.errorMessage);
+      console.error("Error submitting feedback:", error);
+      setErrorMessage("Failed to submit feedback. Please try again.");
     }
   };
+  
+  
 
   const [darkMode, setDarkMode] = useState(false);
 
