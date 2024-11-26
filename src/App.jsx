@@ -120,6 +120,23 @@ function App() {
     setTimeOfDay(currentPeriod);
   }, []);
 
+  useEffect(() => {
+    if (document.querySelector('.sky-background')) {
+      const updateShootingStarPosition = () => {
+        const skyBackground = document.querySelector('.sky-background::before');
+        const randomX = Math.floor(Math.random() * 100); // Random horizontal position (0-100%)
+        const randomY = Math.floor(Math.random() * 50); // Random vertical position (0-50% of the screen)
+
+        // Apply the random positions to custom properties
+        document.documentElement.style.setProperty('--x', `${randomX}%`);
+        document.documentElement.style.setProperty('--y', `${randomY}%`);
+      };
+
+      // Update position periodically
+      setInterval(updateShootingStarPosition, 5000); // Matches animation duration
+    }
+  }, []);
+
   const handleWeatherSubmit = (e) => {
     e.preventDefault();  
     if (!city) {
@@ -264,7 +281,10 @@ function App() {
       {/* Top Section with Dynamic Background */}
       <div className="top-section">
         {/* Dynamic Background */}
-        <div className="sky-background"></div>
+        <div className="sky-background">
+          {/* Shooting Stars Container */}
+          <div className="shooting-stars"></div>
+        </div>
   
         {/* Navbar */}
         <Navbar />
