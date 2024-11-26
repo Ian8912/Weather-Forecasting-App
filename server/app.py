@@ -199,5 +199,18 @@ def generate_prompt():
 
 app.register_blueprint(notifications_bp)
 
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
+
+@app.route('/weather-articles', methods=['GET'])
+def get_weather_articles():
+    query = "weather"
+    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={NEWS_API_KEY}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return jsonify(response.json())
+    else:
+        return jsonify({"error": "Failed to fetch articles"}), response.status_code
+    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
