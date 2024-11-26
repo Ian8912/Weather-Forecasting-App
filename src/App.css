@@ -15,15 +15,54 @@
 
 /* Navbar styles */
 .navbar {
-  position: relative;
-  z-index: 3; /* Ensure it is above the background */
+  position: sticky; /* Navbar sticks to the top */
+  top: 0;
+  z-index: 10; /* Ensure it is above the background */
   background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 1rem;
-  width: 100%;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Navigation Links */
+.nav-link {
+  display: inline-block;
+  background-color: #3b82f6; /* Default blue */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight scale effect */
+}
+
+.nav-link:focus {
+  outline: 2px solid #93c5fd; /* Light blue focus outline */
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  background-color: #3b82f6; /* Blue background */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #2563eb; /* Darker blue on hover */
 }
 
 /* Top Background Section */
@@ -41,11 +80,13 @@
   text-align: center;
 }
 
-/* Weather Info Section (Inside Top Background) */
+/* Weather Info Section */
 .weather-info {
   z-index: 2; /* Ensure it appears above the background */
-  color: #ffffff; /* Text color for the title and search bar */
-  padding: 1rem;
+  color: #ffffff; /* Text color for visibility */
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background for contrast */
+  border-radius: 8px; /* Smooth corners */
 }
 
 .weather-info h1 {
@@ -55,6 +96,12 @@
 
 .weather-info .search-bar {
   margin-top: 1rem;
+  padding: 0.5rem;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  color: #000; /* Black text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Main Content Section */
@@ -62,10 +109,10 @@
   position: relative;
   flex: 1; /* Allow it to fill the remaining space */
   z-index: 3; /* Ensure it is above everything */
-  background: white; /* Keep a clean background for the rest of the page */
+  background: white; /* Clean white background */
   padding: 2rem;
   margin-top: -2rem; /* Slight overlap for visual effect */
-  border-radius: 8px; /* Smooth edges */
+  border-radius: 8px; /* Smooth corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
@@ -113,6 +160,7 @@ footer button {
   border: none;
   cursor: pointer;
 }
+
 footer button:hover {
   background-color: #2563eb; /* Darker blue */
 }

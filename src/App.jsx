@@ -199,7 +199,6 @@ function App() {
       {/* Top Background Section */}
       <div className="top-background">
         <div className="weather-info">
-          <h1 className="text-white text-3xl font-bold">Get the Latest Weather Updates</h1>
           <SearchBar
             city={city}
             suggestions={suggestions}
