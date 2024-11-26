@@ -1,10 +1,8 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from '../routes/TranslationContext';
 import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
-
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { translatedText } = useTranslation(); // Translation hook

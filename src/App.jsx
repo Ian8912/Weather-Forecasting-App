@@ -19,8 +19,6 @@ import { collection, addDoc } from 'firebase/firestore';
 import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
 
-
-
 // Functional component for the loading spinner
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-16">
@@ -80,23 +78,30 @@ function App() {
       })
       .then((data) => {
         console.log(data);
-        
         setWeatherData(data);
         setLoading(false);
+
+        // NEW: Set the time of day based on fetched weather data
+        if (data.sunrise && data.sunset) {
+          const currentTime = new Date().toISOString();
+          const calculatedTimeOfDay = getTimeOfDay(currentTime, data.sunrise, data.sunset);
+          setTimeOfDay(calculatedTimeOfDay);
+        }
       })
       .catch((error) => {
         const errorMsg = errorService.handleError(error);
         setErrorMessage(errorMsg.errorMessage);
         setLoading(false);
       });
-  };      
+  };
 
+  // Geolocation Effect
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          fetchWeatherByCoords(latitude, longitude);  
+          fetchWeatherByCoords(latitude, longitude);
         },
         (error) => {
           setErrorMessage('Unable to access location. Please enter a city manually.');
@@ -178,13 +183,13 @@ function App() {
   }, []);
   
   const handleWeatherSubmit = (e) => {
-    e.preventDefault();  
+    e.preventDefault();
     if (!city) {
       alert('Please enter a city');
       return;
     }
 
-    setLoading(true);  
+    setLoading(true);
     fetch(`${API_BASE_URL}/weather?city=${city}`)
       .then((response) => {
         if (!response.ok) {
@@ -196,20 +201,14 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setWeatherData(data);  
-        setLoading(false);  
-        setSuggestions([]);  
-        setErrorMessage(null); 
-        
-        setRecentHistory((prev) => {
-          const updatedHistory = prev.filter((c) => c.name !== city);
-          updatedHistory.unshift({ name: city });
-          return updatedHistory.slice(0, 5); // Keep the history limited to 5 cities
-        });
+        setWeatherData(data);
+        setLoading(false);
+        setSuggestions([]);
+        setErrorMessage(null);
       })
       .catch((error) => {
-        setLoading(false);  
-        setErrorMessage(error.message);  
+        setLoading(false);
+        setErrorMessage(error.message);
       });
   };
 
@@ -222,7 +221,7 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           if (data.cities) {
-            setSuggestions(data.cities); 
+            setSuggestions(data.cities);
           } else {
             setSuggestions([]);
           }
@@ -231,7 +230,7 @@ function App() {
           console.error('Error fetching city suggestions:', error);
         });
     } else {
-      setSuggestions([]); 
+      setSuggestions([]);
     }
   };
 
@@ -265,56 +264,6 @@ function App() {
   const handleCloseModal = () => {
     setModalVisible(false);
   };
-
-  const timerRef = useRef(null);
-
-  useEffect(() => {
-    const resetTimer = () => {
-      clearTimeout(timerRef.current);
-      if (!hasModalBeenShown) {
-        timerRef.current = setTimeout(() => {
-          handleOpenModal();
-        }, 300000); 
-      }
-    };
-  
-    window.addEventListener('mousemove', resetTimer);
-    window.addEventListener('keydown', resetTimer);
-    window.addEventListener('click', resetTimer);
-  
-    timerRef.current = setTimeout(() => {
-      handleOpenModal();
-    }, 300000);
-  
-    return () => {
-      clearTimeout(timerRef.current);
-      window.removeEventListener('mousemove', resetTimer);
-      window.removeEventListener('keydown', resetTimer);
-      window.removeEventListener('click', resetTimer);
-    };
-  }, [hasModalBeenShown]);
-
-  const handleFeedbackChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value
-    }));
-  };
-
-  const handleFeedbackSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await addDoc(collection(db, 'feedback'), formData);
-      console.log('Feedback submitted successfully');
-      setFormData({ name: '', email: '', feedback: '' }); // Reset form after submission
-    } catch (error) {
-      const errorMsg = errorService.handleError(error);
-      setErrorMessage(errorMsg.errorMessage);
-    }
-  };
-
-  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className={`app-container ${darkMode ? 'dark' : ''} ${timeOfDay}`}>
@@ -362,7 +311,7 @@ function App() {
           <RenderWeatherData  
             weatherData={weatherData}
             city={city}
-            cityHasBeenEntered={cityHasBeenEntered}
+            suggestions={suggestions}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
             loading={loading}
