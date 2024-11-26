@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import { getTimeOfDay } from './utils/timeOfDayUtils';
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
@@ -55,10 +56,10 @@ function App() {
     setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
   };
 
+  const [timeOfDay, setTimeOfDay] = useState('day');
   const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
   const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
-  
   const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false); 
@@ -106,6 +107,17 @@ function App() {
     } else {
       setErrorMessage('Geolocation is not supported by your browser.');
     }
+  }, []);
+
+  useEffect(() => {
+    // Example sunrise/sunset times for demo
+    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
+    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
+    const now = Date.now();
+
+    // Determine the current time of day
+    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
+    setTimeOfDay(currentPeriod);
   }, []);
 
   const handleWeatherSubmit = (e) => {
@@ -248,11 +260,16 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`py-8 flex-col ${darkMode ? 'dark' : ''} overflow-x-hidden`}>
-      <div className="p-2 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
+    <div className={`app-container ${darkMode ? 'dark' : ''} ${timeOfDay}`}>
+      {/* Top Section with Dynamic Background */}
+      <div className="top-section">
+        {/* Dynamic Background */}
+        <div className="sky-background"></div>
+  
         {/* Navbar */}
         <Navbar />
-        {/* Weather Form Section */}
+  
+        {/* Search Bar */}
         <SearchBar 
           city={city} 
           suggestions={suggestions} 
@@ -262,38 +279,44 @@ function App() {
           handleCitySelect={handleCitySelect} 
           handleWeatherSubmit={handleWeatherSubmit}
           hasCityBeenEntered={setCityHasBeenEntered}
-          />
-        {/* Conditional rendering for loading spinner and weather data */}
-        {/* HistorySavedCities */}
-      <HistorySavedCities
-        cities={cities}
-        onCityClick={handleCityClick}
-        onRemoveCity={handleRemoveCity}
-      />
-      {weatherData ?
-        <RenderWeatherData  
+        />
+      </div>
+  
+      {/* Main Content */}
+      <div className="content">
+        <HistorySavedCities
+          cities={cities}
+          onCityClick={handleCityClick}
+          onRemoveCity={handleRemoveCity}
+        />
+        {weatherData ? (
+          <RenderWeatherData  
             weatherData={weatherData}
             city={city}
             cityHasBeenEntered={cityHasBeenEntered}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
             loading={loading}
-        />
-        : 
-        <LoadingSpinner/>
-      }
-          
-        {/* Footer */}
-        <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
-          <div className="flex flex-col items-center space-y-2">
-            <button onClick={handleOpenModal} className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg">
-              {translatedText.Give}
-            </button>
-            <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
-          </div>
-        </footer>
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+  
+      {/* Footer */}
+      <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-2">
+          <button 
+            onClick={handleOpenModal} 
+            className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg"
+          >
+            {translatedText.Give}
+          </button>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
         </div>
-
+      </footer>
+  
+      {/* Feedback Modal */}
       <FeedbackModal 
         isVisible={isModalVisible} 
         onClose={handleCloseModal} 
@@ -303,6 +326,8 @@ function App() {
       />
     </div>
   );
+  
+  
 }
 
 export default App;

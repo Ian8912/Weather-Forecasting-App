@@ -153,3 +153,56 @@ body {
 }
 
 }
+
+
+/* Extend the background for the entire top section */
+.top-section {
+  position: relative;
+  width: 100%;
+  min-height: 300px; /* Adjust based on your design */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem; /* Space between the background and the content */
+}
+
+.sky-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Full height of the top section */
+  z-index: -1; /* Ensure it stays behind all content */
+  transition: background 1s ease-in-out;
+}
+
+/* Dynamic Backgrounds Based on Time */
+.app-container.day .sky-background {
+  background: linear-gradient(to bottom, #87ceeb, #ffffff); /* Daytime colors */
+}
+
+.app-container.night .sky-background {
+  background: linear-gradient(to bottom, #1e3a8a, #111827); /* Nighttime colors */
+}
+
+.app-container.morning .sky-background {
+  background: linear-gradient(to bottom, #fbcf8c, #87ceeb); /* Morning colors */
+}
+
+.app-container.evening .sky-background {
+  background: linear-gradient(to bottom, #ff7f50, #1e3a8a); /* Evening colors */
+}
+
+/* Content section styles */
+.content {
+  padding: 1rem;
+  z-index: 2; /* Keep content above the top section */
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+.app-container.night .content {
+  background-color: #0f172a;
+  color: #cbd5e1; /* Light text for dark mode */
+}
