@@ -15,7 +15,12 @@ function NewsPage() {
                 return response.json();
             })
             .then((data) => {
-                setArticles(data.articles || []);
+                const filteredArticles = (data.articles || []).filter(
+                    (article) =>
+                        article.title !== "[Removed]" &&
+                        article.description !== "[Removed]"
+                );
+                setArticles(filteredArticles);
                 setLoading(false);
             })
             .catch((error) => {
