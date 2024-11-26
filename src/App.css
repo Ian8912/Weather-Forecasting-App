@@ -291,5 +291,62 @@ body {
   left: 70%;
 }
 
+/* Sun Styles */
+.sun {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius: 50%;
+  z-index: 0;
+  animation-timing-function: ease-in-out;
+  transition: transform 2s ease, bottom 2s ease;
+}
+
+/* Sun Position for Different Times of Day */
+.sun.morning {
+  animation: sunrise 8s ease-in-out forwards;
+}
+
+.sun.day {
+  bottom: 60%; /* High in the sky */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sun.evening {
+  animation: sunset 8s ease-in-out forwards;
+}
+
+/* Sunrise Animation */
+@keyframes sunrise {
+  0% {
+    bottom: -10%; /* Below the horizon */
+    left: 10%;
+    transform: translateX(-50%);
+  }
+  100% {
+    bottom: 50%; /* Mid-sky */
+    left: 50%; /* Centered */
+    transform: translateX(-50%);
+  }
+}
+
+/* Sunset Animation */
+@keyframes sunset {
+  0% {
+    bottom: 50%; /* Mid-sky */
+    left: 50%; /* Centered */
+    transform: translateX(-50%);
+  }
+  100% {
+    bottom: -10%; /* Below the horizon */
+    left: 90%; /* Moving to the horizon */
+    transform: translateX(-50%);
+  }
+}
+
+
+
 
 

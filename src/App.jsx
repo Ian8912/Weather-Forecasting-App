@@ -107,35 +107,44 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    // Example sunrise/sunset times for demo
-    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
-    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
-    const now = Date.now();
 
-    // Determine the current time of day
-    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
-    setTimeOfDay(currentPeriod);
+  // Simulate different times of the day for testing:
+  useEffect(() => {
+    setTimeOfDay('evening'); // Change to 'day', 'evening', or 'night' to test
   }, []);
 
+
+//  useEffect(() => {
+//    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
+//    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
+//    const now = Date.now();
+//    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
+//    setTimeOfDay(currentPeriod);
+//  }, []);
+
   useEffect(() => {
+  // Only create shooting stars at night
+    if (timeOfDay !== 'night') return;
+
+    const shootingStarsContainer = document.querySelector('.shooting-stars');
+    if (!shootingStarsContainer) return;
+
     const createShootingStar = () => {
-      const shootingStarsContainer = document.querySelector('.shooting-stars');
-      if (!shootingStarsContainer) return; 
       const star = document.createElement('div');
       star.className = 'shooting-star';
       const randomX = Math.random() * 100;
       star.style.setProperty('--x', `${randomX}vw`);
       shootingStarsContainer.appendChild(star);
-  
+
       setTimeout(() => {
         shootingStarsContainer.removeChild(star);
-      }, 5000); 
+      }, 5000); // Matches the animation duration
     };
-    
+
     const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
-    return () => clearInterval(interval); 
-  }, []);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [timeOfDay]);
 
   useEffect(() => {
     const cloudContainer = document.querySelector('.clouds');
@@ -169,7 +178,6 @@ function App() {
     return () => clearInterval(interval);
   }, []);
   
-
   const handleWeatherSubmit = (e) => {
     e.preventDefault();  
     if (!city) {
@@ -315,12 +323,17 @@ function App() {
       <div className="top-section">
         {/* Dynamic Background */}
         <div className="sky-background">
-          {/* Shooting Stars Container */}
-          <div className="shooting-stars"></div>  
-          {/* Clouds Container */}
-          <div className="clouds"></div>
-          {/* Moon */}
+          {/* Shooting Stars for Night */}
+          {timeOfDay === 'night' && <div className="shooting-stars"></div>}
+  
+          {/* Moon for Night */}
           {timeOfDay === 'night' && <div className="moon"></div>}
+  
+          {/* Sun for Morning, Day, and Evening */}
+          {timeOfDay !== 'night' && <div className={`sun ${timeOfDay}`}></div>}
+  
+          {/* Clouds */}
+          <div className="clouds"></div>
         </div>
   
         {/* Navbar */}
@@ -383,6 +396,7 @@ function App() {
       />
     </div>
   );
+  
   
 }
 
