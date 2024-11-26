@@ -3,6 +3,8 @@ import OpenWeatherIcon from '../components/OpenWeatherIcon';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
 import Modal from 'react-modal';
 import { useTranslation } from '../routes/TranslationContext';
+import API_BASE_URL from '../config';
+
 
 const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit }) => {
   const { translatedText } = useTranslation(); // Translation hook
@@ -21,7 +23,7 @@ const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit 
   const [showTemperature, setShowTemperature] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/keys')
+    fetch(`${API_BASE_URL}/api/keys`)
       .then(response => response.json())
       .then(data => setApiKeys(data))
       .catch(error => console.error('Error fetching API keys:', error));

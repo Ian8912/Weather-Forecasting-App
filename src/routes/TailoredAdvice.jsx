@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import FeedbackModal from '../components/FeedbackModal'; // Import FeedbackModal component
+import API_BASE_URL from '../config';
 
 function TailoredAdvice() {
   const [userInput, setUserInput] = useState('');
@@ -17,11 +18,11 @@ function TailoredAdvice() {
 
   // Array of background images
   const images = [
-    '/images/noaa-day-clouds-unsplash.jpg',
-    '/images/noaa-grassfield-unsplash.jpg',
-    '/images/noaa-night-lightning-unsplash.jpg',
-    '/images/noaa-ocean-sunset-unsplash.jpg',
-    'images/noaa-snowy-terrain-unsplash.jpg'
+    '/images/noaa-day-clouds-unsplash.jpg?v=1',
+    '/images/noaa-grassfield-unsplash.jpg?v=1',
+    '/images/noaa-night-lightning-unsplash.jpg?v=1',
+    '/images/noaa-ocean-sunset-unsplash.jpg?v=1',
+    '/images/noaa-snowy-terrain-unsplash.jpg?v=1',
   ];
 
   // Set a random background image on component mount
@@ -57,7 +58,7 @@ function TailoredAdvice() {
     setLoading(true);
     setAiResponse('');
     try {
-      const result = await axios.post('http://localhost:5000/generate-prompt', {
+      const result = await axios.post(`${API_BASE_URL}/generate-prompt`, {
         user_input: userInput,
       });
       setAiResponse(result.data.response);
