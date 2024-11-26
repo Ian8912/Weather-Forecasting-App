@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
 import Modal from 'react-modal';
 import { useTranslation } from 'react-i18next';
@@ -51,10 +51,6 @@ const FeatureDisplaySection = () => {
     height: '100%',
   });
 
-  const onMove = useCallback((event) => {
-    setViewport(event.viewState);
-  }, []);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showClouds, setShowClouds] = useState(false);
   const [showPrecipitation, setShowPrecipitation] = useState(false);
@@ -66,6 +62,16 @@ const FeatureDisplaySection = () => {
     if (layer === 'temperature') setShowTemperature((prev) => !prev);
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.body.classList.add('no-scroll'); // Freeze scrolling
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.classList.remove('no-scroll'); // Enable scrolling
+  };
+
   return (
     <>
       <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
@@ -74,7 +80,7 @@ const FeatureDisplaySection = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div
               className="p-6 bg-blue-50 dark:bg-[#312e81] rounded-lg shadow-lg text-center transition transform hover:scale-110"
-              onClick={() => setIsModalOpen(true)}
+              onClick={openModal}
             >
               <h4 className="text-xl font-semibold">{t('Interactive Maps')}</h4>
               <p className="mt-4">{t('Visualize weather patterns with dynamic weather maps.')}</p>
@@ -85,7 +91,7 @@ const FeatureDisplaySection = () => {
 
       <Modal
         isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
+        onRequestClose={closeModal}
         contentLabel="Map Modal"
         style={{
           overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
@@ -101,7 +107,7 @@ const FeatureDisplaySection = () => {
         }}
       >
         <button
-          onClick={() => setIsModalOpen(false)}
+          onClick={closeModal}
           aria-label="Close map modal"
           style={{
             position: 'absolute',
@@ -130,7 +136,7 @@ const FeatureDisplaySection = () => {
           <ReactMapGL
             {...viewport}
             mapboxAccessToken={MAP_API_KEY}
-            onMove={onMove}
+            onMove={(evt) => setViewport(evt.viewState)}
             mapStyle="mapbox://styles/mapbox/streets-v11"
           >
             {showClouds && (

@@ -403,4 +403,10 @@ body {
   margin-right: 5px;
 }
 
-
+/* Prevent Scrolling */
+.no-scroll {
+  position: fixed; /* Freezes the viewport */
+  overflow: hidden; /* Disables scrolling */
+  width: 100%; /* Prevents horizontal shifts */
+  height: 100%; /* Prevents page height issues */
+}
