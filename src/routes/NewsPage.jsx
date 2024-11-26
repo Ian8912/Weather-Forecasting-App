@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from '../components/Navbar';
 import React, { useEffect, useState } from "react";
 
@@ -30,8 +29,19 @@ function NewsPage() {
 
 
     return(
-        <div>
+        <div className="p-2 py-8 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
             <Navbar />
+            <h1>Weather Articles</h1>
+            <ul>
+                {articles.map((article, index) => (
+                    <li key={index}>
+                        <a href={article.url} target="_blank" rel="noopener noreferrer">
+                            {article.title}
+                        </a>
+                        <p>{article.description}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 
