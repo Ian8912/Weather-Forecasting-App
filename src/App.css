@@ -157,30 +157,17 @@ body {
   border-radius: 10px;
   margin-top: 1.5rem;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Weather Info Section */
-.weather-info {
-  z-index: 2; /* Ensure it appears above the background */
-  color: #ffffff; /* Text color for visibility */
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background for contrast */
-  border-radius: 8px; /* Smooth corners */
-}
-
-.weather-info h1 {
-  font-size: 2.5rem;
+.weather-card h3 {
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
-.weather-info .search-bar {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border: 2px solid #ffffff;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-  color: #000; /* Black text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.weather-card p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
 }
 
 .spinner {
@@ -358,8 +345,3 @@ body {
     transform: translateX(-50%);
   }
 }
-
-
-
-
-
