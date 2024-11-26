@@ -13,7 +13,6 @@ import { RenderWeatherData } from './components/RenderWeatherData';
 import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
 import { useTranslation } from './routes/TranslationContext';
 import FeedbackModal from './components/FeedbackModal';
-import { db } from './firebaseConfig';
 import { collection, addDoc } from "firebase/firestore";
 import { feedbackDb } from "./firebaseConfig";
 import HistorySavedCities from './components/HistorySavedCities';
