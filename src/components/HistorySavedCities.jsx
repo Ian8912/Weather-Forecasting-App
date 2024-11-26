@@ -24,14 +24,13 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
     }
   ];
   
-  // Fetch recent cities on component load
   useEffect(() => {
     const fetchRecentCities = async () => {
       try {
         const response = await fetch('http://localhost:3001/api/recent-cities'); // Replace with actual API endpoint
         if (response.ok) {
           const data = await response.json();
-          setCities(data); // Update state with fetched cities
+          setCities(data);
         } else {
           console.error('Failed to fetch recent cities:', response.statusText);
           setError('Failed to load recent cities.');
@@ -53,9 +52,9 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
     <div className="history-saved-cities">
       <h3>Recent & Saved Cities</h3>
       {error && <p className="error-message">{error}</p>}
-      {loading ? ( // Render loading indicator
+      {loading ? ( 
         <p>Loading cities...</p>
-      ) : ( // Render city list once loading is complete
+      ) : (
         <ul className="city-list">
           {cities.length > 0 ? (
             cities.map((city, index) => (
