@@ -30,7 +30,19 @@ const LoadingSpinner = () => (
 );
 
 function App() {
-  
+  const [timeOfDay, setTimeOfDay] = useState('day');
+  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
+  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { translatedText } = useTranslation(); // Translation hook
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [city, setCity] = useState(''); 
+  const [suggestions, setSuggestions] = useState([]); 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+  const [hasModalBeenShown, setHasModalBeenShown] = useState(false);
   const [cities, setCities] = useState([
     {
       name: 'New York',
@@ -55,20 +67,6 @@ function App() {
   const handleRemoveCity = (cityName) => {
     setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
   };
-
-  const [timeOfDay, setTimeOfDay] = useState('day');
-  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
-  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { translatedText } = useTranslation(); // Translation hook
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(false); 
-  const [city, setCity] = useState(''); 
-  const [suggestions, setSuggestions] = useState([]); 
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [timerId, setTimerId] = useState(null);
-  const [hasModalBeenShown, setHasModalBeenShown] = useState(false); // Track if modal has been shown
   
   const fetchWeatherByCoords = (lat, lon) => {
     setLoading(true);
@@ -123,8 +121,7 @@ function App() {
   useEffect(() => {
     const createShootingStar = () => {
       const shootingStarsContainer = document.querySelector('.shooting-stars');
-      if (!shootingStarsContainer) return; // Prevent errors if container is not available
-  
+      if (!shootingStarsContainer) return; 
       const star = document.createElement('div');
       star.className = 'shooting-star';
       const randomX = Math.random() * 100;
@@ -133,40 +130,45 @@ function App() {
   
       setTimeout(() => {
         shootingStarsContainer.removeChild(star);
-      }, 5000); // Matches the animation duration
+      }, 5000); 
     };
     
     const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval); 
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      const cloudContainer = document.querySelector('.clouds');
-      if (!cloudContainer) return; // Prevent errors if container is not available
+    const cloudContainer = document.querySelector('.clouds');
+    if (!cloudContainer) return; 
   
-      const createCloud = () => {
-        const cloud = document.createElement('div');
-        cloud.className = 'cloud';
-  
-        // Randomize size and vertical position
-        const randomSize = Math.random() > 0.5 ? 'small' : 'large';
-        const randomY = Math.random() * 50;
-  
-        cloud.classList.add(randomSize);
-        cloud.style.top = `${randomY}vh`;
-  
-        cloudContainer.appendChild(cloud);
-  
-        setTimeout(() => {
+    const createCloud = () => {
+      const cloud = document.createElement('div');
+      cloud.className = 'cloud';
+      const shapes = ['shape-1', 'shape-2', 'shape-3', 'shape-4'];
+      const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+      cloud.classList.add(randomShape);
+      const randomSize = Math.random() > 0.5 ? 'small' : 'large';
+      cloud.classList.add(randomSize);
+      const randomY = Math.random() * 30; 
+      cloud.style.top = `${randomY}vh`;
+      const randomDelay = Math.random() * 10;
+      cloud.style.animationDelay = `${randomDelay}s`;
+      cloudContainer.appendChild(cloud);
+      setTimeout(() => {
+        if (cloudContainer.contains(cloud)) {
           cloudContainer.removeChild(cloud);
-        }, 40000); // Matches the longest animation duration
-      };
+        }
+      }, 50000); 
+    };
   
-      const interval = setInterval(createCloud, Math.random() * 4000 + 6000);
-      return () => clearInterval(interval); // Cleanup on unmount
-    }, 0);
+    const interval = setInterval(() => {
+      if (document.querySelectorAll('.cloud').length < 10) {
+        createCloud();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
+  
 
   const handleWeatherSubmit = (e) => {
     e.preventDefault();  
@@ -243,7 +245,7 @@ function App() {
       })
       .catch((error) => {
         console.error('Error fetching weather data:', error);
-        setLoading(false); // Stop loading even if there's an error
+        setLoading(false); 
         setCityHasBeenEntered(false)
       });
   };
@@ -314,10 +316,11 @@ function App() {
         {/* Dynamic Background */}
         <div className="sky-background">
           {/* Shooting Stars Container */}
-          <div className="shooting-stars"></div>
-  
+          <div className="shooting-stars"></div>  
           {/* Clouds Container */}
           <div className="clouds"></div>
+          {/* Moon */}
+          {timeOfDay === 'night' && <div className="moon"></div>}
         </div>
   
         {/* Navbar */}

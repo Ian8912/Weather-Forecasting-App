@@ -180,51 +180,116 @@ body {
   animation: spinner 1s ease-in-out infinite;
 }
 
-/* Cloud Container */
+/* Clouds Container */
 .clouds {
   position: absolute;
-  top: 20%; /* Adjust vertical positioning as needed */
+  top: 10%; /* Upper part of the background */
   left: 0;
   width: 100%;
   height: auto;
-  z-index: -1; /* Behind main content */
+  z-index: -1;
+  pointer-events: none;
   overflow: hidden;
-  pointer-events: none; /* Make clouds non-interactive */
 }
 
-/* Individual Cloud */
+/* Cloud Shapes */
 .cloud {
   position: absolute;
-  width: 10%; /* Scaled for responsiveness */
-  height: 5%;
-  background: rgba(255, 255, 255, 0.8); /* White with transparency */
-  border-radius: 50%;
-  box-shadow: 
-    50px 50px 20px rgba(255, 255, 255, 0.5), /* Softer layers */
-    100px 100px 40px rgba(255, 255, 255, 0.3);
-  animation: move-clouds 30s linear infinite;
-  will-change: transform, opacity; /* Performance optimization */
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0); /* Subtle gradient */
+  opacity: 0.85; /* Slight transparency */
+  animation: move-clouds linear infinite;
+  clip-path: polygon(50% 0%, 63% 19%, 81% 19%, 100% 38%, 93% 56%, 100% 75%, 88% 100%, 25% 100%, 13% 88%, 6% 75%, 13% 50%, 19% 38%, 38% 31%);
 }
 
-/* Randomize Cloud Sizes */
-.cloud.small {
-  width: 8%;
-  height: 4%;
-  animation-duration: 20s; /* Faster for smaller clouds */
+.cloud.shape-1 {
+  width: 100px;
+  height: 60px;
 }
 
-.cloud.large {
-  width: 15%;
-  height: 8%;
-  animation-duration: 40s; /* Slower for larger clouds */
+.cloud.shape-2 {
+  width: 140px;
+  height: 90px;
+}
+
+.cloud.shape-3 {
+  width: 180px;
+  height: 110px;
+}
+
+.cloud.shape-4 {
+  width: 160px;
+  height: 100px;
+  clip-path: polygon(40% 0%, 55% 10%, 70% 15%, 85% 25%, 100% 40%, 90% 60%, 80% 80%, 60% 100%, 30% 85%, 10% 65%, 0% 45%, 20% 30%);
 }
 
 /* Cloud Movement */
 @keyframes move-clouds {
   0% {
-    transform: translateX(-150%); /* Start off-screen left */
+    transform: translateX(-150%);
   }
   100% {
-    transform: translateX(150%); /* Move off-screen right */
+    transform: translateX(150%);
   }
 }
+
+/* Cloud Animation Durations */
+.cloud.small {
+  animation-duration: 30s;
+}
+
+.cloud.large {
+  animation-duration: 50s;
+}
+
+/* Moon Styling */
+.moon {
+  position: absolute;
+  top: 10%; /* Position near the top */
+  right: 10%; /* Position near the right */
+  width: 80px; /* Moon size */
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #f5f3ce, #e3e1c6 70%, #c9c6af 100%);
+  border-radius: 50%; /* Make it circular */
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5), /* Glow effect */
+              0 0 40px 15px rgba(255, 255, 255, 0.2); /* Soft outer glow */
+  z-index: -1; /* Behind foreground content */
+}
+
+/* Add Subtle Animation */
+.moon {
+  animation: moon-hover 10s ease-in-out infinite;
+}
+
+@keyframes moon-hover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Subtle hover effect */
+  }
+}
+
+.moon::before,
+.moon::after {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+
+.moon::before {
+  width: 15px;
+  height: 15px;
+  top: 20%;
+  left: 30%;
+}
+
+.moon::after {
+  width: 10px;
+  height: 10px;
+  top: 60%;
+  left: 70%;
+}
+
+
+
