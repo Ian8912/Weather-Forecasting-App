@@ -35,9 +35,9 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
-                {translatedText.Features}
-              </a>
+              <Link to = "/news" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+                News
+              </Link>
             </li>
             <li>
               <Link to="/contact" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
