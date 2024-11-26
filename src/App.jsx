@@ -109,21 +109,20 @@ function App() {
 
 
   // Simulate different times of the day for testing:
+  // *** TESTING PURPOSES ONLY DO NOT DELETE JUST IGNORE ***
+  //useEffect(() => {
+  //  setTimeOfDay('morning'); // Change to 'day', 'evening', or 'night' to test
+  //}, []);
+
   useEffect(() => {
-    setTimeOfDay('evening'); // Change to 'day', 'evening', or 'night' to test
+    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
+    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
+    const now = Date.now();
+    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
+    setTimeOfDay(currentPeriod);
   }, []);
 
-
-//  useEffect(() => {
-//    const sunrise = new Date().setHours(6, 0, 0); // 6:00 AM
-//    const sunset = new Date().setHours(18, 0, 0); // 6:00 PM
-//    const now = Date.now();
-//    const currentPeriod = getTimeOfDay(now, sunrise, sunset);
-//    setTimeOfDay(currentPeriod);
-//  }, []);
-
   useEffect(() => {
-  // Only create shooting stars at night
     if (timeOfDay !== 'night') return;
 
     const shootingStarsContainer = document.querySelector('.shooting-stars');
@@ -138,12 +137,12 @@ function App() {
 
       setTimeout(() => {
         shootingStarsContainer.removeChild(star);
-      }, 5000); // Matches the animation duration
+      }, 5000); 
     };
 
     const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval); 
   }, [timeOfDay]);
 
   useEffect(() => {
