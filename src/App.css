@@ -1,4 +1,5 @@
 /* Base styles */
+@import 'mapbox-gl/dist/mapbox-gl.css';
 #root {
   text-align: center;
 }
@@ -29,26 +30,28 @@ body {
   }
 }
 
-/* Top Section and Sky Background */
-.top-section {
-  position: relative;
-  width: 100%;
-  min-height: 300px;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 2rem;
-}
-
+/* Sky Background */
 .sky-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  z-index: -1;
+  height: 100%; /* Restrict to .top-section height */
+  z-index: -1; /* Keep it behind .top-section */
   overflow: hidden;
+}
+
+/* Top Section */
+.top-section {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  z-index: 1; /* Ensure it’s above the sky-background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem;
+  overflow: hidden; /* Prevent it from overflowing into the map */
 }
 
 /* Dynamic Backgrounds Based on Time */
@@ -345,3 +348,59 @@ body {
     transform: translateX(-50%);
   }
 }
+
+/* Map Container */
+.map-container {
+  position: relative;
+  z-index: 2; /* Ensure it's above the .sky-background and .top-section */
+  width: 100%;
+  height: 100%;
+}
+
+/* Content */
+.content {
+  padding: 1rem;
+  z-index: 2; /* Above the sky-background */
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+/* Map Legend */
+.map-legend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 200px;
+  z-index: 1100; /* Ensure it's above the map */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-legend:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Legend Placement */
+@media (max-width: 768px) {
+  .map-legend {
+    font-size: 12px;
+    padding: 10px;
+    top: auto;
+    bottom: 10px;
+  }
+}
+
+/* Checkbox Styling */
+.checkbox-large {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+

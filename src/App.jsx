@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Modal from 'react-modal';
 import './App.css';
 import { getTimeOfDay } from './utils/timeOfDayUtils';
 import CoordinateInputCard from './components/CoordinateInputCard';
@@ -19,9 +20,8 @@ import { collection, addDoc } from 'firebase/firestore';
 import HistorySavedCities from './components/HistorySavedCities';
 import API_BASE_URL from "./config";
 
+Modal.setAppElement('#root');
 
-
-// Functional component for the loading spinner
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-16">
     <div className="spinner"></div>
