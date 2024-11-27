@@ -10,15 +10,7 @@ from notificationsBackend import notifications_bp
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:5173",  # Local development
-            "https://weatherlink-ac684.web.app",  # Firebase deployed frontend
-            "https://weatherlinkdatabase.web.app"  # Another possible deployment site
-        ]
-    }
-})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 load_dotenv()
@@ -199,7 +191,7 @@ def generate_prompt():
                 }
             ],
             model="gpt-3.5-turbo",  # Update model if necessary
-            max_tokens=100 # Limit the response to 100 tokens
+            max_tokens=200 # Limit the response to 100 tokens
         )
 
         response_content = chat_completion.choices[0].message.content.strip()
@@ -212,6 +204,19 @@ def generate_prompt():
         return jsonify({'error': str(e)}), 500
 
 app.register_blueprint(notifications_bp)
+
+NEWS_API_KEY = os.getenv('NEWS_API_KEY')
+
+@app.route('/weather-articles', methods=['GET'])
+def get_weather_articles():
+    query = "weather"
+    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={NEWS_API_KEY}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return jsonify(response.json())
+    else:
+        return jsonify({"error": "Failed to fetch articles"}), response.status_code
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
