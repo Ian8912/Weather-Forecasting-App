@@ -18,27 +18,68 @@ const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit 
     width: '100%',
     height: '400px',
   });
+
   const [showClouds, setShowClouds] = useState(false);
   const [showPrecipitation, setShowPrecipitation] = useState(false);
   const [showTemperature, setShowTemperature] = useState(false);
+  
+
+  const [cachedWeather, setCachedWeather] = useState(null);
+
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 
   useEffect(() => {
+    // Fetch API keys on component mount
     fetch(`${API_BASE_URL}/api/keys`)
       .then(response => response.json())
       .then(data => setApiKeys(data))
       .catch(error => console.error('Error fetching API keys:', error));
   }, []);
 
+  useEffect(() => {
+    // Check for cached weather data
+    const cachedData = localStorage.getItem('cachedWeatherData');
+    if (cachedData) {
+      const { data, timestamp } = JSON.parse(cachedData);
+
+      // Check if the cached data is recent
+      if (Date.now() - timestamp < CACHE_DURATION) {
+        console.log('Using cached weather data:', data);
+        setCachedWeather(data);
+      } else {
+        console.log('Cached data is outdated. New fetch required.');
+        localStorage.removeItem('cachedWeatherData'); // Optionally clear old data
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (weatherData) {
+      const cachedData = JSON.parse(localStorage.getItem('cachedWeatherData'));
+
+      // Save new weather data only if it's not already cached or is outdated
+      if (!cachedData || cachedData.city !== weatherData.city) {
+        const timestamp = Date.now();
+        localStorage.setItem(
+          'cachedWeatherData',
+          JSON.stringify({ data: weatherData, timestamp })
+        );
+        console.log('Weather data saved to local storage:', weatherData);
+      }
+    }
+  }, [weatherData]);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
 
   const toggleTemperatureUnit = () => {
     setIsFahrenheit(!isFahrenheit);
   };
 
+  // Use cached weather data if available
+  const displayWeatherData = cachedWeather || weatherData;
 
-  if (!weatherData) {
+  if (!displayWeatherData) {
     return <p>{translatedText.noWeather}</p>;
   }
 
