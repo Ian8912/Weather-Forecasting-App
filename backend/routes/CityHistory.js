@@ -25,8 +25,8 @@ router.post('/save-city', (req, res) => {
     // Save the city
     const newCity = { name, temperature, icon, weather, isSaved };
     cityHistory.push(newCity);
-    res.status(201).json(newCity); // Respond with the saved city
+    res.status(201).json(newCity);
 });
 
-module.exports = router; // Export the router
+module.exports = router; 
   

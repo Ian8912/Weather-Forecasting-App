@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './HistorySavedCities.css'; // Add styles here
+import './HistorySavedCities.css';
 
 const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
   
@@ -10,7 +10,7 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
   useEffect(() => {
     const fetchRecentCities = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/recent-cities'); // Replace with actual API endpoint
+        const response = await fetch('http://localhost:3001/api/recent-cities');
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched data:', data);
