@@ -45,11 +45,6 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
-                {translatedText.logIn}
-              </a>
-            </li>
-            <li>
               {/* Button to toggle dark mode */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
