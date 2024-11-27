@@ -16,6 +16,10 @@ function TailoredAdvice() {
   // Random background state
   const [backgroundImage, setBackgroundImage] = useState('');
 
+  // Weather Data State
+  const [cachedWeatherData, setCachedWeatherData] = useState(null);
+
+
   // Array of background images
   const images = [
     '/images/noaa-day-clouds-unsplash.jpg?v=1',
@@ -29,6 +33,14 @@ function TailoredAdvice() {
   useEffect(() => {
     const getRandomImage = () => images[Math.floor(Math.random() * images.length)];
     setBackgroundImage(getRandomImage());
+
+    // Fetch cached weather data from localStorage
+    const cachedData = JSON.parse(localStorage.getItem("cachedWeatherData"));
+    if (cachedData && cachedData.data) {
+      setCachedWeatherData(cachedData.data); // Set state with weather data
+    } else {
+      console.warn("No cached weather data found.");
+    }
   }, []); // Only runs once when the component is mounted
 
   const handleOpenModal = () => setModalVisible(true);
@@ -56,18 +68,45 @@ function TailoredAdvice() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setAiResponse('');
+    setAiResponse("");
+
+    // Ensure cachedWeatherData is available
+    if (!cachedWeatherData) {
+      setAiResponse("No weather data available. Please try refreshing the page.");
+      setLoading(false);
+      return;
+    }
+
     try {
+      // Prepare the prompt with cached weather data
+      const prompt = `
+        Provide tailored weather advice based on the following data:
+        - City: ${cachedWeatherData.city}
+        - Temperature: ${cachedWeatherData.temperature_fahrenheit}°F (${cachedWeatherData.temperature_celsius}°C)
+        - Humidity: ${cachedWeatherData.humidity}%
+        - Weather Condition: ${cachedWeatherData.description}
+        - Max Temperature: ${cachedWeatherData.max_temp_fahrenheit}°F (${cachedWeatherData.max_temp_celsius}°C)
+        - Min Temperature: ${cachedWeatherData.min_temp_fahrenheit}°F (${cachedWeatherData.min_temp_celsius}°C)
+        - UV Index: ${cachedWeatherData.uv_index}
+        - Air Quality Index: ${cachedWeatherData.air_quality}
+        User Input: ${userInput}
+        Suggest tailored advice based on this data.
+      `;
+
+      // Send prompt to Flask backend
       const result = await axios.post(`${API_BASE_URL}/generate-prompt`, {
-        user_input: userInput,
+        user_input: prompt,
       });
+
+      // Update AI response
       setAiResponse(result.data.response);
     } catch (error) {
-      setAiResponse('Error generating tailored advice. Please try again.');
+      setAiResponse("Error generating tailored advice. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div>

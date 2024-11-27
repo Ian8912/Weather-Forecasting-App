@@ -199,7 +199,7 @@ def generate_prompt():
                 }
             ],
             model="gpt-3.5-turbo",  # Update model if necessary
-            max_tokens=100 # Limit the response to 100 tokens
+            max_tokens=200 # Limit the response to 100 tokens
         )
 
         response_content = chat_completion.choices[0].message.content.strip()
