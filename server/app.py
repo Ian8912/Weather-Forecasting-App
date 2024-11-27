@@ -10,15 +10,7 @@ from notificationsBackend import notifications_bp
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:5173",  # Local development
-            "https://weatherlink-ac684.web.app",  # Firebase deployed frontend
-            "https://weatherlinkdatabase.web.app"  # Another possible deployment site
-        ]
-    }
-})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 load_dotenv()
