@@ -12,6 +12,15 @@ app.use(bodyParser.json()); // Parses JSON payloads
 // Route handlers
 app.use('/api', cityHistoryRoutes);
 
+// Live city history or fetch logic could go here
+// e.g., Fetch from a weather API if needed
+const cityHistory = []; // Start with an empty array or fetch data as needed
+
+app.get('/api/recent-cities', (req, res) => {
+    console.log('Returning city history:', cityHistory); // Add logging to see the issue in the backend
+    res.json(cityHistory);
+  });
+  
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {
     res.status(404).json({ error: 'Route not found' });

@@ -6,23 +6,6 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
   const [cities, setCities] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const mockRecentCities = [
-    {
-      name: 'New York',
-      temperature: 22,
-      icon: 'https://openweathermap.org/img/wn/01d@2x.png',
-      weather: 'Sunny',
-      isSaved: true
-    },
-    {
-      name: 'San Francisco',
-      temperature: 18,
-      icon: 'https://openweathermap.org/img/wn/02d@2x.png',
-      weather: 'Cloudy',
-      isSaved: false
-    }
-  ];
   
   useEffect(() => {
     const fetchRecentCities = async () => {
@@ -30,6 +13,7 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
         const response = await fetch('http://localhost:3001/api/recent-cities'); // Replace with actual API endpoint
         if (response.ok) {
           const data = await response.json();
+          console.log('Fetched data:', data);
           setCities(data);
         } else {
           console.error('Failed to fetch recent cities:', response.statusText);
@@ -42,7 +26,6 @@ const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
         setLoading(false);
       }
     };
-  
     fetchRecentCities();
   }, []);
 
