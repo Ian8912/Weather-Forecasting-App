@@ -29,6 +29,33 @@ const CurrentWeatherDataDisplay = ({ weatherData, isFahrenheit, setIsFahrenheit 
       .catch(error => console.error('Error fetching API keys:', error));
   }, []);
 
+  // Save weatherData to localStorage when it changes
+  useEffect(() => {
+    if (weatherData) {
+      const cachedData = JSON.parse(localStorage.getItem("cachedWeatherData"));
+
+      // Check if data is already cached or outdated
+      if (!cachedData || cachedData.city !== weatherData.city) {
+        const timestamp = Date.now();
+        localStorage.setItem(
+          "cachedWeatherData",
+          JSON.stringify({ data: weatherData, timestamp: Date.now() })
+        );
+        console.log("Weather data saved to local storage:", weatherData);
+      }
+    }
+  }, [weatherData]); // Runs whenever weatherData changes
+
+  // Check localStorage for existing data to prevent refetching
+  useEffect(() => {
+    const cachedData = JSON.parse(localStorage.getItem("cachedWeatherData"));
+
+    if (cachedData && !weatherData) {
+      console.log("Using cached weather data from local storage:", cachedData.data);
+      // You can set a fallback here to avoid fetching again if needed
+    }
+  }, [weatherData]);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
