@@ -1,50 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import './HistorySavedCities.css'; // Add styles here
+import './HistorySavedCities.css';
 
 const HistorySavedCities = ({ onCityClick, onRemoveCity }) => {
   
   const [cities, setCities] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const mockRecentCities = [
-    {
-      name: 'New York',
-      temperature: 22,
-      icon: 'https://openweathermap.org/img/wn/01d@2x.png',
-      weather: 'Sunny',
-      isSaved: true
-    },
-    {
-      name: 'San Francisco',
-      temperature: 18,
-      icon: 'https://openweathermap.org/img/wn/02d@2x.png',
-      weather: 'Cloudy',
-      isSaved: false
-    }
-  ];
   
   useEffect(() => {
     const fetchRecentCities = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/recent-cities'); // Replace with actual API endpoint
+        const response = await fetch('http://localhost:3001/api/recent-cities');
         if (response.ok) {
           const data = await response.json();
+          console.log('Fetched data:', data);
           setCities(data);
         } else {
           console.error('Failed to fetch recent cities:', response.statusText);
           setError('Failed to load recent cities.');
-          setCities(mockRecentCities); // Use mock data as fallback
         }
       } catch (error) {
         console.error('Error fetching recent cities:', error);
         setError('An error occurred while fetching cities.');
-        setCities(mockRecentCities); // Use mock data as fallback
       } finally {
         setLoading(false);
       }
     };
-  
     fetchRecentCities();
   }, []);
 

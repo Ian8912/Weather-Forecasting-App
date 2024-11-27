@@ -403,6 +403,16 @@ _Note: The program runs on the **Development Branch**. Please use this branch fo
 
 By following these steps, you will have both the frontend and backend running and be able to develop and test the application effectively.
 
+### Step 6: Set up the Saved Cities History Backend Server
+
+1. **Install necessary dependencies**:
+    These dependencies are for handling HTTP requests, enabling cross-origin resource sharing, and parsing incoming request bodies.
+    ```npm install express cors body-parser
+
+2. **Run the History backend**:
+    This will run the History server on `http://localhost:3001`.
+    ``node server.js
+
 ### Notes:
 
 If you try to open **app.py** through `http://localhost:5000`, you will get a 404 error code. Run the server and backend on two different terminals and use the frontend development
