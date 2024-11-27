@@ -90,7 +90,7 @@ function TailoredAdvice() {
         - UV Index: ${cachedWeatherData.uv_index}
         - Air Quality Index: ${cachedWeatherData.air_quality}
         User Input: ${userInput}
-        Suggest tailored advice based on this data.
+        Respond with activities and precautions in **exactly 4 sentences** or fewer. Be brief, clear, and to the point.
       `;
 
       // Send prompt to Flask backend
@@ -145,8 +145,25 @@ function TailoredAdvice() {
           </form>
           {aiResponse && (
             <div className="mt-4 p-4 border rounded bg-gray-100">
-              <h2 className="font-semibold">AI Response:</h2>
-              <p>{aiResponse}</p>
+              <h2 className="font-semibold text-xl mb-2">AI Response</h2>
+              <ul className="space-y-2">
+                {/* Display the response in a structured format */}
+                {aiResponse.split("\n").map((line, index) => (
+                  <li key={index} className="text-lg leading-relaxed">
+                    {line}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4">
+                <button
+                  onClick={() =>
+                    alert("Explore more activities tailored for today's weather!")
+                  }
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Explore Activities
+                </button>
+              </div>
             </div>
           )}
         </div>
