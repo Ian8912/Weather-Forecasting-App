@@ -175,33 +175,27 @@ client = OpenAI(
     api_key = os.environ.get("OPENAI_API_KEY")  # Load API key from environment variables
 )
 
-@app.route('/generate-prompt', methods=['POST'])
-def generate_prompt():
+@app.route('/weather-articles', methods=['GET'])
+def get_weather_articles():
+    query = "weather"
+    news_api_key = os.getenv('NEWS_API_KEY')
+    
+    if not news_api_key:
+        return jsonify({"error": "Missing NEWS_API_KEY"}), 500
+
+    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={news_api_key}"
     try:
-        # Get input from the frontend
-        data = request.json
-        user_input = data.get('user_input', '')
+        response = requests.get(url)
+        if response.status_code == 200:
+            return jsonify(response.json()), 200
+        else:
+            return jsonify({
+                "error": f"Failed to fetch articles: {response.status_code}",
+                "details": response.text
+            }), response.status_code
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Request failed: {str(e)}"}), 500
 
-        # Generate response using OpenAI client
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": user_input,
-                }
-            ],
-            model="gpt-3.5-turbo",  # Update model if necessary
-            max_tokens=200 # Limit the response to 100 tokens
-        )
-
-        response_content = chat_completion.choices[0].message.content.strip()
-
-        # Extract and return the assistant's response
-        return jsonify({'response': response_content})
-    except Exception as e:
-        # Log and return the error
-        print(f"Error: {e}")
-        return jsonify({'error': str(e)}), 500
 
 app.register_blueprint(notifications_bp)
 
