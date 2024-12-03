@@ -13,12 +13,12 @@ const frontendConfig = {
 
 // Firebase configuration for feedback storage
 const feedbackConfig = {
-  apiKey: "AIzaSyBFCQ9eBUEmc7FkERC0tzvfOpZQmzoGIWs",
-  authDomain: "weatherlink-ac684.firebaseapp.com",
-  projectId: "weatherlink-ac684",
-  storageBucket: "weatherlink-ac684.appspot.com",
-  messagingSenderId: "586202821312",
-  appId: "1:586202821312:web:5c6daf4b660634eed6f325",
+  apiKey: "AIzaSyA2iOAOb0KDad1VGYCgsvKKq8tVOqAXkgI",
+  authDomain: "weatherlinkdatabase.firebaseapp.com",
+  projectId: "weatherlinkdatabase",
+  storageBucket: "weatherlinkdatabase.firebasestorage.app",
+  messagingSenderId: "1071771666509",
+  appId: "1:1071771666509:web:d977aa23171039bfd9b404",
 };
 
 // Initialize Firebase apps
