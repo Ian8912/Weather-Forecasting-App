@@ -164,18 +164,14 @@ def get_weather_articles():
     query = "weather"
     url = f"https://newsapi.org/v2/everything?q={query}&apiKey={api_key}"
 
-    print(f"Fetching articles from: {url}")
-
     try:
         response = requests.get(url)
-        print(f"Response Status Code: {response.status_code}")
-        if response.status_code == 200:
-            return jsonify(response.json()), 200
-        else:
-            return jsonify({"error": f"Failed to fetch articles: {response.status_code}"}), response.status_code
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "An error occurred while fetching articles."}), 500
+        response.raise_for_status()
+        return jsonify(response.json()), 200
+    except requests.exceptions.HTTPError as http_err:
+        return jsonify({"error": f"HTTP error: {http_err}"}), response.status_code
+    except Exception as err:
+        return jsonify({"error": f"Error: {err}"}), 500
 
 
 app.register_blueprint(notifications_bp)
