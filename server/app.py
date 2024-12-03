@@ -3,15 +3,16 @@ from flask_cors import CORS
 import json
 from weatherService import *
 from translationService import *
-from openai import OpenAI
 import os
 from dotenv import load_dotenv
 from notificationsBackend import notifications_bp
 import requests
+import openai
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
 
 load_dotenv()
 
@@ -179,21 +180,64 @@ def get_weather_articles():
 
 app.register_blueprint(notifications_bp)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
 
 @app.route('/generate-prompt', methods=['POST'])
 def generate_prompt():
     try:
         data = request.json
         user_input = data.get('user_input')
-        if not user_input:
-            return jsonify({'error': 'User input is required'}), 400
+        weather_data = data.get('weather_data')
 
-        # Example response logic
-        response = {"response": f"Generated response based on input: {user_input}"}
-        return jsonify(response), 200
+        if not user_input or not weather_data:
+            return jsonify({'error': 'User input and weather data are required'}), 400
+
+        # Construct the prompt with weather data
+        prompt = f"""
+        Based on the following weather data:
+        City: {weather_data.get('city')}
+        Temperature: {weather_data.get('temperature_fahrenheit')}°F ({weather_data.get('temperature_celsius')}°C)
+        Humidity: {weather_data.get('humidity')}%
+        Weather Condition: {weather_data.get('description')}
+        Max Temperature: {weather_data.get('max_temp_fahrenheit')}°F ({weather_data.get('max_temp_celsius')}°C)
+        Min Temperature: {weather_data.get('min_temp_fahrenheit')}°F ({weather_data.get('min_temp_celsius')}°C)
+        UV Index: {weather_data.get('uv_index', 'N/A')}
+        Air Quality Index: {weather_data.get('air_quality', 'N/A')}
+
+        User query: {user_input}
+        Provide tailored advice in 4 sentences or fewer.
+        """
+
+        # Set the OpenAI API key
+        openai.api_key = os.getenv('OPENAI_API_KEY')
+        if not openai.api_key:
+            return jsonify({'error': 'OpenAI API key is not set'}), 500
+
+        # Use the OpenAI API for chat completions
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # Use the correct model
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant providing weather-related advice."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=150,
+            temperature=0.7
+        )
+
+        # Extract and return the generated response
+        generated_text = response['choices'][0]['message']['content'].strip()
+        return jsonify({'response': generated_text}), 200
+
+    except openai.OpenAIError as e:
+        print(f"OpenAI API Error: {e}")
+        return jsonify({'error': 'Failed to generate response from OpenAI.'}), 500
     except Exception as e:
         print(f"Error in /generate-prompt: {e}")
         return jsonify({'error': 'An error occurred while processing the request.'}), 500
+
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+
 
