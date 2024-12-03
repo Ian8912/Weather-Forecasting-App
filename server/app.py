@@ -11,7 +11,8 @@ import requests
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["https://weatherlink-ac684.web.app/", "http://localhost:3000"]}})
+
 
 load_dotenv()
 
