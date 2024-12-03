@@ -11,7 +11,7 @@ import requests
 
 app = Flask(__name__, static_folder='../client/dist', template_folder='../client/dist')
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}}, supports_credentials=True)
 
 load_dotenv()
 
@@ -181,3 +181,19 @@ app.register_blueprint(notifications_bp)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+@app.route('/generate-prompt', methods=['POST'])
+def generate_prompt():
+    try:
+        data = request.json
+        user_input = data.get('user_input')
+        if not user_input:
+            return jsonify({'error': 'User input is required'}), 400
+
+        # Example response logic
+        response = {"response": f"Generated response based on input: {user_input}"}
+        return jsonify(response), 200
+    except Exception as e:
+        print(f"Error in /generate-prompt: {e}")
+        return jsonify({'error': 'An error occurred while processing the request.'}), 500
+
