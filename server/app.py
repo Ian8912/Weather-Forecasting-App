@@ -159,24 +159,22 @@ def get_keys():
 # Consolidated weather articles route
 @app.route('/weather-articles', methods=['GET'])
 def get_weather_articles():
+    api_key = os.getenv('NEWS_API_KEY')
     query = "weather"
-    news_api_key = os.getenv('NEWS_API_KEY')
-    
-    if not news_api_key:
-        return jsonify({"error": "Missing NEWS_API_KEY"}), 500
+    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={api_key}"
 
-    url = f"https://newsapi.org/v2/everything?q={query}&apiKey={news_api_key}"
+    print(f"Fetching articles from: {url}")
+
     try:
         response = requests.get(url)
+        print(f"Response Status Code: {response.status_code}")
         if response.status_code == 200:
             return jsonify(response.json()), 200
         else:
-            return jsonify({
-                "error": f"Failed to fetch articles: {response.status_code}",
-                "details": response.text
-            }), response.status_code
-    except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"Request failed: {str(e)}"}), 500
+            return jsonify({"error": f"Failed to fetch articles: {response.status_code}"}), response.status_code
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "An error occurred while fetching articles."}), 500
 
 
 app.register_blueprint(notifications_bp)
