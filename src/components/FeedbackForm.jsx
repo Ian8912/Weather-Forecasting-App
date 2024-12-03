@@ -1,76 +1,116 @@
-import React from 'react'
-import { useState } from 'react';
-import { useTranslation } from '../routes/TranslationContext';
+import React, { useState } from 'react';
+import { supabase } from '../utils/supabaseClient'; 
 
 const FeedbackForm = () => {
-  const { translatedText } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     feedback: ''
   });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
-    console.log(e);
-    
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage(''); // Clear any previous errors
+
+    // Validate inputs
+    if (!formData.name || !formData.email || !formData.feedback) {
+      setErrorMessage('All fields are required.');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setErrorMessage('Please enter a valid email address.');
+      return;
+    }
+
+    setIsSubmitting(true); // Disable submit button while submitting
+
+    try {
+      const { data, error } = await supabase
+        .from('feedback') // The table name in Supabase
+        .insert([
+          {
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            feedback: formData.feedback.trim(),
+          },
+        ]);
+
+      if (error) {
+        console.error('Error submitting feedback:', error.message);
+        setErrorMessage('Error submitting feedback. Please try again.');
+      } else {
+        console.log('Feedback submitted:', data);
+        alert('Feedback submitted successfully!');
+        setFormData({ name: '', email: '', feedback: '' }); // Clear the form
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      setErrorMessage('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false); // Re-enable submit button
+    }
+  };
 
   const handleChange = (e) => {
-    console.log(e);
-    
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
-   <div className="container mx-auto =-5">
-    <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">{translatedText.feedbackForm}</h3>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="feedback-form">
+      {errorMessage && <div className="error-message text-red-600">{errorMessage}</div>}
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-        {translatedText.Name}
-        </label>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
         <input
           id="name"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+          placeholder="Your Name"
+          className="block w-full px-3 py-2 border rounded-md focus:outline-none"
+          required
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-        {translatedText.Email}
-        </label>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
         <input
           id="email"
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+          placeholder="Your Email"
+          className="block w-full px-3 py-2 border rounded-md focus:outline-none"
+          required
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-        {translatedText.Feedback}
-        </label>
+        <label htmlFor="feedback" className="block text-sm font-medium text-gray-700">Feedback</label>
         <textarea
           id="feedback"
           name="feedback"
           value={formData.feedback}
           onChange={handleChange}
-          className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
+          placeholder="Your Feedback"
+          className="block w-full px-3 py-2 border rounded-md focus:outline-none"
+          required
         />
       </div>
       <button
         type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
+        className={`bg-blue-500 text-white px-4 py-2 rounded-md ${
+          isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'
+        }`}
+        disabled={isSubmitting}
       >
-        {translatedText.Submit}
+        {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
       </button>
     </form>
-  </div>
-  )
-}
+  );
+};
 
-export default FeedbackForm
+export default FeedbackForm;

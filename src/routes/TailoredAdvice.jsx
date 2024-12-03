@@ -69,37 +69,25 @@ function TailoredAdvice() {
     e.preventDefault();
     setLoading(true);
     setAiResponse("");
-
-    // Ensure cachedWeatherData is available
+  
     if (!cachedWeatherData) {
       setAiResponse("No weather data available. Please try refreshing the page.");
       setLoading(false);
       return;
     }
-
+  
     try {
-      // Prepare the prompt with cached weather data
-      const prompt = `
-        Provide tailored weather advice based on the following data:
-        - City: ${cachedWeatherData.city}
-        - Temperature: ${cachedWeatherData.temperature_fahrenheit}°F (${cachedWeatherData.temperature_celsius}°C)
-        - Humidity: ${cachedWeatherData.humidity}%
-        - Weather Condition: ${cachedWeatherData.description}
-        - Max Temperature: ${cachedWeatherData.max_temp_fahrenheit}°F (${cachedWeatherData.max_temp_celsius}°C)
-        - Min Temperature: ${cachedWeatherData.min_temp_fahrenheit}°F (${cachedWeatherData.min_temp_celsius}°C)
-        - UV Index: ${cachedWeatherData.uv_index}
-        - Air Quality Index: ${cachedWeatherData.air_quality}
-        User Input: ${userInput}
-        Respond with activities and precautions in **exactly 4 sentences** or fewer. Be brief, clear, and to the point.
-      `;
-
-      // Send prompt to Flask backend
-      const result = await axios.post(`${API_BASE_URL}/generate-prompt`, {
-        user_input: prompt,
-      });
-
+      // Prepare the payload with user input and weather data
+      const payload = {
+        user_input: userInput,
+        weather_data: cachedWeatherData, // Send weather data as a separate object
+      };
+  
+      // Send payload to the backend
+      const result = await axios.post(`${API_BASE_URL}/generate-prompt`, payload);
+  
       // Update AI response
-      setAiResponse(result.data.response);
+      setAiResponse(result.data.response || "No advice generated.");
     } catch (error) {
       setAiResponse("Error generating tailored advice. Please try again.");
     } finally {

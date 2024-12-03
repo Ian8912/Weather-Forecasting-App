@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import './App.css';
+import { supabase } from "./utils/supabaseClient";
 import { getTimeOfDay } from './utils/timeOfDayUtils';
 import CoordinateInputCard from './components/CoordinateInputCard';
 import WeatherPage from './routes/WeatherCoordsPage';
@@ -317,20 +318,37 @@ function App() {
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(null); // Reset any existing error message
+  
     if (!formData.name || !formData.email || !formData.feedback) {
       setErrorMessage("All fields are required.");
       return;
     }
+  
     try {
-      console.log("Preparing to submit feedback:", formData);
-      const feedbackCollection = collection(feedbackDb, "feedback"); // Use feedbackDb here
-      console.log("Firestore collection reference:", feedbackCollection);
-      await addDoc(feedbackCollection, formData);
-      console.log("Feedback submitted successfully");
-      setFormData({ name: "", email: "", feedback: "" });
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      setErrorMessage("Failed to submit feedback. Please try again.");
+      const { data, error } = await supabase
+        .from("feedback") // Supabase table name
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            feedback: formData.feedback,
+          },
+        ]);
+  
+      if (error) {
+        console.error("Error submitting feedback:", error.message);
+        setErrorMessage("Failed to submit feedback. Please try again.");
+        return;
+      }
+  
+      console.log("Feedback submitted successfully:", data);
+      alert("Thank you for your feedback!");
+      setFormData({ name: "", email: "", feedback: "" }); // Clear form
+      handleCloseModal(); // Close the modal
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setErrorMessage("An unexpected error occurred. Please try again.");
     }
   };
   
