@@ -27,6 +27,7 @@ function TailoredAdvice() {
     '/images/noaa-night-lightning-unsplash.jpg?v=1',
     '/images/noaa-ocean-sunset-unsplash.jpg?v=1',
     '/images/noaa-snowy-terrain-unsplash.jpg?v=1',
+    '/images/ekaterina-aerial-colorful-sky-unsplash.jpg',
   ];
 
   // Set a random background image on component mount

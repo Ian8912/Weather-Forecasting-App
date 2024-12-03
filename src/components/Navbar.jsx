@@ -1,13 +1,15 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../routes/TranslationContext';
-import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
-
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { translatedText } = useTranslation(); // Translation hook
+  const location = useLocation(); // Get current path
+
+  // Function to check if the link is active
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -16,31 +18,65 @@ export const Navbar = () => {
           <h1 className="text-2xl font-bold">WeatherLink</h1>
 
           {/* Hamburger Menu for Mobile */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-black dark:text-white focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-black dark:text-white focus:outline-none"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
             </svg>
           </button>
 
           {/* Links for Larger Screens */}
           <ul className="hidden md:flex space-x-6">
             <li>
-              <Link to="/" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/"
+                className={`${
+                  isActive('/') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 {translatedText.Home}
               </Link>
             </li>
             <li>
-              <Link to="/tailored-advice" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/tailored-advice"
+                className={`${
+                  isActive('/tailored-advice') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 Tailored Advice
               </Link>
             </li>
             <li>
-              <Link to = "/news" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/news"
+                className={`${
+                  isActive('/news') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 News
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/contact"
+                className={`${
+                  isActive('/contact') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 {translatedText.Contact}
               </Link>
             </li>
@@ -60,24 +96,44 @@ export const Navbar = () => {
         {menuOpen && (
           <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
             <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/"
+                className={`${
+                  isActive('/') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 {translatedText.Home}
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
-                {translatedText.Features}
-              </a>
+              <Link
+                to="/tailored-advice"
+                className={`${
+                  isActive('/tailored-advice') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
+                Tailored Advice
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
+              <Link
+                to="/news"
+                className={`${
+                  isActive('/news') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
+                News
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                className={`${
+                  isActive('/contact') ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 dark:hover:bg-[#1e1b4b]'
+                } px-3 py-2 rounded transition-colors duration-200`}
+              >
                 {translatedText.Contact}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">
-                {translatedText.logIn}
-              </a>
+              </Link>
             </li>
             <li>
               {/* Button to toggle dark mode */}
