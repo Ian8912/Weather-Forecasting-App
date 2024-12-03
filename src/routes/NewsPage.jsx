@@ -59,9 +59,10 @@ function NewsPage() {
         );
 
     return (
-        <div className="p-2 py-8 flex flex-col align-items-center bg-white dark:bg-[#0f172a]">
+        <div className="bg-white dark:bg-[#0f172a]">
             <Navbar />
-            <div className="max-w-4xl mx-auto p-4">
+            {/* Adjusted padding-top for more spacing */}
+            <div className="max-w-4xl mx-auto p-4 pt-20">
                 <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
                     Weather Articles
                 </h1>
@@ -91,3 +92,4 @@ function NewsPage() {
 }
 
 export default NewsPage;
+
