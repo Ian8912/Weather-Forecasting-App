@@ -46,7 +46,7 @@ body {
   position: relative;
   width: 100%;
   min-height: 300px;
-  z-index: 1; /* Ensure it’s above the sky-background */
+  z-index: 10; /* Ensure it’s above the sky-background */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -352,9 +352,22 @@ body {
 /* Map Container */
 .map-container {
   position: relative;
-  z-index: 2; /* Ensure it's above the .sky-background and .top-section */
-  width: 100%;
-  height: 100%;
+  z-index: 1; /* Ensure it's above the .sky-background and .top-section */
+  width: 100%; /* Allow it to span the full width */
+  height: 60vh; /* Dynamically adjust height based on viewport */
+  max-height: 600px; /* Optional: set a maximum height */
+}
+
+@media (max-width: 768px) {
+  .map-container {
+    height: 50vh; /* Reduce height for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .map-container {
+    height: 40vh; /* Further reduce height for very small screens */
+  }
 }
 
 /* Content */
