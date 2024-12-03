@@ -11,6 +11,19 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'client/dist'
+    outDir: 'client/dist',
+    chunkSizeWarningLimit: 1000,  // Adjust the warning limit to a higher value
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor'; // Bundle all third-party libraries into 'vendor.js'
+          }
+          if (id.includes('mapbox-gl')) {
+            return 'mapbox'; // Create a separate chunk for Mapbox
+          }
+        }
+      }
+    }
   }
 })

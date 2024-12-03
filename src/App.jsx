@@ -1,13 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import './App.css'
+import React, { useState, useEffect, useRef } from 'react';
+import Modal from 'react-modal';
+import './App.css';
+import { supabase } from "./utils/supabaseClient";
+import { getTimeOfDay } from './utils/timeOfDayUtils';
 import CoordinateInputCard from './components/CoordinateInputCard';
-import FeatureDisplaySection from './components/FeatureDisplaySection';
-import FeatureForm from './components/FeatureForm';
 import WeatherPage from './routes/WeatherCoordsPage';
 import Navbar from './components/Navbar';
+import errorService from './errorService';
+import { ForecastDisplay } from './components/ForecastDisplay';
+import { SearchBar } from './components/SearchBar';
+import WeatherIconService from './WeatherIconService';
+import OpenWeatherIcon from './components/OpenWeatherIcon';
+import FeedbackForm from './components/FeedbackForm';
+import { RenderWeatherData } from './components/RenderWeatherData';
+import CurrentWeatherDataDisplay from './components/CurrentWeatherDataDisplay';
+import { useTranslation } from './routes/TranslationContext';
+import FeedbackModal from './components/FeedbackModal';
+import { collection, addDoc } from "firebase/firestore";
+import { feedbackDb } from "./firebaseConfig";
+import HistorySavedCities from './components/HistorySavedCities';
+import API_BASE_URL from "./config";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
+Modal.setAppElement('#root');
 
-// Functional component for the loading spinner
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-16">
     <div className="spinner"></div>
@@ -16,41 +32,73 @@ const LoadingSpinner = () => (
 );
 
 function App() {
+  const [timeOfDay, setTimeOfDay] = useState('day');
+  const [formData, setFormData] = useState({ name: '', email: '', feedback: '' });
+  const [cityHasBeenEntered, setCityHasBeenEntered] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    feedback: ''
-  });
-  
+  const { translatedText } = useTranslation(); // Translation hook
   const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state to track data fetching
-  const [city, setCity] = useState(''); // Update state in app to handle city input
-  const [suggestions, setSuggestions] = useState([]) // City suggestions
+  const [loading, setLoading] = useState(false); 
+  const [city, setCity] = useState(''); 
+  const [suggestions, setSuggestions] = useState([]); 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+  const [hasModalBeenShown, setHasModalBeenShown] = useState(false);
+  const [cities, setCities] = useState([
+    {
+      name: 'New York',
+      temperature: 22,
+      icon: 'https://openweathermap.org/img/wn/01d@2x.png',
+      weather: 'Sunny',
+      isSaved: true,
+    },
+    {
+      name: 'San Francisco',
+      temperature: 18,
+      icon: 'https://openweathermap.org/img/wn/04d@2x.png',
+      weather: 'Cloudy',
+      isSaved: false,
+    },
+  ]);
 
-  const fetchWeatherByCoords = (lat, lon) => {
-    setLoading(true);
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Fetched weather data:', data);  // Debugging to check data
-        setWeatherData(data);  // Set the fetched weather data
-        setLoading(false);  // Stop loading spinner
-      })
-      .catch((error) => {
-        console.error('Error fetching weather data:', error);
-        setLoading(false);  // Stop loading spinner on error
-      });
+  const handleCityClick = (cityName) => {
+    console.log(`Clicked on city: ${cityName}`);
+  };
+
+  const handleRemoveCity = (cityName) => {
+    setCities((prevCities) => prevCities.filter((city) => city.name !== cityName));
   };
   
+  const fetchWeatherByCoords = (lat, lon) => {
+    setLoading(true);
+    fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
+      .then((response) => {
+        const handledResponse = errorService.handleApiError(response, 'Failed to fetch weather data.');
+        if (handledResponse.errorMessage) {
+          setErrorMessage(handledResponse.errorMessage);
+        }
+        return handledResponse.json();
+      })
+      .then((data) => {
+        console.log(data);
+        
+        setWeatherData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        const errorMsg = errorService.handleError(error);
+        setErrorMessage(errorMsg.errorMessage);
+        setLoading(false);
+      });
+  };      
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log("User's location:", latitude, longitude);  // Debugging to check location
-          fetchWeatherByCoords(latitude, longitude);  // Fetch data using coordinates
+          fetchWeatherByCoords(latitude, longitude);  
         },
         (error) => {
           setErrorMessage('Unable to access location. Please enter a city manually.');
@@ -61,22 +109,97 @@ function App() {
     }
   }, []);
 
-  
 
-  // Fetch weather data on form submit
-  const handleWeatherSubmit = (e) => {
-    e.preventDefault();  // Prevent page reload on form submit
+  /* Simulate different times of the day for testing:
+   * *** TESTING PURPOSES ONLY DO NOT DELETE JUST IGNORE  *** */
+
+/*  useEffect(() => {
+    setTimeOfDay('night'); // Change to 'day', 'evening', or 'night' to test
+  }, []); */
+
+  const getTimeOfDay = (now) => {
+    const currentHour = now.getHours();
+    if (currentHour >= 6 && currentHour < 12) {
+      return "morning"; // 6:00 AM to 11:59 AM
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return "day"; // 12:00 PM to 5:59 PM
+    } else if (currentHour >= 18 && currentHour < 21) {
+      return "evening"; // 6:00 PM to 8:59 PM
+    } else {
+      return "night"; // 9:00 PM to 5:59 AM
+    }
+  };
+
+  useEffect(() => {
+    const now = new Date();
+    const currentPeriod = getTimeOfDay(now);
+    setTimeOfDay(currentPeriod);
+  }, []);
+
+  useEffect(() => {
+    if (timeOfDay !== 'night') return;
+
+    const shootingStarsContainer = document.querySelector('.shooting-stars');
+    if (!shootingStarsContainer) return;
+
+    const createShootingStar = () => {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      const randomX = Math.random() * 100;
+      star.style.setProperty('--x', `${randomX}vw`);
+      shootingStarsContainer.appendChild(star);
+
+      setTimeout(() => {
+        shootingStarsContainer.removeChild(star);
+      }, 5000); 
+    };
+
+    const interval = setInterval(createShootingStar, Math.random() * 3000 + 3000);
+
+    return () => clearInterval(interval); 
+  }, [timeOfDay]);
+
+  useEffect(() => {
+    const cloudContainer = document.querySelector('.clouds');
+    if (!cloudContainer) return; 
   
+    const createCloud = () => {
+      const cloud = document.createElement('div');
+      cloud.className = 'cloud';
+      const shapes = ['shape-1', 'shape-2', 'shape-3', 'shape-4'];
+      const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+      cloud.classList.add(randomShape);
+      const randomSize = Math.random() > 0.5 ? 'small' : 'large';
+      cloud.classList.add(randomSize);
+      const randomY = Math.random() * 30; 
+      cloud.style.top = `${randomY}vh`;
+      const randomDelay = Math.random() * 10;
+      cloud.style.animationDelay = `${randomDelay}s`;
+      cloudContainer.appendChild(cloud);
+      setTimeout(() => {
+        if (cloudContainer.contains(cloud)) {
+          cloudContainer.removeChild(cloud);
+        }
+      }, 50000); 
+    };
+  
+    const interval = setInterval(() => {
+      if (document.querySelectorAll('.cloud').length < 10) {
+        createCloud();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  const handleWeatherSubmit = (e) => {
+    e.preventDefault();  
     if (!city) {
-      alert('Please enter a city');  // Ensure city is entered
+      alert('Please enter a city');
       return;
     }
-  
-    setLoading(true);  // Start loading spinner
-    console.log("Fetching weather data for:", city);  // Debugging
-  
-    // Fetch weather data for the selected or entered city
-    fetch(`http://localhost:5000/weather?city=${city}`)
+
+    setLoading(true);  
+    fetch(`${API_BASE_URL}/weather?city=${city}`)
       .then((response) => {
         if (!response.ok) {
           if (response.status === 404) {
@@ -87,30 +210,33 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        console.log('Weather data for submitted city:', data);  // Debugging
-        setWeatherData(data);  // Update state with fetched weather data
-        setLoading(false);  // Stop loading spinner
-        setSuggestions([]);  // Clear suggestions after selecting
-        setErrorMessage(null);  // Clear error message if successful
+        setWeatherData(data);  
+        setLoading(false);  
+        setSuggestions([]);  
+        setErrorMessage(null); 
+        
+        setRecentHistory((prev) => {
+          const updatedHistory = prev.filter((c) => c.name !== city);
+          updatedHistory.unshift({ name: city });
+          return updatedHistory.slice(0, 5); // Keep the history limited to 5 cities
+        });
       })
       .catch((error) => {
-        console.error(`Error fetching weather data for ${city}:`, error);
-        setLoading(false);  // Stop loading spinner on error
-        setErrorMessage(error.message);  // Set error message
+        setLoading(false);  
+        setErrorMessage(error.message);  
       });
   };
 
-  // Fetch city suggestions as the user types
   const handleCityChange = (e) => {
     const cityInput = e.target.value;
     setCity(cityInput);
 
-    if (cityInput.length > 2) { // Fetch suggestions after 3 characters
-      fetch(`http://localhost:5000/city-suggestions?city=${cityInput}`)
+    if (cityInput.length > 2) {
+      fetch(`${API_BASE_URL}/city-suggestions?city=${cityInput}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.cities) {
-            setSuggestions(data.cities); // Set city suggestions
+            setSuggestions(data.cities); 
           } else {
             setSuggestions([]);
           }
@@ -119,251 +245,198 @@ function App() {
           console.error('Error fetching city suggestions:', error);
         });
     } else {
-      setSuggestions([]); // Clear suggestions if input is too short
+      setSuggestions([]); 
     }
   };
 
-  // Handle city selection from suggestions
   const handleCitySelect = (selectedCity) => {
-    const { lat, lon, name, state, country } = selectedCity; // Get lat, lon, name, state, and country
-    setCity(name); // Set the selected city name for display purposes
-    setSuggestions([]); // Clear suggestions after selection
-    
-    // Store state and country locally so you can display them later
+    const { lat, lon, name, state, country } = selectedCity;
+    setCity(name); 
+    setSuggestions([]); 
+
     const locationDetails = { name, state, country };
 
-    // Fetch weather data using lat and lon
     setLoading(true);
-    fetch(`http://localhost:5000/weather?lat=${lat}&lon=${lon}`)
+    setCityHasBeenEntered(true)
+    fetch(`${API_BASE_URL}/weather?lat=${lat}&lon=${lon}`)
       .then((response) => response.json())
       .then((data) => {
-        setWeatherData({ ...data, ...locationDetails }); // Merge weather data with location details
-        setLoading(false); // Stop loading after data is fetched
+        setWeatherData({ ...data, ...locationDetails }); 
+        setLoading(false); 
       })
       .catch((error) => {
         console.error('Error fetching weather data:', error);
-        setLoading(false); // Stop loading even if there's an error
+        setLoading(false); 
+        setCityHasBeenEntered(false)
       });
   };
 
-      // Handle form input changes for feedback form
+  const handleOpenModal = () => {
+    setModalVisible(true);
+    setHasModalBeenShown(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    const resetTimer = () => {
+      clearTimeout(timerRef.current);
+      if (!hasModalBeenShown) {
+        timerRef.current = setTimeout(() => {
+          handleOpenModal();
+        }, 300000); 
+      }
+    };
+  
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('click', resetTimer);
+  
+    timerRef.current = setTimeout(() => {
+      handleOpenModal();
+    }, 300000);
+  
+    return () => {
+      clearTimeout(timerRef.current);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+      window.removeEventListener('click', resetTimer);
+    };
+  }, [hasModalBeenShown]);
+
   const handleFeedbackChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value
-    });
+    }));
   };
 
-  // Handle feedback form submission
-  const handleFeedbackSubmit = (e) => {
+  const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting feedback form:', formData);
-    // Handle form submission logic for feedback form here (e.g., send data to the server)
-  };
-
-  // Define the inline function to render weather data
-  const RenderWeatherData = ({ weatherData }) => {
-    if (!weatherData) {
-      return <p>No weather data available. Please enter a city to check the weather.</p>;
+    setErrorMessage(null); // Reset any existing error message
+  
+    if (!formData.name || !formData.email || !formData.feedback) {
+      setErrorMessage("All fields are required.");
+      return;
     }
   
-    return (
-      <section className="py-8">
-        <div className="container mx-auto text-center">
-          <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold">Weather for {weatherData.city}, {weatherData.state || 'N/A'}, {weatherData.country}</h3>
-            <p className="text-lg">Temperature: {weatherData.temperature_fahrenheit}°F / {weatherData.temperature_celsius}°C</p>
-            <p className="text-lg">Condition: {weatherData.description}</p>
-            <p className="text-lg">Humidity: {weatherData.humidity}%</p>
-            <p className="text-lg">Wind Speed: {weatherData.wind_speed} m/s</p>
-          </div>
-        </div>
-      </section>
-    );
+    try {
+      const { data, error } = await supabase
+        .from("feedback") // Supabase table name
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            feedback: formData.feedback,
+          },
+        ]);
+  
+      if (error) {
+        console.error("Error submitting feedback:", error.message);
+        setErrorMessage("Failed to submit feedback. Please try again.");
+        return;
+      }
+  
+      console.log("Feedback submitted successfully:", data);
+      alert("Thank you for your feedback!");
+      setFormData({ name: "", email: "", feedback: "" }); // Clear form
+      handleCloseModal(); // Close the modal
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setErrorMessage("An unexpected error occurred. Please try again.");
+    }
   };
+  
+  
 
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={darkMode ? 'dark' : ''}>
-      <div className="p-12 bg-white dark:bg-[#0f172a]">
+    <div className={`app-container ${darkMode ? 'dark' : ''} ${timeOfDay}`}>
+      {/* Top Section with Dynamic Background */}
+      <div className="top-section">
+        {/* Dynamic Background */}
+        <div className="sky-background">
+          {/* Shooting Stars for Night */}
+          {timeOfDay === 'night' && <div className="shooting-stars"></div>}
+  
+          {/* Moon for Night */}
+          {timeOfDay === 'night' && <div className="moon"></div>}
+  
+          {/* Sun for Morning, Day, and Evening */}
+          {timeOfDay !== 'night' && <div className={`sun ${timeOfDay}`}></div>}
+  
+          {/* Clouds */}
+          <div className="clouds"></div>
+        </div>
+  
         {/* Navbar */}
-        <nav className="p-6 bg-blue-600 text-white dark:bg-[#312e81] dark:text-[#cbd5e1]">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold">WeatherLink</h1>
+        <Navbar />
   
-            {/* Hamburger Menu for Mobile */}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white focus:outline-none">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xlmns="https://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLineJoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-  
-            {/* Links for Larger Screens */}
-            <ul className="hidden md:flex space-x-6">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} 
-                  className="ml-1 px-2 py-1 text-sm bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          </div>
-  
-          {menuOpen && (
-            <ul className="md:hidden flex flex-col space-y-4 mt-4 text-center">
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Home</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Features</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Contact</a></li>
-              <li><a href="#" className="hover:bg-blue-700 dark:hover:bg-[#1e1b4b] px-3 py-2 rounded transition-colors duration-200">Log in</a></li>
-              <li>
-                <button onClick={() => setDarkMode(!darkMode)} 
-                  className="ml-1 px-2 py-1 bg-blue-500 text-white dark:bg-[#1e1b4b] dark:text-[#cbd5e1] rounded-lg">
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-            </ul>
-          )}
-        </nav>
-  
-        {/* Weather Form Section */}
-        <header className="bg-blue-500 dark:bg-[#1e1b4b] dark:text-[#cbd5e1] text-white py-24 text-center">
-          <h2 className="text-4xl font-bold">Get the Latest Weather Updates</h2>
-          <p className="mt-4 text-lg">Enter a city name to get current weather updates.</p>
-          <>
-            {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
-          </>
-          <form onSubmit={handleWeatherSubmit} className="mt-8">
-            <div className="relative inline-block w-full max-w-sm">
-              <input
-                type="text"
-                value={city}  // Bind to `city` state
-                onChange={handleCityChange}  // Update `city` as user types
-                placeholder="Enter city name"
-                className="text-black w-full px-3 py-2 border rounded text-sm"
-              />
-
-              {/* Suggestions dropdown */}
-              {suggestions.length > 0 && (
-                <ul className="absolute left-0 right-0 z-10 mt-1 bg-white shadow-lg border rounded text-left">
-                  {suggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleCitySelect(suggestion)}  // Handle city selection from suggestions
-                      className="cursor-pointer p-2 bg-blue-50 dark:bg-[#312e81] text-gray-800 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600"
-                    >
-                      {suggestion.name}, {suggestion.state || ''} ({suggestion.country})
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            {/*<button type="submit" className="ml-4 px-6 py-3 bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] hover:bg-blue-800 rounded-lg">
-              Check Weather Now
-            </button>*/}
-          </form>
-        </header>
-  
-        {/* Conditional rendering for loading spinner and weather data */}
-    <>
-      {loading ? (
-        <LoadingSpinner />
-      ) : weatherData ? (
-        <RenderWeatherData weatherData={weatherData} />
-      ) : (
-        <p className="text-center">No weather data available.</p>
-      )}
-    </>
-
-      <CoordinateInputCard />
-  
-        {/* Features Section */}
-        <section className="py-16 bg-white dark:bg-[#0f172a] dark:text-[#cbd5e1]">
-          <div className="container mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-8">Features</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Accurate Forecasts</h4>
-                <p className="mt-4">Get up-to-the-minute weather reports based on your location.</p>
-              </div>
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Interactive Maps</h4>
-                <p className="mt-4">Visualize weather patterns with dynamic weather maps.</p>
-              </div>
-              <div className="p-6 bg-blue-50 dark:bg-[#312e81] dark:shadow-[#1e1b4b] rounded-lg shadow-lg text-center transition transform hover:scale-110">
-                <h4 className="text-xl font-semibold">Alerts & Warnings</h4>
-                <p className="mt-4">Receive timely alerts on severe weather conditions in your area.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Feedback Form Section */}
-        <section className="py-16 bg-gray-100 dark:bg-[#1e1b4b] dark:text-[#cbd5e1]">
-          <div className="container mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-8 dark:text-[#cbd5e1]">Feedback Form</h3>
-            <form onSubmit={handleFeedbackSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="name">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-[#cbd5e1]" htmlFor="feedback">
-                  Feedback
-                </label>
-                <textarea
-                  id="feedback"
-                  name="feedback"
-                  value={formData.feedback}
-                  onChange={handleFeedbackChange}
-                  className="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:shadow-outline transition ease-in-out duration-150 dark:bg-[#312e81] dark:text-[#cbd5e1]"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline dark:bg-[#312e81] dark:text-[#cbd5e1]"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="py-8 bg-blue-600 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center">
-          <p>&copy; 2024 WeatherLink. All rights reserved.</p>
-        </footer>
+        {/* Search Bar */}
+        <SearchBar 
+          city={city} 
+          suggestions={suggestions} 
+          errorMessage={errorMessage} 
+          setCity={setCity} 
+          handleCityChange={handleCityChange} 
+          handleCitySelect={handleCitySelect} 
+          handleWeatherSubmit={handleWeatherSubmit}
+          hasCityBeenEntered={setCityHasBeenEntered}
+        />
       </div>
+  
+      {/* Main Content */}
+      <div className="content">
+        <HistorySavedCities
+          cities={cities}
+          onCityClick={handleCityClick}
+          onRemoveCity={handleRemoveCity}
+        />
+        {weatherData ? (
+          <RenderWeatherData  
+            weatherData={weatherData}
+            city={city}
+            cityHasBeenEntered={cityHasBeenEntered}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+            loading={loading}
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+  
+      {/* Footer */}
+      <footer className="py-8 bg-blue-500 dark:bg-[#312e81] dark:text-[#cbd5e1] text-white text-center flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-2">
+          <button 
+            onClick={handleOpenModal} 
+            className="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:bg-[#312e81] dark:text-[#cbd5e1] rounded-lg"
+          >
+            {translatedText.Give}
+          </button>
+          <p>&copy; 2024 WeatherLink. {translatedText.Rights}</p>
+        </div>
+      </footer>
+  
+      {/* Feedback Modal */}
+      <FeedbackModal 
+        isVisible={isModalVisible} 
+        onClose={handleCloseModal} 
+        onSubmit={handleFeedbackSubmit} 
+        formData={formData} 
+        handleFeedbackChange={handleFeedbackChange} 
+      />
     </div>
   );
+  
+  
 }
 
 export default App;

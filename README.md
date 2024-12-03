@@ -121,6 +121,33 @@ This is a **weather app** project created for our software engineering course. G
 
 **##############################################################################################**
 
+
+## Sprint 2 (October 14th, 2024 - November 4th, 2024)
+
+### Contributions
+
+**Anthony:**
+
+- **Jira Task SCRUM-140: Break down some components (e.g., App.jsx) into smaller, reusable components.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-140
+
+- **Jira Task SCRUM-100: install i18next dependencies and configure i18next file**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-100
+
+- **Jira Task SCRUM-99: Set up DeepL API in the backend**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-99
+
+- **Jira Task SCRUM-97: Configure all front-end files to apply translation**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-97
+
+- **Jira Task SCRUM-97: Implement language selection (e.g., English, Spanish, French) in the settings or header.**
+
+- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
+
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
@@ -138,6 +165,129 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 **User Story 9:** Cache Weather Data As a user, I would like the app to cache previously fetched weather data so that I don’t have to wait for a new API request when searching for the same city multiple times
 
 **User Story 10:** Improve Error Handling and User Experience As a user, I would like the app to provide clear and helpful error messages when something goes wrong so that I understand what happened and how to fix it
+
+## Sprint 2 (October 13, 2024 - November 3, 2024)
+
+### Contributions
+
+**Ian:**
+
+- **Jira Task SCRUM-138: Refactor API calls (for weather, geolocation, UV index) into a dedicated service file (weatherService.js or apiService.js), making the logic reusable across multiple components.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-138
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/aea3e922d93fbed7a69c179657125e6c102cf936
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ce77d4b7743b815a2f1ddb833c2af9107196be3f
+
+- **Jira Task SCRUM-123: Implement map markers and weather data fetching.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-123
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/aad201ea7a1fd5d7ee88a249d0aa86f84e4890ca
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5ac0571a39b833d2708243f0d3c341d40b0d483a
+
+- **Jira Task SCRUM-124: Refine and test dynamic map interactions UI/UX.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-124
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/6541ac0ddd117442171bc64132e4139e643348de
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/85f2b25dae9e812da0764942ecf0557de71f9261
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5973fe24fb6b22e19b8349e60d7eead5ea4a2404
+
+- **Jira Task SCRUM-79: Implement map features (temp, wind, pop-ups, etc.) with real-time updates for when weather conditions change.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-79
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/bde4a1eee12574b522929339b048076e7569fc76
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/53be868f9fb8057f7848c774932731e0e82e1dd7
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0af3a1f61bc76c9998105402a334b218519844c0
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/7ba35b2a835d47e293dab2de9b2d680ddf2d4b5f
+
+- **Jira Task SCRUM-78: Fix and test all toggle/data features (UV Index, Air Quality, etc).**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-78
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/60a5b407014cc44821def7a57f6f61c9ecc73524
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/f1aa12ee0b0f98d7867e17e6e76d6547b9583039
+
+- **Jira Task SCRUM-56: Modify interactive map to fit within same component as current weather and forecast data display.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-56
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/450618606235e5cc9d88ed1b03a3c8a53aba31a2
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d1efd6f9f57901fcf01c5785b1c352bfb2a5fad8
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/de4beea930ace78bd0324b9d45777d3eae7e0308
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/29821c03b5dd5e22c8d9cfed831f267e5f3ff91f
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/38bf17f02ee28175ccdc6d8f71d1b9d8bfa0caa5
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ebaa1f1c456486a575d309d503e9add7150de001
+
+**##############################################################################################**
+
+**Anthony:**
+
+- **Jira Task SCRUM-140: Break down some components (e.g., App.jsx) into smaller, reusable components.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-140
+
+- **Jira Task SCRUM-100: install i18next dependencies and configure i18next file**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-100
+
+- **Jira Task SCRUM-99: Set up DeepL API in the backend**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-99
+
+- **Jira Task SCRUM-97: Configure all front-end files to apply translation**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-97
+
+- **Jira Task SCRUM-97: Implement language selection (e.g., English, Spanish, French) in the settings or header.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
+
+**##############################################################################################**
+
+**Nicholas:**
+
+- **Jira Task SCRUM-142: API-integration for feedback form**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-142?atlOrigin=eyJpIjoiNWMwODFjMjU5NzkwNGQ1Nzg4YjQxODcyNDM3ZDRlOTUiLCJwIjoiaiJ9
+
+- **Jira Task SCRUM-136: Folder rescruture, organizes components, services, and utilities in a scalable manner.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-139?atlOrigin=eyJpIjoiMjczMTYyZTk1NjgzNGRiYzlkZDI3YzMzZDUxZDU2ZjciLCJwIjoiaiJ9
+
+- **Jira SCRUM-25: Create feedback form automation**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-143?atlOrigin=eyJpIjoiNzhhZmJjZmVkNzQ1NDRhZmJhOGExMTVkNDJhOGJlMTciLCJwIjoiaiJ9
+
+- **Jira SCRUM-145: Implement Success and Error Messages for Feedback Submission**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-145?atlOrigin=eyJpIjoiYTkzNTE2ODJjYjE1NDU4YzliZWQwYTRhODAxNDhjYTMiLCJwIjoiaiJ9
+
+**##############################################################################################**
+
+### Reports
+
+![Sprint2BurnupReport](images/SE-Sprint2-Jira-Report.png)
+
+### Next Steps (for Sprint 2)
+
+_Note: Specific roles are not delegated yet as of November 5, 2024_
+
+**User Story 14:** Add Historical Weather Data As a user, I would like historical weather data so that I can analyze past weather patterns, compare previous conditions to the current forecast, and plan future activities based on trends.
+
+**User Story 15:** Deploy the App and Monitor Performance As a developer, I would like to deploy the app and monitor its performance so that I can ensure it runs smoothly in production.
+
+**User Story 16:** Add Clothing Suggestion As a user, I would like clothing suggestions so that I can dress appropriately for the weather conditions and stay comfortable throughout the day.
+
+**Note:** More Stories will be added. Stay tuned.
 
 ## Project Setup Instructions
 
@@ -240,7 +390,7 @@ _Note: The program runs on the **Development Branch**. Please use this branch fo
 2. **Run the Flask backend**:
    This will run the Flask app on `localhost:5000`.
    ```bash
-   python app.py
+   python server/app.py
    ```
 
 ### Step 5: Access the Application
@@ -253,8 +403,22 @@ _Note: The program runs on the **Development Branch**. Please use this branch fo
 
 By following these steps, you will have both the frontend and backend running and be able to develop and test the application effectively.
 
+### Step 6: Set up the Saved Cities History Backend Server
+
+1. **Install necessary dependencies**:
+    These dependencies are for handling HTTP requests, enabling cross-origin resource sharing, and parsing incoming request bodies.
+    ```npm install express cors body-parser
+
+2. **Run the History backend**:
+    This will run the History server on `http://localhost:3001`.
+    ``node server.js
+
 ### Notes:
 
-If there are issues that might pertain to extensions, run `npm install react-router-dom` and then rebuild again.
 If you try to open **app.py** through `http://localhost:5000`, you will get a 404 error code. Run the server and backend on two different terminals and use the frontend development
 server `http://localhost:5173`.
+
+### Testing:
+
+Run the following in directory
+'pytest'

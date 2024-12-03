@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "weatherlink-ac684",
+    "FeedbackDataBase": "weatherlinkdatabase"
+  },
+  "targets": {},
+  "etags": {}
+}
