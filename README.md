@@ -121,33 +121,6 @@ This is a **weather app** project created for our software engineering course. G
 
 **##############################################################################################**
 
-
-## Sprint 2 (October 14th, 2024 - November 4th, 2024)
-
-### Contributions
-
-**Anthony:**
-
-- **Jira Task SCRUM-140: Break down some components (e.g., App.jsx) into smaller, reusable components.**
-
-  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-140
-
-- **Jira Task SCRUM-100: install i18next dependencies and configure i18next file**
-
-- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-100
-
-- **Jira Task SCRUM-99: Set up DeepL API in the backend**
-
-- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-99
-
-- **Jira Task SCRUM-97: Configure all front-end files to apply translation**
-
-- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-97
-
-- **Jira Task SCRUM-97: Implement language selection (e.g., English, Spanish, French) in the settings or header.**
-
-- Jira Link: https://cs3398-gorns-fall24.atlassian.net/browse/SCRUM-96
-
 ### Reports
 
 ![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
@@ -289,6 +262,257 @@ _Note: Specific roles are not delegated yet as of November 5, 2024_
 
 **Note:** More Stories will be added. Stay tuned.
 
+## Sprint 3 (November 11, 2024 - November 28, 2024)
+
+### Contributions
+
+**Ian:**
+
+- **Jira Task SCRUM-151: Modify UI/UX components of the Main page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-151
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/b5e87a64db1b6c79047e5ce1b0520a559ee4792f
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/b6be4aaaf6c9301940c1ea8201129d93b40e769b
+
+- **Jira Task SCRUM-149: Integrate Basic ML Model.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-149
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/68692fb586a30868e5f014e2c4542085e5437719
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/dc13992dc3f7b67d4b8d7ae16a6db144b26cb8f1
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/b45d886e6201429fbb203ade14745be8298652ab
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d7737fc4adf235b1b11d84a4f2fed58b85342e30
+
+- **Jira Task SCRUM-148: Update UI/UX of the Tailored Advice page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-148
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/8965156e035318eb447380c1344c8ea6b8e39142
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/9c1a8eef20f15bac1e80d062e44a4ba01e1c78f5
+
+- **Jira Task SCRUM-129: Save weather data through caching.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-129
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/df425bc3daee1060a528d85f66fe15cb8c468687
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/c0f13e7c6aa0bfef67261498b41444b14eae2414
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/bf95405fc28a370420a0f4e23e282151360ee609
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/389f696ca05b72e8ec8d08db79c692a834383535
+
+- **Jira Task SCRUM-152: Conduct ML Model Testing and Refinement.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-152
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/42fb6e3806d6919892b85138971d67be78d28ad3
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/7e7e92378cc38e615cc1a07489e3095166de1c28
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/3f6eed263ca4d33b3be98bf20b77c22c4ee45325
+
+- **Jira Task SCRUM-147: Enhance Tailored Advice Page and Features.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-147
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/bf5d1e350c3642c1ca6aaa3eebc34837dd72dc1c
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5848695833f125a11a03aaf760be34eeace49e16
+
+- **Jira Task SCRUM-150: Modify responsiveness of all components.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-150
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ea037645ef15faa8ca2f6357896b674fa741724c
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0f14d240010d6150636d0347eafdcfd91814134d
+
+**##############################################################################################**
+
+**Nick:**
+
+- **Jira Task SCRUM-163: Integrate new features into deployment.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-163
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/21f381bea349ca75e58f93dfc8cc73c845bd68d2
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/60d898c6bc8bfde56def7fe8051c189592da0b32
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/fc8e2b78866d59d3b171aefcad5fdafe15e7986d
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d11f01c13243ea704c10f8ab69469ce8c4ade891
+
+- **Jira Task SCRUM-112: Create Day/Night Background.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-112
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/290fdf4d8cdf09003a98fb28ecf7000c02b4b4e8
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/281d8e31c5a7bcfd182bde95f390c51b9a458633
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/c63382a46a279d32aeb49332dbbbc4d4d73d1116
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/714d88d88431b40d9dc9643bfcf1ddbe78cfb70e
+
+- **Jira Task SCRUM-70: Set Up Firebase Hosting for Production Deployment.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-70
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/6309cd59dd167af481311dd21f61909ca7e675a1
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/1b36c6ee1c53ed5b31abdddba59e54fee91cddf4
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/dc1988ca1e8b65e2d3783e08cd6870b2b009af3a
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0812327c5cc252170a609ce757b48c454947df1e
+
+- **Jira Task SCRUM-64: Integrate other API's into back-end, map, OpenAI, translator, feedback form, etc.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-64
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d92e306f209e0e277872697a6a9cee9358d6c7dd
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/00cbfc0f28f6fef619bb9b4270b03dd2f0ec2d98
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/8fbdc92cd7d69c28e7ec335e95055991e4e04f32
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/48fa23a5347fd3201a7106505f6bf1115a727413
+
+- **Jira Task SCRUM-171: Set Up Render Hosting for Back-End API Fetch.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-171
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/1e0570a67c266c120bd10309360ee54626e14504
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/cf9ee3ce29cd00709b12a306c89eb527d0f4dfa6
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/59cb26b05554411a0c581fb6fa53a0d20dec7373
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0ac60b6977d872aa09016a4990045e21567c702e
+
+- **Jira Task SCRUM-68: Integrate Translation function to deployment.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-68
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0e05f7662a201125636ae76ec14e05db01175d6a
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/b72a308855ebfab20e5ea2af3357a600ca28480a
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5885f76d0ef2deba5f2669423f11dc27c48ffd92
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5913157de0ecd4c73895c4c5d481b6e547c971b9
+
+**##############################################################################################**
+
+**Anthony:**
+
+- **Jira Task SCRUM-155: Style the News page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-155
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/56155c011efcfd5fa6e66dd2c74151f04ec036a5
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/1de862e09f6dc9fb20dadb2719299c709e733c74
+
+- **Jira Task SCRUM-156: Create front end fetch request for news API.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-156
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ffb6f6906e875d3a3d2848bda1b13ada48146304
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5762d5700edbe6fdfbb454c71eb5b77071e619ba
+
+- **Jira Task SCRUM-157: Parse through news API and serve the data to the front end.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-157
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/f271058763a6dfdd25a4fb5f84026cd2d5ad4997
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/e2f127705e0671acb37f214f42d925506bb807d4
+
+- **Jira Task SCRUM-154: Create a News link in the nav bar that directs users to a new page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-154
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/f3282beb5536ac7947fcbfcf10dfff0a1ae13912
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/fe7fdf8d323f3191f5cfb58165a50d78c5cd7763
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5ab69fffa5dda3ffe1a78ae80ce3b2a2349cd003
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/21fad3ac06da9972cd18d5041d092c6e9c4096fe
+
+- **Jira Task SCRUM-159: Make the contact link direct the users to a new page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-159
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/987dd72e463b4d594079ce931b6836315aad28f4
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ae5dd1d29d8b46252dde2acfe233375dba3e7ef3
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/2aa5ecdbf765f8ae6577b26e526a765feb42c0d2
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/2cb1b37a7010422abd22b6e6130e60965554e735
+
+- **Jira Task SCRUM-160: Style the contact page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-160
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/1e0f652087dc98319a9497130ac587e11a570c09
+
+- **Jira Task SCRUM-162: Create an about section in the contact page.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-162
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/8397025bda4bef9027f56864095706da3b3f5bf8
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d4ea51a31191440722600cdf18ac0c853a8d7817
+
+- **Jira Task SCRUM-161: Have the contact page display the groups contact info (and maybe pictures).**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-161
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5bf5a256a886a5f2b80dcc37fea98ea025b072f1
+
+**##############################################################################################**
+
+**Ethan:**
+
+- **Jira Task SCRUM-168: Add Frontend Logic to Fetch and Display Recent Cities on Load.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-168
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/c982e9754b1ea598f650551f6169d5933db59369
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ef757e22ac36d30af01098c806988e2823a01a89
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/7a3934acb66baf93f7ed66ad9306271575a73ef3
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/1d45dbf59539e92c9006715bf1430522b0de9bc9
+
+- **Jira Task SCRUM-166: Design a UI Component for History and Saved Cities List.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-166
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/0fe50231ee7ca15033e095a1d8c19b03202b5d6e
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/ced01e27a9050633e64891fb2a50c47f6010b470
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/858a4cd8ac434d00b684d0ee410d46173fd32f5a
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/4efbffc9a6d4af4c7e92758f11152cc60a2411db
+
+- **Jira Task SCRUM-114: Add push notifications for users who allow notifications (for web apps).**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-114
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/6f2a1e09c3c7be9d8ff3d0b7e6d19f122b9807d9
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/6c9323d48d6d822a97438624393e10f1b2c6ef4f
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/d33494f8e5a6e89d99120a25a78cffa59e74fcb5
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/29458bf805a6d829b9fd7a159d468909c7f8807b
+
+- **Jira Task SCRUM-170: Set Up API and Backend Endpoint for Saving/Fetching City History.**
+
+  - Jira Link: https://cs3398-gorns-fall24.atlassian.net/jira/software/projects/SCRUM/boards/1?selectedIssue=SCRUM-170
+
+    - Bitbucket Commits:
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/7b91d65f571e9f2cd8c35b164921b294cf7ea66d
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/5f66454295ac3a7160c6e39084d89e37f71a66e3
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/f2249c6c0e3daaeaf80a7d12e2076f0bbf1e8447
+      - https://bitbucket.org/cs3398-gorns-f24/%7B967422e6-c3bf-46a5-b616-e8b98bad8dbc%7D/commits/2b234191fcc74beebfcec47e24795b939c2c9d92
+
+**##############################################################################################**
+
+### Reports
+
+![Sprint3BurnupReport](images/SE-Sprint3-Jira-Report.png)
+
 ## Project Setup Instructions
 
 _Note: The program runs on the **Development Branch**. Please use this branch for **demoing**._
@@ -406,12 +630,15 @@ By following these steps, you will have both the frontend and backend running an
 ### Step 6: Set up the Saved Cities History Backend Server
 
 1. **Install necessary dependencies**:
-    These dependencies are for handling HTTP requests, enabling cross-origin resource sharing, and parsing incoming request bodies.
-    ```npm install express cors body-parser
+   These dependencies are for handling HTTP requests, enabling cross-origin resource sharing, and parsing incoming request bodies.
+
+   ```npm install express cors body-parser
+
+   ```
 
 2. **Run the History backend**:
-    This will run the History server on `http://localhost:3001`.
-    ``node server.js
+   This will run the History server on `http://localhost:3001`.
+   ``node server.js
 
 ### Notes:
 
