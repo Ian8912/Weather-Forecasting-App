@@ -4,7 +4,7 @@ This is a **weather app** project created for our software engineering course. G
 
 ## General Info
 
-![Weather Display](<images/AI generated image 'Realistic Weather'.webp>)
+![Weather Display](<public/images/AI generated image 'Realistic Weather'.jpg>)
 
 ## Technologies List
 
