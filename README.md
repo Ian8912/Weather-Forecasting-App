@@ -123,7 +123,7 @@ This is a **weather app** project created for our software engineering course. G
 
 ### Reports
 
-![Sprint1BurnupReport](images/SE-Sprint1-Jira-Report.png)
+![Sprint1BurnupReport](public/images/SE-Sprint1-Jira-Report.png)
 
 ### Next Steps (for Sprint 2)
 
@@ -248,7 +248,7 @@ _Note: Specific roles are not delegated yet as of October 9, 2024_
 
 ### Reports
 
-![Sprint2BurnupReport](images/SE-Sprint2-Jira-Report.png)
+![Sprint2BurnupReport](public/images/SE-Sprint2-Jira-Report.png)
 
 ### Next Steps (for Sprint 2)
 
@@ -511,7 +511,7 @@ _Note: Specific roles are not delegated yet as of November 5, 2024_
 
 ### Reports
 
-![Sprint3BurnupReport](images/SE-Sprint3-Jira-Report.png)
+![Sprint3BurnupReport](public/images/SE-Sprint3-Jira-Report.png)
 
 ## Project Setup Instructions
 
